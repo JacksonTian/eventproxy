@@ -10,43 +10,52 @@ emitter.await = function () {
     var callback = [].pop.apply(arguments, []);
     var args = [].slice.apply(arguments, [0, arguments.length]);
     var _map = {};
+
     for (var i = 0; i < args.length; i++) {
-        _map[args[i]] = {
-                "triggered" : false,
-                "data": null;
-            };
+        (function (key) {
+            _map[key] = {
+                    "triggered" : false,
+                    "data": null
+                };
+        }(args[i]));
     }
     emitter.on("all", function (eventName, data) {
-        console.log(arguments);
+        console.log("eventName: " + eventName);
+
+        var trigger = true;
+        var params = [];
         if (eventName in _map) {
             _map[eventName].triggered = true;
             _map[eventName].data = data;
         }
-        var trigger = true;
-        var data = [];
+
         for (var index in _map) {
-            if (!_map[eventName].triggered) {
-                return;
+            if (!_map[index].triggered) {
+                trigger = false;
+                break;
             } else {
-                
+                params.push(_map[index].data);
             }
+        }
+
+        if (trigger) {
+            callback.apply(emitter, params);
         }
     });
 };
 
-emitter.on("hello", function (data) {
-    console.log(data.hello);
-});
+
 emitter.await("hello", "world", function (data) {
-    console.log(data.hello);
+    console.log("await");
+    console.log(arguments);
 });
 
 setTimeout(function () {
-    emitter.trigger("hello", {hello: "world!"});
-}, 10000);
+    emitter.trigger("hello", {hello: "hello!"});
+}, 5000);
 setTimeout(function () {
-    emitter.trigger("world", {hello: "world!"});
-}, 15000);
+    emitter.trigger("world", {world: "world!"});
+}, 3000);
 </script>
 </body>
 </html>
