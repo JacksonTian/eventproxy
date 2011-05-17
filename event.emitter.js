@@ -71,3 +71,39 @@ EventEmitter.prototype.emit = EventEmitter.prototype.trigger = function(eventNam
 if (typeof exports !== "undefined") {
     exports.EventEmitter = EventEmitter;
 }
+
+
+    App.EventProxy = function (first, second, callback) {
+        _.extend(this, Backbone.Events);
+        var proxy = this, length = arguments.length, index = 0;
+        var _deps = {};
+        var args = [].slice.apply(arguments, [0, length - 1]);
+        var callback = [].pop.apply(arguments, []);
+        length = args.length;
+        for (index = 0; index < length; index++) {
+            (function (key) {
+                proxy.bind(key, function (data) {
+                    _deps[key] = {};
+                    var flag = _deps[key];
+                    flag.ready = true;
+                    flag.data = data;
+                });
+            } (args[index]));
+        }
+        proxy.bind("all", function () {
+            console.log("all:");
+            console.log(arguments);
+            var fire = true, data = [];
+            for (index = 0; index < length; index++) {
+                if (_deps[args[index]] && _deps[args[index]].ready) {
+                    data.push(_deps[args[index]].data);
+                } else {
+                    fire = false;
+                    break;
+                }
+            }
+            if (fire) {
+                callback.apply(null, data);
+            }
+        });
+    };
