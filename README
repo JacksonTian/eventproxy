@@ -1,2 +1,16 @@
 My goal is make the callback so cute.
 
+<hr>
+<code>
+var proxy = new EventProxy();
+var render = function (template, data){
+    _.template(template, data);
+};
+proxy.assign("template", "data", render);
+$.get("template", function (template) {
+    proxy.trigger("template", template);
+});
+$.get("data", function (data) {
+    proxy.trigger("data", data);
+});
+</code>
