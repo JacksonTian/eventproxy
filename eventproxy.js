@@ -41,7 +41,7 @@ EventProxy.prototype.bind = EventProxy.prototype.on = EventProxy.prototype.addLi
  * @param {string} eventName Event name.
  * @param {function} callback Callback.
  */
-EventProxy.prototype.unbind = function(ev, callback) {
+EventProxy.prototype.unbind = EventProxy.prototype.removeListener = function(ev, callback) {
     var calls;
     if (!ev) {
         this._callbacks = {};
@@ -60,6 +60,15 @@ EventProxy.prototype.unbind = function(ev, callback) {
         }
     }
     return this;
+};
+
+/**
+ * @description Remove all listeners.
+ * It equals proxy.unbind(); Just add this API for as same as Event.Emitter.
+ * @param {string} event Event name.
+ */
+EventProxy.prototype.removeAllListeners = function (event) {
+    return this.unbind(event);
 };
 
 /**
