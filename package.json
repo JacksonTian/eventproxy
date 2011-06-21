@@ -1,0 +1,12 @@
+{
+  "name"          : "EventProxy.js",
+  "description"   : "Bussiness event helper",
+  "homepage"      : "https://github.com/shyvo1987/eventproxy.js",
+  "keywords"      : ["event", "proxy"],
+  "author"        : "Jackson Tian <shyvo1987@gmail.com>",
+  "contributors"  : [],
+  "dependencies"  : [],
+  "repository"    : {"type": "git", "url": "git://github.com/shyvo1987/eventproxy.js.git"},
+  "main"          : "eventproxy.js",
+  "version"       : "0.0.1"
+}
