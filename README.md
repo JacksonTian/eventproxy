@@ -35,4 +35,8 @@
             });
         });
     });
-
+---
+For NodeJS user:
+---
+    npm install EventProxy.js
+---
