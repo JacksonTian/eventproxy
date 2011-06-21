@@ -1,4 +1,3 @@
-
 (function () {
 // EventProxy
 // -----------------
@@ -116,16 +115,16 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
     if (argsLength < 2) {
         return this;
     }
-    var envents = [].slice.apply(arguments, [0, argsLength - 1]);
+    var events = [].slice.apply(arguments, [0, argsLength - 1]);
     var callback = arguments[argsLength - 1];
     // Check the callback type.
     if (typeof callback !== "function") {
         return this;
     }
-    length = envents.length;
+    length = events.length;
     // If only one event, use bind instead.
     if (length === 1) {
-        return proxy.bind(events[0], callback);
+        return proxy.once(events[0], callback);
     }
 
     var bind = function (key) {
@@ -137,14 +136,14 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
                 });
         };
     for (index = 0; index < length; index++) {
-        bind(envents[index]);
+        bind(events[index]);
     }
 
     var all = function () {
         var fire = true, data = [];
         for (index = 0; index < length; index++) {
-            if (proxy._fired[envents[index]] && proxy._fired[envents[index]].ready) {
-                data.push(proxy._fired[envents[index]].data);
+            if (proxy._fired[events[index]] && proxy._fired[events[index]].ready) {
+                data.push(proxy._fired[events[index]].data);
             } else {
                 fire = false;
                 break;
