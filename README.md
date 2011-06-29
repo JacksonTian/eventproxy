@@ -72,6 +72,7 @@ For NodeJS user:
     npm install EventProxy.js
 
 Sample code:
+
     var EventProxy = require("eventproxy.js").EventProxy;
 
     var proxy = new EventProxy();
