@@ -44,7 +44,50 @@ EventProxy.js仅仅是一个很轻量的工具，但是能够带来一种事件�
         });
     });
 
+For Frontend user:
+
+    <script src="eventproxy.js"></script>
+    <script>
+        var proxy = new EventProxy();
+        var render = function (template, data, l10n){
+            _.template(template, data);
+        };
+        proxy.assign("template", "data", "l10n", render);
+        $.get("template", function (template) {
+            // something
+            proxy.trigger("template", template);
+        });
+        $.get("data", function (data) {
+            // something
+            proxy.trigger("data", data);
+        });
+        $.get("l10n", function (l10n) {
+            // something
+            proxy.trigger("l10n", l10n);
+        });
+    </script>
+
 For NodeJS user:
 
     npm install EventProxy.js
 
+Sample code:
+    var EventProxy = require("eventproxy.js").EventProxy;
+
+    var proxy = new EventProxy();
+    var render = function (template, data, l10n){
+        return _.template(template, data);
+    };
+    proxy.assign("template", "data", "l10n", render);
+    $.get("template", function (template) {
+        // something
+        proxy.trigger("template", template);
+    });
+    $.get("data", function (data) {
+        // something
+        proxy.trigger("data", data);
+    });
+    $.get("l10n", function (l10n) {
+        // something
+        proxy.trigger("l10n", l10n);
+    });
