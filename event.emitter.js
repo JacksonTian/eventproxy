@@ -1,4 +1,4 @@
-(function (global) {
+(function () {
 // EventProxy
 // -----------------
 
@@ -114,6 +114,8 @@ EventProxy.prototype.assign = function (first, second, cb) {
 
 if (typeof exports !== "undefined") {
     exports.EventProxy = EventProxy;
+} else {
+    window.EventProxy = EventProxy;
 }
 
-}(window));
+}());
