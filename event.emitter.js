@@ -1,20 +1,17 @@
-// EventEmitter
+(function (global) {
+// EventProxy
 // -----------------
 
 // A module that can be mixed in to *any object* in order to provide it with
 // custom events. You may `bind` or `unbind` a callback function to an event;
 // `trigger`-ing an event fires all callbacks in succession.
 //
-//     var object = {};
-//     _.extend(object, Backbone.Events);
-//     object.bind('expand', function(){ alert('expanded'); });
-//     object.trigger('expand');
 //
-var EventEmitter = function () {
+var EventProxy = function () {
 };
 // Bind an event, specified by a string name, `ev`, to a `callback` function.
 // Passing `"all"` will bind the callback to all events fired.
-EventEmitter.prototype.bind = EventEmitter.prototype.on = EventEmitter.prototype.addListener = function(ev, callback) {
+EventProxy.prototype.bind = EventProxy.prototype.on = EventProxy.prototype.addListener = function(ev, callback) {
   var calls = this._callbacks || (this._callbacks = {});
   var list  = this._callbacks[ev] || (this._callbacks[ev] = []);
   list.push(callback);
@@ -24,7 +21,7 @@ EventEmitter.prototype.bind = EventEmitter.prototype.on = EventEmitter.prototype
 // Remove one or many callbacks. If `callback` is null, removes all
 // callbacks for the event. If `ev` is null, removes all bound callbacks
 // for all events.
-EventEmitter.prototype.unbind = function(ev, callback) {
+EventProxy.prototype.unbind = function(ev, callback) {
   var calls;
   if (!ev) {
     this._callbacks = {};
@@ -48,7 +45,7 @@ EventEmitter.prototype.unbind = function(ev, callback) {
 // Trigger an event, firing all bound callbacks. Callbacks are passed the
 // same arguments as `trigger` is, apart from the event name.
 // Listening for `"all"` passes the true event name as the first argument.
-EventEmitter.prototype.emit = EventEmitter.prototype.trigger = function(eventName) {
+EventProxy.prototype.emit = EventProxy.prototype.trigger = function(eventName) {
   var list, calls, ev, callback, args, i, l;
   var both = 2;
   if (!(calls = this._callbacks)) return this;
@@ -68,42 +65,55 @@ EventEmitter.prototype.emit = EventEmitter.prototype.trigger = function(eventNam
   return this;
 };
 
+/**
+ * @description Event Proxy, used for manage dependencies.
+ * @constructor EventProxy.
+ * @param {string} first First event name.
+ * @param {string} second Second event name.
+ * @param {function} cb Callback, that will be called after predefined events were fired.
+ * @example 
+ * var render = function (template, resources) {};
+ * var proxy = new EventProxy();
+ * proxy.assign("template", "l10n", render);
+ * proxy.trigger("template", template);
+ * proxy.trigger("l10n", resources);
+ */
+EventProxy.prototype.assign = function (first, second, cb) {
+    var proxy = this, length = arguments.length, index = 0;
+    var _deps = {};
+    var args = [].slice.apply(arguments, [0, length - 1]);
+    var callback = [].pop.apply(arguments, []);
+    length = args.length;
+    var bind = function (key) {
+            proxy.bind(key, function (data) {
+                _deps[key] = {};
+                var flag = _deps[key];
+                flag.ready = true;
+                flag.data = data;
+            });
+        };
+    for (index = 0; index < length; index++) {
+        bind(args[index]);
+    }
+    proxy.bind("all", function () {
+        var fire = true, data = [];
+        for (index = 0; index < length; index++) {
+            if (_deps[args[index]] && _deps[args[index]].ready) {
+                data.push(_deps[args[index]].data);
+            } else {
+                fire = false;
+                break;
+            }
+        }
+        if (fire) {
+            callback.apply(null, data);
+        }
+    });
+};
+
+
 if (typeof exports !== "undefined") {
-    exports.EventEmitter = EventEmitter;
+    exports.EventProxy = EventProxy;
 }
 
-
-    App.EventProxy = function (first, second, callback) {
-        _.extend(this, Backbone.Events);
-        var proxy = this, length = arguments.length, index = 0;
-        var _deps = {};
-        var args = [].slice.apply(arguments, [0, length - 1]);
-        var callback = [].pop.apply(arguments, []);
-        length = args.length;
-        for (index = 0; index < length; index++) {
-            (function (key) {
-                proxy.bind(key, function (data) {
-                    _deps[key] = {};
-                    var flag = _deps[key];
-                    flag.ready = true;
-                    flag.data = data;
-                });
-            } (args[index]));
-        }
-        proxy.bind("all", function () {
-            console.log("all:");
-            console.log(arguments);
-            var fire = true, data = [];
-            for (index = 0; index < length; index++) {
-                if (_deps[args[index]] && _deps[args[index]].ready) {
-                    data.push(_deps[args[index]].data);
-                } else {
-                    fire = false;
-                    break;
-                }
-            }
-            if (fire) {
-                callback.apply(null, data);
-            }
-        });
-    };
+}(window));
