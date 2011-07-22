@@ -1,7 +1,7 @@
 这个世界上不存在所谓回调函数深度嵌套的问题。 —— Jackson Tian(http://weibo.com/shyvo)
 ---
 现在的，无深度嵌套的，并行的
----
+
     var proxy = new EventProxy();
     var render = function (template, data, l10n){
         _.template(template, data);
@@ -19,9 +19,9 @@
         // something
         proxy.trigger("l10n", l10n);
     });
----
+
 过去的，深度嵌套的，串行的。
----
+
     var render = function (template, data){
         _.template(template, data);
     };
@@ -35,8 +35,8 @@
             });
         });
     });
----
+
 For NodeJS user:
----
+
     npm install EventProxy.js
----
+
