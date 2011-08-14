@@ -131,10 +131,6 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
         return this;
     }
     length = events.length;
-    // If only one event, use bind instead.
-    if (length === 1) {
-        return proxy.once(events[0], callback);
-    }
 
     var bind = function (key) {
             proxy.once(key, function (data) {
