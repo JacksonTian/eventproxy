@@ -111,40 +111,16 @@ EventProxy.prototype.once = function (ev, callback) {
     });
     return this;
 };
+var _assign = function (eventname1, eventname2, cb, isOnce) {
+    var proxy = this, length, index = 0, argsLength = arguments.length,
+        callback, events, times = 0;
 
-/**
- * @description Assign some events, after all events were fired, the callback will be executed.
- * @param {string} eventname1 First event name.
- * @param {string} eventname2 Second event name.
- * @param {function} cb Callback, that will be called after predefined events were fired.
- * @param {string} persistent, if persistent==="persistent", this function will be persistent lick function on
- */
-
-EventProxy.prototype.assign = function (eventname1, eventname2, cb, persistent) {
-    var proxy = this, length, index = 0, callback, argsLength = arguments.length,
-    lastArg = arguments[argsLength - 1],
-     times=0, isOnce, events;
     // Check the arguments length.
-    if(typeof lastArg === "function"){        
-    	if (argsLength < 2) {
-        	return this;
-    	}
-    	callback = lastArg;
-    	isOnce = true;
-    	events = [].slice.apply(arguments, [0, argsLength - 1]);
+    if (argsLength < 3) {
+        return this;
     }
-    else if(lastArg === "persistent"){
-    	if(argsLength < 3)
-    		return this;
-    	isOnce = false;
-    	callback = arguments[argsLength - 2];
-		if(typeof callback!=="function")
-			return this;
-    	events = [].slice.apply(arguments, [0, argsLength - 2]);
-    }
-    else{
-    	return this;
-    }
+    events = [].slice.apply(arguments, [0, argsLength - 2]);
+    callback = arguments[argsLength - 2];
     // Check the callback type.
     if (typeof callback !== "function") {
         return this;
@@ -152,40 +128,58 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb, persistent) 
     length = events.length;
 
     var bind = function (key) {
-            proxy.once(key, function (data) {
+            var method = isOnce ? "once" : "bind";
+            proxy[method](key, function (data) {
                     proxy._fired[key] = proxy._fired[key] || {};
                     var flag = proxy._fired[key];
                     flag.data = data;
-                    times++;
+                    if (!flag.ready) {
+                        flag.ready = true;
+                        times++;
+                    }
                 });
         };
     for (index = 0; index < length; index++) {
         bind(events[index]);
     }
     var all = function () {
-    	if(times<length)
-    		return;
-    	var data=[];
-    	for(index=0; index<length; ++index){
-    		if(proxy._fired[events[index]].data){
-    			data.push(proxy._fired[events[index]].data);
-    		}
-    	}
-       callback.apply(null, data);
-       if(!isOnce){	//检测是否只监听一次，如果不是，则重新绑定每个事件（调用bind函数），同时times清0，不解除'all'事件的绑定。
-	       for (index = 0; index < length; index++) {
-	       		bind(events[index]);
-	       }
-	       	times = 0;
-       }
-       else{//反之如果只监听一次，则解除'all'事件的绑定
-       		proxy.unbind("all", all);
-       }
+        if (times < length) {
+            return;
+        }
+        var data = [];
+        for (index = 0; index < length; index++) {
+            data.push(proxy._fired[events[index]].data);
+        }
+        if (isOnce) {
+            proxy.unbind("all", all);
+        }
+        callback.apply(null, data);
     };
     proxy.bind("all", all);
+};
+/**
+ * @description Assign some events, after all events were fired, the callback will be executed once.
+ * @param {string} eventname1 First event name.
+ * @param {string} eventname2 Second event name.
+ * @param {function} cb Callback, that will be called after predefined events were fired.
+ */
+EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
+    var args = [].concat.apply(arguments, true);
+    _assign.apply(this, args);
     return this;
 };
-
+/**
+ * @description Assign some events, after all events were fired, the callback will be executed first time.
+ * then any event that predefined be fired again, the callback will executed with the newest data.
+ * @param {string} eventname1 First event name.
+ * @param {string} eventname2 Second event name.
+ * @param {function} cb Callback, that will be called after predefined events were fired.
+ */
+EventProxy.prototype.assignAll = function () {
+    var args = [].concat.apply(arguments, false);
+    _assign.apply(this, args);
+    return this;
+};
 
 // Event proxy can be used in browser and Nodejs both.
 if (typeof exports !== "undefined") {
