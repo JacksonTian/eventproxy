@@ -155,7 +155,7 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb, persistent) 
             proxy.once(key, function (data) {
                     proxy._fired[key] = proxy._fired[key] || {};
                     var flag = proxy._fired[key];
-                    flag.data = [].slice.call(arguments, 0);
+                    flag.data = data;
                     times++;
                 });
         };
