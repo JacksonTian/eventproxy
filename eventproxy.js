@@ -111,9 +111,9 @@ EventProxy.prototype.once = function (ev, callback) {
     });
     return this;
 };
-var _assign = function (eventname1, eventname2, cb, isOnce) {
+var _assign = function (eventname1, eventname2, cb, once) {
     var proxy = this, length, index = 0, argsLength = arguments.length,
-        callback, events, times = 0;
+        callback, events, isOnce, times = 0, flag = {};
 
     // Check the arguments length.
     if (argsLength < 3) {
@@ -121,6 +121,7 @@ var _assign = function (eventname1, eventname2, cb, isOnce) {
     }
     events = [].slice.apply(arguments, [0, argsLength - 2]);
     callback = arguments[argsLength - 2];
+    isOnce = arguments[argsLength - 1];
     // Check the callback type.
     if (typeof callback !== "function") {
         return this;
@@ -131,10 +132,9 @@ var _assign = function (eventname1, eventname2, cb, isOnce) {
             var method = isOnce ? "once" : "bind";
             proxy[method](key, function (data) {
                     proxy._fired[key] = proxy._fired[key] || {};
-                    var flag = proxy._fired[key];
-                    flag.data = data;
-                    if (!flag.ready) {
-                        flag.ready = true;
+                    proxy._fired[key].data = data;
+                    if (!flag[key]) {
+                        flag[key] = true;
                         times++;
                     }
                 });
@@ -164,7 +164,8 @@ var _assign = function (eventname1, eventname2, cb, isOnce) {
  * @param {function} cb Callback, that will be called after predefined events were fired.
  */
 EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
-    var args = [].concat.apply(arguments, true);
+    var args = [].slice.call(arguments);
+    args.push(true);
     _assign.apply(this, args);
     return this;
 };
@@ -176,7 +177,8 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
  * @param {function} cb Callback, that will be called after predefined events were fired.
  */
 EventProxy.prototype.assignAll = function () {
-    var args = [].concat.apply(arguments, false);
+    var args = [].slice.call(arguments);
+    args.push(false);
     _assign.apply(this, args);
     return this;
 };
