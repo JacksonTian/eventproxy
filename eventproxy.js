@@ -176,7 +176,7 @@ EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
  * @param {string} eventname2 Second event name.
  * @param {function} cb Callback, that will be called after predefined events were fired.
  */
-EventProxy.prototype.assignAll = function () {
+EventProxy.prototype.assignAll = EventProxy.prototype.assignAlways = function () {
     var args = [].slice.call(arguments);
     args.push(false);
     _assign.apply(this, args);
