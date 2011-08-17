@@ -117,7 +117,7 @@ EventProxy.prototype.once = function (ev, callback) {
  * @param {string} eventname1 First event name.
  * @param {string} eventname2 Second event name.
  * @param {function} cb Callback, that will be called after predefined events were fired.
- * @param {string} persistent, if persistent==="persistent", this function will
+ * @param {string} persistent, if persistent==="persistent", this function will be persistent lick function on
  */
 
 EventProxy.prototype.assign = function (eventname1, eventname2, cb, persistent) {
