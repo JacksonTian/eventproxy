@@ -46,6 +46,8 @@ EventProxy.js仅仅是一个很轻量的工具，但是能够带来一种事件�
 
 For Frontend user:
 
+Assign once. The callback will be executed once when all event were fired.
+
     <script src="eventproxy.js"></script>
     <script>
         var proxy = new EventProxy();
@@ -65,6 +67,34 @@ For Frontend user:
             // something
             proxy.trigger("l10n", l10n);
         });
+    </script>
+
+Assign always. The callback will be executed first time when all event were fired. And after that, any event was fired will trigger callback. It's useful when you need refresh UI with newest data, e.g. stock app.
+
+    <script src="eventproxy.js"></script>
+    <script>
+        var proxy = new EventProxy();
+        var render = function (template, data, l10n){
+            _.template(template, data);
+        };
+        proxy.assignAll("template", "dataUpdate", "l10n", render);
+        $.get("template", function (template) {
+            // something
+            proxy.trigger("template", template);
+        });
+
+        $.get("l10n", function (l10n) {
+            // something
+            proxy.trigger("l10n", l10n);
+        });
+
+        // Need refresh data and UI for some realtime application.
+        setInterval(function () {
+            $.get("data", function (data) {
+                // something
+                proxy.trigger("dataUpdate", data);
+            });
+        }, 1000);
     </script>
 
 For NodeJS user:
