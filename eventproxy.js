@@ -183,6 +183,29 @@ EventProxy.prototype.assignAll = EventProxy.prototype.assignAlways = function ()
     return this;
 };
 
+/**
+ * @description The callback will be executed after the event be fired N times.
+ * @param {string} eventName Event name.
+ * @param {number} times N times.
+ * @param {function} callback Callback, that will be called after event was fired N times.
+ */
+EventProxy.prototype.after = function (eventName, times, callback) {
+    var proxy = this,
+        firedData = [],
+        all = function (name, fired){
+            if (name === eventName) {
+                times--;
+                firedData.push(data);
+                if (times < 1) {
+                    proxy.unbind("all", all);
+                    callback.apply(null, [firedData]);
+                }
+            }
+        };
+    proxy.bind("all", all);
+    return this;
+};
+
 // Event proxy can be used in browser and Nodejs both.
 if (typeof exports !== "undefined") {
     exports.EventProxy = EventProxy;
