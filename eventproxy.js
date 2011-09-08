@@ -29,6 +29,7 @@ var EventProxy = function () {
  * @param {function} callback Callback.
  */
 EventProxy.prototype.bind = EventProxy.prototype.on = EventProxy.prototype.addListener = function(ev, callback) {
+    this._callbacks = this._callbacks || {};
     var list  = this._callbacks[ev] || (this._callbacks[ev] = []);
     list.push(callback);
     return this;
