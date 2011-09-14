@@ -193,7 +193,7 @@ EventProxy.prototype.assignAll = EventProxy.prototype.assignAlways = function ()
 EventProxy.prototype.after = function (eventName, times, callback) {
     var proxy = this,
         firedData = [],
-        all = function (name, fired){
+        all = function (name, data){
             if (name === eventName) {
                 times--;
                 firedData.push(data);
