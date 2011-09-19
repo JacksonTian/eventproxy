@@ -1,34 +1,17 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-  <meta charset='utf-8'> 
-  <title>JacksonTian/EventProxy @ GitHub</title> 
-</head> 
- 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>EventProxy Test Suite</title>
+  <link rel="stylesheet" href="qunit/qunit/qunit.css" type="text/css" media="screen" />
+  <script src="qunit/qunit/qunit.js"></script>
+  <script src="../eventproxy.js"></script>
+  <script src="test.js"></script>
+</head>
 <body>
-<script src="../eventproxy.js"></script>
-<script>
-var proxy = new EventProxy();
-proxy.assign("ev1", "ev2", "ev3", "ev4", function () {
-    console.log("assign once!");
-    console.log(arguments);
-});
-proxy.assignAll("ev1", "ev2", "ev3", "ev4", function () {
-    console.log("assign all!");
-    console.log(arguments);
-});
-
-console.log("first");
-proxy.emit("ev1", 1);
-proxy.emit("ev2", 2);
-proxy.emit("ev3", 3);
-proxy.emit("ev4", 4);
-console.log("second");
-proxy.emit("ev4", 5);
-proxy.emit("ev4", 6);
-proxy.emit("ev4", 7);
-proxy.emit("ev4", 8);
-console.log("third");
-</script>
-</body> 
-</html> 
+  <h1 id="qunit-header">EventProxy Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+</body>
+</html>
