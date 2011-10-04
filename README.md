@@ -123,4 +123,5 @@ Sample code:
         proxy.trigger("l10n", l10n);
     });
 
-[EventProxy API](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
+---
+[EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
