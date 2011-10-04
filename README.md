@@ -122,3 +122,5 @@ Sample code:
         // something
         proxy.trigger("l10n", l10n);
     });
+
+[EventProxy API](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
