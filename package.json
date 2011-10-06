@@ -8,5 +8,5 @@
   "dependencies"  : [],
   "repository"    : {"type": "git", "url": "git://github.com/JacksonTian/eventproxy.git"},
   "main"          : "eventproxy.js",
-  "version"       : "0.0.2"
+  "version"       : "0.0.3"
 }
