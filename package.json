@@ -1,6 +1,6 @@
 {
   "name"          : "EventProxy.js",
-  "description"   : "One implementation of task/event based asynchronous pattern.",
+  "description"   : "An implementation of task/event based asynchronous pattern.",
   "homepage"      : "https://github.com/JacksonTian/eventproxy",
   "keywords"      : ["event", "task-base"],
   "author"        : "Jackson Tian <shyvo1987@gmail.com>",
