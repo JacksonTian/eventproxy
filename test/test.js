@@ -39,6 +39,25 @@ test("EventProxy - once/trigger", function () {
     equals(counter, 1, 'counter should have only been incremented once.');
 });
 
+test("EventProxy - immediate", function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    obj.immediate('event', function (){
+        counter +=1;
+    });
+    equals(counter, 1, "counter should be incremented.");
+    obj.trigger('event');
+    equals(counter, 2, "counter should be incremented.");
+});
+
+test("EventProxy - immediate/parameter", function () {
+    var obj = new EventProxy();
+    var param = 0;
+    obj.immediate('event', function (data){
+        equals(data, param, "data should same as param.");
+    }, param);
+});
+
 test("EventProxy - assign one event", function () {
     var obj = new EventProxy();
     var counter = 0;
