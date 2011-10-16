@@ -136,10 +136,10 @@
      * @param {mix} data The data that will be passed to calback as arguments.
      */
     EventProxy.prototype.immediate = function (ev, callback, data) {
-        var self = this;
-        self.bind(ev, callback);
-        self.trigger(ev, data);
-    }
+        this.bind(ev, callback);
+        this.trigger(ev, data);
+        return this;
+    };
 
     var _assign = function (eventname1, eventname2, cb, once) {
         var proxy = this, length, index = 0, argsLength = arguments.length,
