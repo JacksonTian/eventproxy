@@ -128,6 +128,18 @@
         this.bind(ev, wrapper);
         return this;
     };
+    
+    /**
+     * @description Bind an event, and trigger it immediately.
+     * @param {string} ev Event name.
+     * @param {function} callback Callback.
+     * @param {mix} data The data that will be passed to calback as arguments.
+     */
+    EventProxy.prototype.immediate = function (ev, callback, data) {
+        var self = this;
+        self.bind(ev, callback);
+        self.trigger(ev, data);
+    }
 
     var _assign = function (eventname1, eventname2, cb, once) {
         var proxy = this, length, index = 0, argsLength = arguments.length,
