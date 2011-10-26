@@ -193,6 +193,7 @@
         _assign.apply(this, args);
         return this;
     };
+    EventProxy.prototype.all = EventProxy.prototype.assign;
 
     /**
      * @description Assign some events, after all events were fired, the callback will be executed first time.
@@ -209,6 +210,7 @@
         return this;
     };
     EventProxy.prototype.assignAll = EventProxy.prototype.assignAlways;
+    EventProxy.prototype.tail = EventProxy.prototype.assignAlways;
 
     /**
      * @description The callback will be executed after the event be fired N times.
@@ -233,6 +235,26 @@
         };
         proxy.bind("all", all);
         return this;
+    };
+
+    EventProxy.prototype.any = function (event1, event2, callback) {
+        var proxy = this, index;
+        var len = arguments.length;
+        var callback = arguments[len - 1];
+        var events = [].slice.apply(arguments, [0, len - 2]);
+        var count = events.length;
+        var _eventName = events.join("_");
+        proxy.once(_eventName, callback);
+        var bind = function (key) {
+            proxy.bind(key, function (data) {
+                data.eventName = key;
+                proxy.trigger(_eventName, data);
+            });
+        };
+
+        for (index = 0; index < count; index++) {
+            bind(events[index]);
+        }
     };
 
     // Event proxy can be used in browser and Nodejs both.
