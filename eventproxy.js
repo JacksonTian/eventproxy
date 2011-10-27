@@ -2,7 +2,7 @@
 /**
  * @fileoverview This file is used for define the EventProxy library.
  * @author <a href="mailto:shyvo1987@gmail.com">Jackson Tian</a>
- * @version 0.3
+ * @version 0.4
  */
 (function () {
     /**
