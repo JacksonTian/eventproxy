@@ -2,7 +2,7 @@
 /**
  * @fileoverview This file is used for define the EventProxy library.
  * @author <a href="mailto:shyvo1987@gmail.com">Jackson Tian</a>
- * @version 0.2
+ * @version 0.3
  */
 (function () {
     /**
@@ -258,7 +258,7 @@
      */
     EventProxy.prototype.any = function () {
         var proxy = this,
-            index, bind,
+            index, _bind,
             len = arguments.length,
             callback = arguments[len - 1],
             events = [].slice.apply(arguments, [0, len - 1]),
@@ -267,14 +267,14 @@
 
         proxy.once(_eventName, callback);
 
-        bind = function (key) {
+        _bind = function (key) {
             proxy.bind(key, function (data) {
                 proxy.trigger(_eventName, {"data": data, eventName: key});
             });
         };
 
         for (index = 0; index < count; index++) {
-            bind(events[index]);
+            _bind(events[index]);
         }
     };
 
