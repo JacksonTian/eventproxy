@@ -249,18 +249,26 @@
         return this;
     };
 
+    /**
+     * @description The callback will be executed after any registered event was fired. It only executed once.
+     * @memberOf EventProxy#
+     * @param {string} event1 Event name.
+     * @param {function} callback, the callback will get a map that has data and eventName attributes.
+     */
     EventProxy.prototype.any = function (event1, event2, callback) {
-        var proxy = this, index;
-        var len = arguments.length;
-        var callback = arguments[len - 1];
-        var events = [].slice.apply(arguments, [0, len - 2]);
-        var count = events.length;
-        var _eventName = events.join("_");
+        var proxy = this,
+            index, bind,
+            len = arguments.length,
+            callback = arguments[len - 1],
+            events = [].slice.apply(arguments, [0, len - 1]),
+            count = events.length,
+            _eventName = events.join("_");
+
         proxy.once(_eventName, callback);
-        var bind = function (key) {
+
+        bind = function (key) {
             proxy.bind(key, function (data) {
-                data.eventName = key;
-                proxy.trigger(_eventName, data);
+                proxy.trigger(_eventName, {"data": data, eventName: key});
             });
         };
 

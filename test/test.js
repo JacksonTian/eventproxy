@@ -123,3 +123,19 @@ test("EventProxy - after, 5 times", function () {
     obj.trigger('event', 6);
     equals(counter, 1, 'counter should have only been incremented once.');
 });
+
+test("EventProxy - any", function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    var eventData1 = "eventData1";
+    var eventData2 = "eventData2"
+    obj.any('event1', 'event2', function(map) {
+        equals(map.data, eventData1, 'Return data should be evnetData1.');
+        equals(map.eventName, "event1", 'Event name should be event1.');
+        counter += 1;
+    });
+    obj.trigger('event1', eventData1);
+    equals(counter, 1, 'counter should be incremented.');
+    obj.trigger('event2', 2);
+    equals(counter, 1, 'counter should not be incremented.');
+});
