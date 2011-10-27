@@ -139,3 +139,17 @@ test("EventProxy - any", function () {
     obj.trigger('event2', 2);
     equals(counter, 1, 'counter should not be incremented.');
 });
+
+test("EventProxy - not", function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    obj.not('event1', function(data) {
+        counter += 1;
+    });
+    obj.trigger('event1', 1);
+    equals(counter, 0, 'counter should not be incremented.');
+    obj.trigger('event2', 2);
+    equals(counter, 1, 'counter should be incremented.');
+    obj.trigger('event2', 2);
+    equals(counter, 2, 'counter should be incremented.');
+});

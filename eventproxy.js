@@ -195,34 +195,34 @@
 
     /**
      * @description Assign some events, after all events were fired, the callback will be executed once.
-     * @param {string} eventname1 First event name.
-     * @param {string} eventname2 Second event name.
-     * @param {function} cb Callback, that will be called after predefined events were fired.
+     * @param {string} eventName1 First event name.
+     * @param {string} eventName2 Second event name.
+     * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.assign = function (eventname1, eventname2, cb) {
+    EventProxy.prototype.all = function (eventname1, eventname2, cb) {
         var args = [].slice.call(arguments);
         args.push(true);
         _assign.apply(this, args);
         return this;
     };
-    EventProxy.prototype.all = EventProxy.prototype.assign;
+    EventProxy.prototype.assign = EventProxy.prototype.all;
 
     /**
      * @description Assign some events, after all events were fired, the callback will be executed first time.
      * then any event that predefined be fired again, the callback will executed with the newest data.
      * @memberOf EventProxy#
-     * @param {string} eventname1 First event name.
-     * @param {string} eventname2 Second event name.
-     * @param {function} cb Callback, that will be called after predefined events were fired.
+     * @param {string} eventName1 First event name.
+     * @param {string} eventName2 Second event name.
+     * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.assignAlways = function () {
+    EventProxy.prototype.tail = function () {
         var args = [].slice.call(arguments);
         args.push(false);
         _assign.apply(this, args);
         return this;
     };
-    EventProxy.prototype.assignAll = EventProxy.prototype.assignAlways;
-    EventProxy.prototype.tail = EventProxy.prototype.assignAlways;
+    EventProxy.prototype.assignAll = EventProxy.prototype.tail;
+    EventProxy.prototype.assignAlways = EventProxy.prototype.tail;
 
     /**
      * @description The callback will be executed after the event be fired N times.
@@ -252,10 +252,11 @@
     /**
      * @description The callback will be executed after any registered event was fired. It only executed once.
      * @memberOf EventProxy#
-     * @param {string} event1 Event name.
-     * @param {function} callback, the callback will get a map that has data and eventName attributes.
+     * @param {string} eventName1 Event name.
+     * @param {string} eventName2 Event name.
+     * @param {function} callback The callback will get a map that has data and eventName attributes.
      */
-    EventProxy.prototype.any = function (event1, event2, callback) {
+    EventProxy.prototype.any = function () {
         var proxy = this,
             index, bind,
             len = arguments.length,
@@ -275,6 +276,21 @@
         for (index = 0; index < count; index++) {
             bind(events[index]);
         }
+    };
+
+    /**
+     * @description The callback will be executed when the evnet name not equals with assigned evnet.
+     * @memberOf EventProxy#
+     * @param {string} eventName Event name.
+     * @param {function} callback Callback.
+     */
+    EventProxy.prototype.not = function (eventName, callback) {
+        var proxy = this;
+        proxy.bind("all", function (name, data) {
+            if (name !== eventName) {
+                callback(data);
+            }
+        });
     };
 
     // Event proxy can be used in browser and Nodejs both.

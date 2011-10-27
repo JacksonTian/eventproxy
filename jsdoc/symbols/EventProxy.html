@@ -213,7 +213,7 @@ ul.inheritsList
 				EventProxy. An implementation of task/event based asynchronous pattern.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/eventproxy.js.html">eventproxy.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/Y__git_eventproxy_eventproxy.js.html">eventproxy.js</a>.
 				
 			</p>
 
@@ -279,7 +279,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#assign">assign</a></b>(eventname1, eventname2, cb)
+								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#all">all</a></b>(eventName1, eventName2, callback)
 								</div>
 								<div class="description">Assign some events, after all events were fired, the callback will be executed once.</div>
 							</td>
@@ -288,9 +288,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#assignAlways">assignAlways</a></b>(eventname1, eventname2, cb)
+								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#any">any</a></b>(eventName1, eventName2, callback)
 								</div>
-								<div class="description">Assign some events, after all events were fired, the callback will be executed first time.</div>
+								<div class="description">The callback will be executed after any registered event was fired.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#immediate">immediate</a></b>(ev, callback, data)
+								</div>
+								<div class="description">Bind an event, and trigger it immediately.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#not">not</a></b>(eventName, callback)
+								</div>
+								<div class="description">The callback will be executed when the evnet name not equals with assigned evnet.</div>
 							</td>
 						</tr>
 					
@@ -318,6 +336,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#removeListener">removeListener</a></b>(eventName, callback)
 								</div>
 								<div class="description">Remove one or many callbacks.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/EventProxy.html#tail">tail</a></b>(eventName1, eventName2, callback)
+								</div>
+								<div class="description">Assign some events, after all events were fired, the callback will be executed first time.</div>
 							</td>
 						</tr>
 					
@@ -479,11 +506,11 @@ Passing `"all"` will bind the callback to all events fired.
 
 					<hr />
 				
-					<a name="assign"> </a>
+					<a name="all"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>assign</b>(eventname1, eventname2, cb)
+					<b>all</b>(eventName1, eventName2, callback)
 					
 					</div>
 					<div class="description">
@@ -499,19 +526,19 @@ Passing `"all"` will bind the callback to all events fired.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>eventname1</b>
+									<span class="light fixedFont">{string}</span> <b>eventName1</b>
 									
 								</dt>
 								<dd>First event name.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>eventname2</b>
+									<span class="light fixedFont">{string}</span> <b>eventName2</b>
 									
 								</dt>
 								<dd>Second event name.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>cb</b>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
 									
 								</dt>
 								<dd>Callback, that will be called after predefined events were fired.</dd>
@@ -527,16 +554,15 @@ Passing `"all"` will bind the callback to all events fired.
 
 					<hr />
 				
-					<a name="assignAlways"> </a>
+					<a name="any"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>assignAlways</b>(eventname1, eventname2, cb)
+					<b>any</b>(eventName1, eventName2, callback)
 					
 					</div>
 					<div class="description">
-						Assign some events, after all events were fired, the callback will be executed first time.
-then any event that predefined be fired again, the callback will executed with the newest data.
+						The callback will be executed after any registered event was fired. It only executed once.
 						
 						
 					</div>
@@ -548,22 +574,112 @@ then any event that predefined be fired again, the callback will executed with t
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>eventname1</b>
+									<span class="light fixedFont">{string}</span> <b>eventName1</b>
 									
 								</dt>
-								<dd>First event name.</dd>
+								<dd>Event name.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{string}</span> <b>eventname2</b>
+									<span class="light fixedFont">{string}</span> <b>eventName2</b>
 									
 								</dt>
-								<dd>Second event name.</dd>
+								<dd>Event name.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{function}</span> <b>cb</b>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
 									
 								</dt>
-								<dd>Callback, that will be called after predefined events were fired.</dd>
+								<dd>The callback will get a map that has data and eventName attributes.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="immediate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>immediate</b>(ev, callback, data)
+					
+					</div>
+					<div class="description">
+						Bind an event, and trigger it immediately.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>ev</b>
+									
+								</dt>
+								<dd>Event name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>Callback.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{mix}</span> <b>data</b>
+									
+								</dt>
+								<dd>The data that will be passed to calback as arguments.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="not"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>not</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						The callback will be executed when the evnet name not equals with assigned evnet.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>eventName</b>
+									
+								</dt>
+								<dd>Event name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>Callback.</dd>
 							
 							</dl>
 						
@@ -699,6 +815,55 @@ for all events.
 
 					<hr />
 				
+					<a name="tail"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>tail</b>(eventName1, eventName2, callback)
+					
+					</div>
+					<div class="description">
+						Assign some events, after all events were fired, the callback will be executed first time.
+then any event that predefined be fired again, the callback will executed with the newest data.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>eventName1</b>
+									
+								</dt>
+								<dd>First event name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>eventName2</b>
+									
+								</dt>
+								<dd>Second event name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>callback</b>
+									
+								</dt>
+								<dd>Callback, that will be called after predefined events were fired.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="trigger"> </a>
 					<div class="fixedFont">
 					
@@ -755,7 +920,7 @@ Listening for `"all"` passes the true event name as the first argument.
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Oct 04 2011 16:24:32 GMT+0800 (CST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Oct 27 2011 14:08:53 GMT+0800 (CST)
 		</div>
 	</body>
 </html>
