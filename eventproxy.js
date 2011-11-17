@@ -39,6 +39,7 @@
     };
     EventProxy.prototype.bind = EventProxy.prototype.addListener;
     EventProxy.prototype.on = EventProxy.prototype.addListener;
+    EventProxy.prototype.await = EventProxy.prototype.addListener;
 
     /**
      * @description Remove one or many callbacks. If `callback` is null, removes all
