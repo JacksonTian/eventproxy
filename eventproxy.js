@@ -304,7 +304,6 @@
     
     /**
      * Create a new EventProxy
-     * 
      * @example
      *     var ep = eventproxy.create();
      *     ep.assign('user', 'articles', function(user, articles) {
@@ -320,12 +319,12 @@
      * @return {Function}
      * @api public
      */
-    function create() {
-      var ep = new EventProxy();
-      if(arguments.length > 1) {
-        ep.assign.apply(ep, Array.prototype.slice.call(arguments));
-      }
-      return ep;
+    var create = function () {
+        var ep = new EventProxy();
+        if(arguments.length > 1) {
+            ep.assign.apply(ep, Array.prototype.slice.call(arguments));
+        }
+        return ep;
     };
 
     // Event proxy can be used in browser and Nodejs both.

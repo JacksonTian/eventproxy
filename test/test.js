@@ -66,6 +66,8 @@ test("EventProxy - assign one event", function () {
     });
     obj.trigger('event');
     equals(counter, 1, 'counter should be incremented.');
+    obj.trigger('event');
+    equals(counter, 1, 'counter should have only been incremented once.');
 });
 
 test("EventProxy - assign two events", function () {
@@ -128,7 +130,7 @@ test("EventProxy - any", function () {
     var obj = new EventProxy();
     var counter = 0;
     var eventData1 = "eventData1";
-    var eventData2 = "eventData2"
+    var eventData2 = "eventData2";
     obj.any('event1', 'event2', function(map) {
         equals(map.data, eventData1, 'Return data should be evnetData1.');
         equals(map.eventName, "event1", 'Event name should be event1.');

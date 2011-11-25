@@ -1,6 +1,10 @@
 这个世界上不存在所谓回调函数深度嵌套的问题。 —— Jackson Tian(http://weibo.com/shyvo)
+
 ---
 
+[EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
+
+---
 EventProxy.js仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
 
    1. 利用事件机制解耦复杂业务逻辑
@@ -123,5 +127,3 @@ Sample code:
         proxy.trigger("l10n", l10n);
     });
 
----
-[EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
