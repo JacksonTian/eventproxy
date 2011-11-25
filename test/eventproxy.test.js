@@ -109,6 +109,23 @@ module.exports = {
     assert.equal(counter, 1, 'counter should have only been incremented once.');
   },
   
+  'assign two events with array events': function() {
+    var ep = eventproxy.create();
+    var counter = 0;
+    var events = ['event1', 'event2'];
+    ep.assign(events, function(event1, event2) {
+        assert.equal(event1, 'event1', 'counter should not be incremented.');
+        assert.equal(event2, 'event2', 'counter should not be incremented.');
+        counter += 1;
+    });
+    ep.trigger('event1', 'event1');
+    assert.equal(counter, 0, 'counter should not be incremented.');
+    ep.trigger('event2', 'event2');
+    assert.equal(counter, 1, 'counter should be incremented.');
+    ep.trigger('event2');
+    assert.equal(counter, 1, 'counter should have only been incremented once.');
+  },
+  
   'assignAlways': function() {
     var ep = eventproxy.create();
     var counter = 0;

@@ -152,7 +152,7 @@
             return this;
         }
 
-        events = [].slice.apply(arguments, [0, argsLength - 2]);
+        events = Array.prototype.slice.apply(arguments, [0, argsLength - 2]);
         callback = arguments[argsLength - 2];
         isOnce = arguments[argsLength - 1];
 
@@ -200,8 +200,15 @@
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.all = function (eventname1, eventname2, cb) {
-        var args = [].slice.call(arguments);
+    EventProxy.prototype.all = function(eventname1, eventname2, cb) {
+        var args;
+        if (Array.isArray(eventname1)) {
+          // support ep.assign(['event1', 'event2'], cb)
+          args = eventname1;
+          args.push(eventname2);
+        } else {
+          args = Array.prototype.slice.call(arguments);
+        }
         args.push(true);
         _assign.apply(this, args);
         return this;
@@ -216,8 +223,8 @@
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.tail = function () {
-        var args = [].slice.call(arguments);
+    EventProxy.prototype.tail = function() {
+        var args = Array.prototype.slice.call(arguments);
         args.push(false);
         _assign.apply(this, args);
         return this;
@@ -262,7 +269,7 @@
             index, _bind,
             len = arguments.length,
             callback = arguments[len - 1],
-            events = [].slice.apply(arguments, [0, len - 1]),
+            events = Array.prototype.slice.apply(arguments, [0, len - 1]),
             count = events.length,
             _eventName = events.join("_");
 
