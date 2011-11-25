@@ -1,5 +1,5 @@
 {
-  "name"          : "EventProxy.js",
+  "name"          : "eventproxy",
   "description"   : "An implementation of task/event based asynchronous pattern.",
   "homepage"      : "https://github.com/JacksonTian/eventproxy",
   "keywords"      : ["event", "task-base", "event machine", "nested callback Terminator"],
