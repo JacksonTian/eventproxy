@@ -20,6 +20,9 @@
      * proxy.trigger("l10n", resources);
      */
     var EventProxy = function () {
+        if (!(this instanceof EventProxy)) {
+            return new EventProxy();
+        }
         this._callbacks = {};
         this._fired = {};
     };
