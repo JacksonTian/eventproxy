@@ -103,7 +103,7 @@ Assign always. The callback will be executed first time when all event were fire
 
 For NodeJS user:
 
-    npm install EventProxy.js
+    npm install eventproxy
 
 Sample code:
 
