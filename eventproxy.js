@@ -305,23 +305,22 @@
     /**
      * Create a new EventProxy
      * @example
-     *     var ep = eventproxy.create();
+     *     var ep = EventProxy.create();
      *     ep.assign('user', 'articles', function(user, articles) {
      *       // do something...
      *     });
      * 
      *     // or one line ways: Create EventProxy and Assign
      *     
-     *     var ep = eventproxy.create('user', 'articles', function(user, articles) {
+     *     var ep = EventProxy.create('user', 'articles', function(user, articles) {
      *       // do something...
      *     });
      * 
-     * @return {Function}
-     * @api public
+     * @return {EventProxy}
      */
-    var create = function () {
+    EventProxy.create = function () {
         var ep = new EventProxy();
-        if(arguments.length > 1) {
+        if (arguments.length) {
             ep.assign.apply(ep, Array.prototype.slice.call(arguments));
         }
         return ep;
@@ -330,10 +329,8 @@
     // Event proxy can be used in browser and Nodejs both.
     if (typeof exports !== "undefined") {
         exports.EventProxy = EventProxy;
-        exports.create = create;
     } else {
         this.EventProxy = EventProxy;
-        this.create = create;
     }
 
 }());
