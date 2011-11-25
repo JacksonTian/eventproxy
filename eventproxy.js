@@ -293,12 +293,41 @@
             }
         });
     };
+    
+    /**
+     * Create a new EventProxy
+     * 
+     * Usage:
+     * 
+     *     var ep = eventproxy.create();
+     *     ep.assign('user', 'articles', function(user, articles) {
+     *       // do something...
+     *     });
+     * 
+     *     // or one line ways: Create EventProxy and Assign
+     *     
+     *     var ep = eventproxy.create('user', 'articles', function(user, articles) {
+     *       // do something...
+     *     });
+     * 
+     * @return {Function}
+     * @api public
+     */
+    function create() {
+      var ep = new EventProxy();
+      if(arguments.length > 1) {
+        ep.assign.apply(ep, Array.prototype.slice.call(arguments));
+      }
+      return ep;
+    };
 
     // Event proxy can be used in browser and Nodejs both.
     if (typeof exports !== "undefined") {
         exports.EventProxy = EventProxy;
+        exports.create = create;
     } else {
         this.EventProxy = EventProxy;
+        this.create = create;
     }
 
 }());
