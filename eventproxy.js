@@ -5,6 +5,17 @@
  * @version 0.4
  */
 (function () {
+  
+    /**
+     * Compatibility
+     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
+     */
+    if(!Array.isArray) {  
+      Array.isArray = function (arg) {  
+        return Object.prototype.toString.call(arg) === '[object Array]';  
+      };  
+    }  
+  
     /**
      * @description EventProxy. A module that can be mixed in to *any object* in order to provide it with
      * custom events. You may `bind` or `unbind` a callback function to an event;
@@ -205,6 +216,7 @@
         if (Array.isArray(eventname1)) {
           // support ep.assign(['event1', 'event2'], cb)
           args = eventname1;
+          // now eventname2 is callback function
           args.push(eventname2);
         } else {
           args = Array.prototype.slice.call(arguments);
