@@ -319,7 +319,7 @@
      *       // do something...
      *     });
      * 
-     * @return {EventProxy}
+     * @returns {EventProxy}
      */
     EventProxy.create = function () {
         var ep = new EventProxy();
