@@ -1,12 +1,18 @@
 这个世界上不存在所谓回调函数深度嵌套的问题。 —— Jackson Tian(http://weibo.com/shyvo)
+
 ---
 
+[EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)  
+
+    npm install eventproxy
+
+---
 EventProxy.js仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
 
    1. 利用事件机制解耦复杂业务逻辑
    2. 移除被广为诟病的深度callback嵌套问题
    3. 将串行等待变成并行等待，提升多异步场景下的执行效率
-   4. 无平台依赖，适合前后端，能用于浏览器和NodeJS
+   4. 无平台依赖，适合前后端，能用于浏览器和Node.js
 
 现在的，无深度嵌套的，并行的
 
@@ -97,11 +103,7 @@ Assign always. The callback will be executed first time when all event were fire
         }, 1000);
     </script>
 
-For NodeJS user:
-
-    npm install EventProxy.js
-
-Sample code:
+For Node.js:
 
     var EventProxy = require("eventproxy.js").EventProxy;
 
@@ -123,5 +125,3 @@ Sample code:
         proxy.trigger("l10n", l10n);
     });
 
----
-[EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)

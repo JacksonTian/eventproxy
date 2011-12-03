@@ -2,7 +2,7 @@
 /**
  * @fileoverview This file is used for define the EventProxy library.
  * @author <a href="mailto:shyvo1987@gmail.com">Jackson Tian</a>
- * @version 0.3
+ * @version 0.4
  */
 (function () {
     /**
@@ -20,6 +20,9 @@
      * proxy.trigger("l10n", resources);
      */
     var EventProxy = function () {
+        if (!(this instanceof EventProxy)) {
+            return new EventProxy();
+        }
         this._callbacks = {};
         this._fired = {};
     };
@@ -39,6 +42,7 @@
     };
     EventProxy.prototype.bind = EventProxy.prototype.addListener;
     EventProxy.prototype.on = EventProxy.prototype.addListener;
+    EventProxy.prototype.await = EventProxy.prototype.addListener;
 
     /**
      * @description Remove one or many callbacks. If `callback` is null, removes all
@@ -151,7 +155,7 @@
             return this;
         }
 
-        events = [].slice.apply(arguments, [0, argsLength - 2]);
+        events = Array.prototype.slice.apply(arguments, [0, argsLength - 2]);
         callback = arguments[argsLength - 2];
         isOnce = arguments[argsLength - 1];
 
@@ -195,12 +199,16 @@
 
     /**
      * @description Assign some events, after all events were fired, the callback will be executed once.
+     * @example
+     * proxy.all(ev1, ev2, callback);
+     * proxy.all([ev1, ev2], callback);
+     * proxy.all(ev1, [ev2, ev3], callback);
      * @param {string} eventName1 First event name.
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.all = function (eventname1, eventname2, cb) {
-        var args = [].slice.call(arguments);
+    EventProxy.prototype.all = function(eventname1, eventname2, cb) {
+        var args = Array.prototype.concat.apply([], arguments);
         args.push(true);
         _assign.apply(this, args);
         return this;
@@ -210,13 +218,17 @@
     /**
      * @description Assign some events, after all events were fired, the callback will be executed first time.
      * then any event that predefined be fired again, the callback will executed with the newest data.
+     * @example
+     * proxy.tail(ev1, ev2, callback);
+     * proxy.tail([ev1, ev2], callback);
+     * proxy.tail(ev1, [ev2, ev3], callback);
      * @memberOf EventProxy#
      * @param {string} eventName1 First event name.
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.tail = function () {
-        var args = [].slice.call(arguments);
+    EventProxy.prototype.tail = function() {
+        var args = Array.prototype.concat.apply([], arguments);
         args.push(false);
         _assign.apply(this, args);
         return this;
@@ -261,7 +273,7 @@
             index, _bind,
             len = arguments.length,
             callback = arguments[len - 1],
-            events = [].slice.apply(arguments, [0, len - 1]),
+            events = Array.prototype.slice.apply(arguments, [0, len - 1]),
             count = events.length,
             _eventName = events.join("_");
 
@@ -291,6 +303,30 @@
                 callback(data);
             }
         });
+    };
+    
+    /**
+     * Create a new EventProxy
+     * @example
+     *     var ep = EventProxy.create();
+     *     ep.assign('user', 'articles', function(user, articles) {
+     *       // do something...
+     *     });
+     * 
+     *     // or one line ways: Create EventProxy and Assign
+     *     
+     *     var ep = EventProxy.create('user', 'articles', function(user, articles) {
+     *       // do something...
+     *     });
+     * 
+     * @returns {EventProxy}
+     */
+    EventProxy.create = function () {
+        var ep = new EventProxy();
+        if (arguments.length) {
+            ep.assign.apply(ep, Array.prototype.slice.call(arguments));
+        }
+        return ep;
     };
 
     // Event proxy can be used in browser and Nodejs both.
