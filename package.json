@@ -2,7 +2,7 @@
   "name"          : "eventproxy",
   "description"   : "An implementation of task/event based asynchronous pattern.",
   "homepage"      : "https://github.com/JacksonTian/eventproxy",
-  "keywords"      : ["event", "task-base", "event machine", "nested callback Terminator"],
+  "keywords"      : ["event", "task-base", "event machine", "nested callback terminator"],
   "author"        : "Jackson Tian <shyvo1987@gmail.com>",
   "contributors"  : [
     { "name": "Jackson Tian", "email": "shyvo1987@gmail.com" },
