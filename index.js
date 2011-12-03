@@ -1,1 +1,1 @@
-module.exports = require('./eventproxy');
+module.exports = require('./eventproxy.js');
