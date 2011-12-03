@@ -36,8 +36,8 @@
      */
     EventProxy.prototype.addListener = function (ev, callback) {
         this._callbacks = this._callbacks || {};
-        var list = this._callbacks[ev] || (this._callbacks[ev] = []);
-        list.push(callback);
+        this._callbacks[ev] = this._callbacks[ev] || [];
+        this._callbacks[ev].push(callback);
         return this;
     };
     EventProxy.prototype.bind = EventProxy.prototype.addListener;
@@ -53,10 +53,10 @@
      * @param {function} callback Callback.
      */
     EventProxy.prototype.removeListener = function (ev, callback) {
-        var calls, i, l;
+        var calls = this._callbacks, i, l;
         if (!ev) {
             this._callbacks = {};
-        } else if (calls = this._callbacks) {
+        } else if (calls) {
             if (!callback) {
                 calls[ev] = [];
             } else {
@@ -102,7 +102,8 @@
         }
         while (both--) {
             ev = both ? eventName : 'all';
-            if (list = calls[ev]) {
+            list = calls[ev];
+            if (list) {
                 for (i = 0, l = list.length; i < l; i++) {
                     if (!(callback = list[i])) {
                         list.splice(i, 1); i--; l--;
@@ -207,7 +208,7 @@
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.all = function(eventname1, eventname2, cb) {
+    EventProxy.prototype.all = function (eventname1, eventname2, cb) {
         var args = Array.prototype.concat.apply([], arguments);
         args.push(true);
         _assign.apply(this, args);
@@ -227,7 +228,7 @@
      * @param {string} eventName2 Second event name.
      * @param {function} callback Callback, that will be called after predefined events were fired.
      */
-    EventProxy.prototype.tail = function() {
+    EventProxy.prototype.tail = function () {
         var args = Array.prototype.concat.apply([], arguments);
         args.push(false);
         _assign.apply(this, args);
@@ -270,7 +271,8 @@
      */
     EventProxy.prototype.any = function () {
         var proxy = this,
-            index, _bind,
+            index,
+            _bind,
             len = arguments.length,
             callback = arguments[len - 1],
             events = Array.prototype.slice.apply(arguments, [0, len - 1]),
