@@ -126,6 +126,16 @@ test("EventProxy - after, 5 times", function () {
     equals(counter, 1, 'counter should have only been incremented once.');
 });
 
+test("EventProxy - after, 0 time", function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    obj.after('event', 0, function(data) {
+        equals(data.join(","), "", 'Return array should be []');
+        counter += 1;
+    });
+    equals(counter, 0, 'counter should not be incremented.');
+});
+
 test("EventProxy - any", function () {
     var obj = new EventProxy();
     var counter = 0;
