@@ -245,6 +245,10 @@
      * @param {function} callback Callback, that will be called after event was fired N times.
      */
     EventProxy.prototype.after = function (eventName, times, callback) {
+        if (times === 0) {
+            callback.call(null, []);
+            return this;
+        }
         var proxy = this,
             firedData = [],
             all;
