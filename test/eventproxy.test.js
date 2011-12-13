@@ -168,6 +168,16 @@ module.exports = {
     assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
   },
   
+  'after, 0 time': function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    obj.after('event', 0, function(data) {
+        assert.deepEqual(data.join(","), "", 'Return array should be []');
+        counter += 1;
+    });
+    assert.deepEqual(counter, 1, 'counter should be incremented.');
+  };
+  
   'any': function() {
     var ep = EventProxy.create();
     var counter = 0;
