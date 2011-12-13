@@ -133,7 +133,7 @@ test("EventProxy - after, 0 time", function () {
         equals(data.join(","), "", 'Return array should be []');
         counter += 1;
     });
-    equals(counter, 0, 'counter should not be incremented.');
+    equals(counter, 1, 'counter should be incremented.');
 });
 
 test("EventProxy - any", function () {
