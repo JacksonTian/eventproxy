@@ -176,7 +176,7 @@ module.exports = {
         counter += 1;
     });
     assert.deepEqual(counter, 1, 'counter should be incremented.');
-  };
+  },
   
   'any': function() {
     var ep = EventProxy.create();
