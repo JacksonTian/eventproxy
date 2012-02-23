@@ -2,14 +2,14 @@
  * test for eventproxy
  */
 
-var eventproxy = require('../eventproxy');
+var EventProxy = require('../eventproxy.js').EventProxy;
 var assert = require('assert');
 
 module.exports = {
   
   'create on line ways': function() {
     var counter = 0;
-    var ep = eventproxy.create('event', function(data) {
+    var ep = EventProxy.create('event', function(data) {
       counter += 1;
       assert.deepEqual(data, 'event data');
     });
@@ -18,7 +18,7 @@ module.exports = {
   },
   
   'bind/trigger': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.bind("event", function(data) {
         counter += 1;
@@ -34,7 +34,7 @@ module.exports = {
   },
   
   'bind, then unbind all functions': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.bind('event', function() {
         counter += 1;
@@ -47,7 +47,7 @@ module.exports = {
   },
   
   'once/trigger': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.once('event', function() {
         counter += 1;
@@ -59,7 +59,7 @@ module.exports = {
   },
   
   'immediate': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.immediate('event', function (){
         counter +=1;
@@ -70,7 +70,7 @@ module.exports = {
   }, 
   
   'immediate/parameter': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var param = new Date(), counter = 0;
     ep.immediate('event', function (data) {
         assert.equal(data, param, "data should same as param.");
@@ -82,7 +82,7 @@ module.exports = {
   },
   
   'assign one event': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.assign('event', function() {
         counter += 1;
@@ -94,7 +94,7 @@ module.exports = {
   },
   
   'assign two events': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.assign('event1', 'event2', function(event1, event2) {
         assert.equal(event1, 'event1', 'counter should not be incremented.');
@@ -110,7 +110,7 @@ module.exports = {
   },
   
   'assign two events with array events': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     var events = ['event1', 'event2'];
     ep.assign(events, function(event1, event2) {
@@ -127,7 +127,7 @@ module.exports = {
   },
   
   'assignAlways': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     var event2 = null;
     ep.assignAlways('event1', 'event2', function(data1, data2) {
@@ -146,7 +146,7 @@ module.exports = {
   },
   
   'after, n times': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var n = Math.round(Math.random() * 100) + 1;
     var counter = 0;
     ep.after('event', n, function(data) {
@@ -167,9 +167,33 @@ module.exports = {
     ep.trigger('event', n);
     assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
   },
+
+  'after, 1 time': function() {
+    var ep = EventProxy.create();
+
+    var counter = 0;
+    ep.after('event', 1, function(data) {
+        assert.deepEqual(data.length, 1);
+        assert.deepEqual(data[0], "1 time");
+        counter += 1;
+    });
+
+    ep.trigger('event', "1 time");
+    assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
+  },
+
+  'after, 0 time': function () {
+    var obj = new EventProxy();
+    var counter = 0;
+    obj.after('event', 0, function(data) {
+        assert.deepEqual(data.join(","), "", 'Return array should be []');
+        counter += 1;
+    });
+    assert.deepEqual(counter, 1, 'counter should be incremented.');
+  },
   
   'any': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     var eventData1 = "eventData1";
     var eventData2 = "eventData2";
@@ -187,7 +211,7 @@ module.exports = {
   },
   
   'not': function() {
-    var ep = eventproxy.create();
+    var ep = EventProxy.create();
     var counter = 0;
     ep.not('event1', function(data) {
         counter += 1;

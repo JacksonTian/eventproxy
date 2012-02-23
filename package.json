@@ -12,7 +12,13 @@
   "devDependencies": {
     "expresso": ">= 0.9.2"
   },
-  "repository"    : {"type": "git", "url": "git://github.com/JacksonTian/eventproxy.git"},
+  "scripts": {
+    "test": "expresso test/eventproxy.test.js"
+  },
+  "repository"    : {
+    "type": "git", 
+    "url": "git://github.com/JacksonTian/eventproxy.git"
+  },
   "main"          : "eventproxy.js",
-  "version"       : "0.1.0"
+  "version"       : "0.1.1"
 }
