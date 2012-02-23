@@ -167,7 +167,21 @@ module.exports = {
     ep.trigger('event', n);
     assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
   },
-  
+
+  'after, 1 time': function() {
+    var ep = EventProxy.create();
+
+    var counter = 0;
+    ep.after('event', 1, function(data) {
+        assert.deepEqual(data.length, 1);
+        assert.deepEqual(data[0], "1 time");
+        counter += 1;
+    });
+
+    ep.trigger('event', "1 time");
+    assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
+  },
+
   'after, 0 time': function () {
     var obj = new EventProxy();
     var counter = 0;

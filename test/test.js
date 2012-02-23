@@ -126,6 +126,20 @@ test("EventProxy - after, 5 times", function () {
     equals(counter, 1, 'counter should have only been incremented once.');
 });
 
+test("EventProxy - after, 1 time", function() {
+    var obj = EventProxy.create();
+
+    var counter = 0;
+    obj.after('event', 1, function(data) {
+        equals(data.length, 1, "The data length should be 1.");
+        equals(data[0], "1 time", "The item should be 1 time.");
+        counter += 1;
+    });
+
+    obj.trigger('event', "1 time");
+    equals(counter, 1, 'counter should have only been incremented once.');
+})
+
 test("EventProxy - after, 0 time", function () {
     var obj = new EventProxy();
     var counter = 0;
