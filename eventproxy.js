@@ -182,8 +182,12 @@
             bind(events[index]);
         }
 
-        _all = function () {
+        _all = function (event) {
+
             if (times < length) {
+                return;
+            }
+            if (!flag[event]) {
                 return;
             }
             var data = [];
@@ -193,6 +197,7 @@
             if (isOnce) {
                 proxy.unbind("all", _all);
             }
+
             callback.apply(null, data);
         };
         proxy.bind("all", _all);
