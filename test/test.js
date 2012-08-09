@@ -103,6 +103,8 @@ test("EventProxy - assignAlways", function () {
     event2 = "event2_2";
     obj.trigger('event2', event2);
     equals(counter, 2, 'counter should be incremented.');
+    obj.trigger('event3', 'This event not in list');
+    equals(counter, 2, 'counter should not be incremented.');
 });
 
 test("EventProxy - after, 5 times", function () {
