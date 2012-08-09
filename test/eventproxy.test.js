@@ -143,8 +143,10 @@ module.exports = {
     event2 = "event2_2";
     ep.trigger('event2', event2);
     assert.equal(counter, 2, 'counter should be incremented.');
+    ep.trigger('event3', "The event not in list");
+    assert.equal(counter, 2, 'counter should not be incremented.');
   },
-  
+
   'after, n times': function() {
     var ep = EventProxy.create();
     var n = Math.round(Math.random() * 100) + 1;
