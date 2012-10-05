@@ -2,11 +2,10 @@
  * test for eventproxy
  */
 
-var EventProxy = require('../eventproxy.js').EventProxy;
+var EventProxy = require('../');
 var assert = require('assert');
 
 module.exports = {
-  
   'create on line ways': function() {
     var counter = 0;
     var ep = EventProxy.create('event', function(data) {
@@ -67,7 +66,7 @@ module.exports = {
     assert.equal(counter, 1, "counter should be incremented.");
     ep.trigger('event');
     assert.equal(counter, 2, "counter should be incremented.");
-  }, 
+  },
   
   'immediate/parameter': function() {
     var ep = EventProxy.create();

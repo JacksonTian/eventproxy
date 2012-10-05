@@ -140,7 +140,7 @@ test("EventProxy - after, 1 time", function() {
 
     obj.trigger('event', "1 time");
     equals(counter, 1, 'counter should have only been incremented once.');
-})
+});
 
 test("EventProxy - after, 0 time", function () {
     var obj = new EventProxy();
