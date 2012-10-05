@@ -108,7 +108,7 @@ Assign always. The callback will be executed first time when all event were fire
 
 For Node.js:
 
-    var EventProxy = require("eventproxy.js").EventProxy;
+    var EventProxy = require("eventproxy");
 
     var proxy = new EventProxy();
     var render = function (template, data, l10n){
