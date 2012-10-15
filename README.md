@@ -1,15 +1,14 @@
-这个世界上不存在所谓回调函数深度嵌套的问题。 —— [Jackson Tian](http://weibo.com/shyvo)
----
+EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy)
+======
+> 这个世界上不存在所谓回调函数深度嵌套的问题。 —— [Jackson Tian](http://weibo.com/shyvo)
 
-[![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy)
-
----
-
+## 安装EventProxy
+```
+npm install eventproxy
+```
+## API 文档
 [EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)  
-
-    npm install eventproxy
-
----
+## 说明
 EventProxy.js仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
 
    1. 利用事件机制解耦复杂业务逻辑
@@ -128,5 +127,5 @@ For Node.js:
         proxy.trigger("l10n", l10n);
     });
 
-# 注意事项
-请勿使用`all`作为业务中的事件名。该事件名为保留事件。
+## 注意事项
+- 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
