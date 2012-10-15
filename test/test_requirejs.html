@@ -7,12 +7,18 @@
 </head>
 <body>
   <div id="mocha"></div>
-  <script src="chai.js"></script>
-  <script src="mocha.js"></script>
-  <script src="/lib/eventproxy.js"></script>
+  <script src="require.js"></script>
   <script>
-    mocha.setup({ui: 'bdd',ignoreLeaks: true});
+  require.config({
+    paths: {
+      "eventproxy": "/lib/eventproxy"
+    }
+  });
+  // Start the main app logic.
+  require(['chai', 'eventproxy', 'mocha'], function (chai) {
+    mocha.setup('bdd');
     var assert = chai.assert;
+    var EventProxy = require('eventproxy');
     describe('EventProxy', function () {
       it('EventProxy should have create', function () {
         assert.isFunction(EventProxy, "EventProxy is a function");
@@ -20,6 +26,7 @@
       });
     });
     mocha.run();
+  });
   </script>
 </body>
 </html>

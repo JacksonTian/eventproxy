@@ -7,10 +7,15 @@
 </head>
 <body>
   <div id="mocha"></div>
-  <script src="chai.js"></script>
-  <script src="mocha.js"></script>
-  <script src="/lib/eventproxy.js"></script>
+  <script src="sea.js"></script>
   <script>
+  seajs.config({
+    alias: {
+      "eventproxy": "/lib/eventproxy"
+    }
+  });
+  // Start the main app logic.
+  seajs.use(['eventproxy', 'chai', 'mocha'], function (EventProxy) {
     mocha.setup({ui: 'bdd',ignoreLeaks: true});
     var assert = chai.assert;
     describe('EventProxy', function () {
@@ -20,6 +25,7 @@
       });
     });
     mocha.run();
+  });
   </script>
 </body>
 </html>
