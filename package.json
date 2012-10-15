@@ -10,7 +10,8 @@
   ],
   "dependencies"  : {},
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "chai": "*"
   },
   "scripts": {
     "test": "mocha test/test.js"
