@@ -21,7 +21,7 @@
     "chai": "*"
   },
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
