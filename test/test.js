@@ -1,5 +1,8 @@
 var assert = require('chai').assert;
-var EventProxy = require('../lib/eventproxy');
+var should = require('chai').should();
+var EventProxy = require('../');
+var pedding = require('pedding');
+var fs = require('fs');
 
 describe("EventProxy", function () {
   it('create on line ways', function () {
@@ -219,5 +222,51 @@ describe("EventProxy", function () {
     assert.deepEqual(counter, 1, 'counter should be incremented.');
     ep.trigger('event2', 2);
     assert.deepEqual(counter, 2, 'counter should be incremented.');
+  });
+
+  describe('errorHandler mode', function () {
+
+    it('should auto handler callback error', function (done) {
+      done = pedding(2, done);
+      var ep = EventProxy.create('data', 'foo', 'cnodejs', function (data, foo, cnodejs) {
+        throw new Error('should not call this');
+      }, function (err) {
+        err.message.should.equal(err.message, 'ENOENT, open \'not exist file\'');
+        done();
+      });
+      fs.readFile(__filename, ep.done('data'));
+      require('http').get({ host: 'cnodejs.org' }, function (res) {
+        should.exist(res);
+        res.statusCode.should.equal(200);
+        ep.emit('cnodejs', res);
+        done();
+      });
+      setTimeout(function () {
+        fs.readFile('not exist file', ep.done('foo'));
+      }, 500);
+    });
+
+    it('should success callback after all event emit', function (done) {
+      done = pedding(3, done);
+      var ep = EventProxy.create('data', 'dirs', 'cnodejs', function (data, dirs, cnodejs) {
+        should.exist(data);
+        should.exist(dirs);
+        should.exist(cnodejs);
+        done();
+      }, function (err) {
+        throw new Error('should not call this');
+      });
+      fs.readFile(__filename, ep.done('data'));
+      require('http').get({ host: 'cnodejs.org' }, function (res) {
+        assert.deepEqual(res.statusCode, 200);
+        ep.emit('cnodejs', res);
+        done();
+      });
+      setTimeout(function () {
+        fs.readdir(__dirname, ep.done('dirs'));
+        done();
+      }, 500);
+    });
+
   });
 });

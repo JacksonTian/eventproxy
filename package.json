@@ -11,6 +11,8 @@
   "dependencies"  : {},
   "devDependencies": {
     "mocha": "*",
+    "jscover": "*",
+    "pedding": "*",
     "chai": "*"
   },
   "scripts": {
