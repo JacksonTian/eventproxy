@@ -224,8 +224,21 @@ describe("EventProxy", function () {
     assert.deepEqual(counter, 2, 'counter should be incremented.');
   });
 
-  describe('errorHandler mode', function () {
+  it('done', function () {
+    var ep = EventProxy.create();
+    var counter = 0;
+    var done = function (num) {
+      counter += num;
+    };
+    ep.bind('event1', ep.done(done));
+    assert.deepEqual(counter, 0, 'counter should not be incremented.');
+    ep.trigger('event1', null, 1);
+    assert.deepEqual(counter, 1, 'counter should be incremented.');
+    ep.trigger('event1', null, 2);
+    assert.deepEqual(counter, 3, 'counter should be incremented.');
+  });
 
+  describe('errorHandler mode', function () {
     it('should auto handler callback error', function (done) {
       done = pedding(2, done);
       var ep = EventProxy.create('data', 'foo', 'cnodejs', function (data, foo, cnodejs) {
