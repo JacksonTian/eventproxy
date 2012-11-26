@@ -1,6 +1,6 @@
 TESTS = test/test.js
 REPORTER = spec
-TIMEOUT = 2000
+TIMEOUT = 10000
 JSCOVERAGE = ./node_modules/jscover/bin/jscover
 
 test:
