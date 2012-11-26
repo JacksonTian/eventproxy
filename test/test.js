@@ -281,5 +281,46 @@ describe("EventProxy", function () {
       }, 500);
     });
 
+    it('should success callback(err, args1, args2) after all event emit', function (done) {
+      done = pedding(3, done);
+      var ep = EventProxy.create('data', 'dirs', 'cnodejs', 'mockGet', 'mockGet2',
+      function (data, dirs, cnodejs, getDatas, getDatas2) {
+        should.exist(data);
+        should.exist(dirs);
+        should.exist(cnodejs);
+        should.exist(getDatas);
+        getDatas.should.eql([ 'fooqueryargs1', 'fooqueryargs2' ]).with.length(2);
+        getDatas2.should.equal('fooquery2args1');
+        done();
+      });
+
+      ep.fail(function (err) {
+        throw new Error('should not call this');
+      });
+
+      fs.readFile(__filename, ep.done('data'));
+      require('http').get({ host: 'nodejs.org' }, function (res) {
+        assert.deepEqual(res.statusCode, 200);
+        ep.emit('cnodejs', res);
+        done();
+      });
+
+      var mockGet = function (query, callback) {
+        process.nextTick(callback.bind(null, null, query + 'args1', query + 'args2'));
+      };
+      mockGet('fooquery', ep.done(function (a1, a2) {
+        a1.should.equal('fooqueryargs1');
+        a2.should.equal('fooqueryargs2');
+        ep.emit('mockGet', [ a1, a2 ]);
+      }));
+
+      mockGet('fooquery2', ep.done('mockGet2'));
+
+      setTimeout(function () {
+        fs.readdir(__dirname, ep.done('dirs'));
+        done();
+      }, 500);
+    });
+
   });
 });
