@@ -315,6 +315,22 @@ ep.done(function (content) {
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
 - 异常处理部分，请遵循Node的最佳实践。
 
+## 贡献者们
+谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
+
+```
+ project  : eventproxy
+ repo age : 1 year, 6 months
+ active   : 50 days
+ commits  : 123
+ files    : 24
+ authors  : 
+   113	Jackson Tian            91.9%
+     5	fengmk2                 4.1%
+     4	dead-horse              3.3%
+     1	yaoazhen                0.8%
+```
+
 ## License 
 
-(The MIT License)
+[The MIT License](https://github.com/JacksonTian/eventproxy/blob/master/MIT-License)。请自由享受开源。
