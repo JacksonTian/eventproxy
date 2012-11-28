@@ -279,9 +279,9 @@ describe("EventProxy", function () {
         ep.emit('cnodejs', res);
         done();
       });
-      setTimeout(function () {
+      process.nextTick(function () {
         fs.readFile('not exist file', ep.done('foo'));
-      }, 500);
+      });
     });
 
     it('should success callback after all event emit', function (done) {
@@ -300,10 +300,10 @@ describe("EventProxy", function () {
         ep.emit('cnodejs', res);
         done();
       });
-      setTimeout(function () {
+      process.nextTick(function () {
         fs.readdir(__dirname, ep.done('dirs'));
         done();
-      }, 500);
+      });
     });
 
     it('should success callback(err, args1, args2) after all event emit', function (done) {
@@ -314,7 +314,7 @@ describe("EventProxy", function () {
         should.exist(dirs);
         should.exist(cnodejs);
         should.exist(getDatas);
-        getDatas.should.eql([ 'fooqueryargs1', 'fooqueryargs2' ]).with.length(2);
+        getDatas.should.eql(['fooqueryargs1', 'fooqueryargs2' ]).with.length(2);
         getDatas2.should.equal('fooquery2args1');
         done();
       });
@@ -341,10 +341,10 @@ describe("EventProxy", function () {
 
       mockGet('fooquery2', ep.done('mockGet2'));
 
-      setTimeout(function () {
+      process.nextTick(function () {
         fs.readdir(__dirname, ep.done('dirs'));
         done();
-      }, 500);
+      });
     });
 
   });
