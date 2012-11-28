@@ -1222,7 +1222,15 @@ fs.readFile('foo.txt', function (err, content) {
 
 <h2>Examples</h2>
 
-<p>```<br />var ep = EventProxy.create();<br />ep.assign('user', 'articles', function(user, articles) {<br />  // do something...<br />});<br />// or one line ways: Create EventProxy and Assign<br />var ep = EventProxy.create('user', 'articles', function(user, articles) {<br />  // do something...<br />});</p>
+<div class="highlight"><pre lang="">var ep = EventProxy.create();
+ep.assign('user', 'articles', function(user, articles) {
+  // do something...
+});
+// or one line ways: Create EventProxy and Assign
+var ep = EventProxy.create('user', 'articles', function(user, articles) {
+  // do something...
+});
+</pre></div>
 
   <table class="table">
   
