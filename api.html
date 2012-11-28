@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>eventproxy Documentation</title>
+    <meta name="keywords" content="event,task-base,event machine,nested callback terminator" />
+    <meta name="description" content="An implementation of task/event based asynchronous pattern." />
+    <script src="assets/prettify.js"></script>
+    <script src="assets/jquery-1.8.2.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/base.css" />
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="./index.html">eventproxy</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+            
+              <li>
+                <a href="./api.html">API Docs</a>
+              </li>
+            
+            
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header class="jumbotron subhead">
+      <div class="container">
+        <h1>eventproxy <small>Version: 0.2.1 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
+        <p class="lead">
+          An implementation of task/event based asynchronous pattern.
+        </p>
+      </div>
+    </header>
+<div class="container content">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav affix">
+
+  <li>
+    <a href="#api_eventproxy"><i class="icon-chevron-right"></i>eventproxy</a>
+  </li>
+
+</ul>
+
+    </div>
+    <div class="span9">
+      
+        <section id="api_eventproxy" class="api">
+  <h2>eventproxy: API索引</h2>
+  <ul class="indexs">
+  
+    <li>
+      <a href="#_EventProxy">EventProxy</a>
+    </li>
+
+    <li>
+      <a href="#_addListener">addListener</a>
+    </li>
+
+    <li>
+      <a href="#_bind">bind</a>
+    </li>
+
+    <li>
+      <a href="#_on">on</a>
+    </li>
+
+    <li>
+      <a href="#_subscribe">subscribe</a>
+    </li>
+
+    <li>
+      <a href="#_removeListener">removeListener</a>
+    </li>
+
+    <li>
+      <a href="#_unbind">unbind</a>
+    </li>
+
+    <li>
+      <a href="#_removeAllListeners">removeAllListeners</a>
+    </li>
+
+    <li>
+      <a href="#_trigger">trigger</a>
+    </li>
+
+    <li>
+      <a href="#_emit">emit</a>
+    </li>
+
+    <li>
+      <a href="#_fire">fire</a>
+    </li>
+
+    <li>
+      <a href="#_once">once</a>
+    </li>
+
+    <li>
+      <a href="#_immediate">immediate</a>
+    </li>
+
+    <li>
+      <a href="#_asap">asap</a>
+    </li>
+
+    <li>
+      <a href="#_all">all</a>
+    </li>
+
+    <li>
+      <a href="#_assign">assign</a>
+    </li>
+
+    <li>
+      <a href="#_fail">fail</a>
+    </li>
+
+    <li>
+      <a href="#_tail">tail</a>
+    </li>
+
+    <li>
+      <a href="#_assignAll">assignAll</a>
+    </li>
+
+    <li>
+      <a href="#_assignAlways">assignAlways</a>
+    </li>
+
+    <li>
+      <a href="#_after">after</a>
+    </li>
+
+    <li>
+      <a href="#_any">any</a>
+    </li>
+
+    <li>
+      <a href="#_not">not</a>
+    </li>
+
+    <li>
+      <a href="#_done">done</a>
+    </li>
+
+    <li>
+      <a href="#EventProxy_create">create</a>
+    </li>
+
+  </ul>
+  <hr />
+
+  
+
+  <table class="table">
+  
+
+  
+  </table>
+  
+  
+  <h3 id="_EventProxy">
+    EventProxy
+  </h3>
+  
+
+  <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.</p>
+
+<h2>Examples</h2>
+
+<div class="highlight"><pre lang="">var render = function (template, resources) {};
+var proxy = new EventProxy();
+proxy.assign("template", "l10n", render);
+proxy.trigger("template", template);
+proxy.trigger("l10n", resources);
+</pre></div>
+
+  <table class="table">
+  
+    <tr>
+      <td>函数</td>
+      <td>EventProxy()</td> 
+      <td></td>
+      <td>EventProxy</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>var EventProxy = function () {
+    if (!(this instanceof EventProxy)) {
+      return new EventProxy();
+    }
+    this._callbacks = {};
+    this._fired = {};
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_addListener">
+    addListener
+  </h3>
+  
+
+  <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <code>all</code> will bind the callback to all events fired.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.addListener()</td> 
+      <td></td>
+      <td>addListener</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.addListener = function (ev, callback) {
+    this._callbacks = this._callbacks || {};
+    this._callbacks[ev] = this._callbacks[ev] || [];
+    this._callbacks[ev].push(callback);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_bind">
+    bind
+  </h3>
+  
+
+  <p><code>addListener</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypebind</td> 
+      <td></td>
+      <td>bind</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.bind = EventProxy.prototype.addListener;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_on">
+    on
+  </h3>
+  
+
+  <p><code>addListener</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeon</td> 
+      <td></td>
+      <td>on</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.on = EventProxy.prototype.addListener;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_subscribe">
+    subscribe
+  </h3>
+  
+
+  <p><code>addListener</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypesubscribe</td> 
+      <td></td>
+      <td>subscribe</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.subscribe = EventProxy.prototype.addListener;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_removeListener">
+    removeListener
+  </h3>
+  
+
+  <p>Remove one or many callbacks. If <code>callback</code> is null, removes all callbacks for the event.<br />If <code>ev</code> is null, removes all bound callbacks<br />for all events.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.removeListener()</td> 
+      <td></td>
+      <td>removeListener</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.removeListener = function (ev, callback) {
+    var calls = this._callbacks, i, l;
+    if (!ev) {
+      this._callbacks = {};
+    } else if (calls) {
+      if (!callback) {
+        calls[ev] = [];
+      } else {
+        var list = calls[ev];
+        if (!list) {
+          return this;
+        }
+        l = list.length;
+        for (i = 0; i &lt; l; i++) {
+          if (callback === list[i]) {
+            list[i] = null;
+            break;
+          }
+        }
+      }
+    }
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_unbind">
+    unbind
+  </h3>
+  
+
+  <p><code>removeListener</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeunbind</td> 
+      <td></td>
+      <td>unbind</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.unbind = EventProxy.prototype.removeListener;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_removeAllListeners">
+    removeAllListeners
+  </h3>
+  
+
+  <p>Remove all listeners. It equals unbind()<br />Just add this API for as same as Event.Emitter.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.removeAllListeners()</td> 
+      <td></td>
+      <td>removeAllListeners</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>event(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.removeAllListeners = function (event) {
+    return this.unbind(event);
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_trigger">
+    trigger
+  </h3>
+  
+
+  <p>Trigger an event, firing all bound callbacks. Callbacks are passed the<br />same arguments as <code>trigger</code> is, apart from the event name.<br />Listening for <code>"all"</code> passes the true event name as the first argument.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.trigger()</td> 
+      <td></td>
+      <td>trigger</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>data(Mix)</td>
+      <td colspan="2">Pass in data</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.trigger = function (eventName, data) {
+    var list, ev, callback, args, i, l;
+    var both = 2;
+    var calls = this._callbacks;
+    while (both--) {
+      ev = both ? eventName : 'all';
+      list = calls[ev];
+      if (list) {
+        for (i = 0, l = list.length; i &lt; l; i++) {
+          if (!(callback = list[i])) {
+            list.splice(i, 1); i--; l--;
+          } else {
+            args = both ? Array.prototype.slice.call(arguments, 1) : arguments;
+            callback.apply(this, args);
+          }
+        }
+      }
+    }
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_emit">
+    emit
+  </h3>
+  
+
+  <p><code>trigger</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeemit</td> 
+      <td></td>
+      <td>emit</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.emit = EventProxy.prototype.trigger;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_fire">
+    fire
+  </h3>
+  
+
+  <p><code>trigger</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypefire</td> 
+      <td></td>
+      <td>fire</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.fire = EventProxy.prototype.trigger;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_once">
+    once
+  </h3>
+  
+
+  <p>Bind an event like the bind method, but will remove the listener after it was fired.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.once()</td> 
+      <td></td>
+      <td>once</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>ev(String)</td>
+      <td colspan="2">Event name</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.once = function (ev, callback) {
+    var self = this;
+    var wrapper = function () {
+      callback.apply(self, arguments);
+      self.unbind(ev, wrapper);
+    };
+    this.bind(ev, wrapper);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_immediate">
+    immediate
+  </h3>
+  
+
+  <p>Bind an event, and trigger it immediately.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.immediate()</td> 
+      <td></td>
+      <td>immediate</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>ev(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>data(Mix)</td>
+      <td colspan="2">The data that will be passed to calback as arguments.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.immediate = function (ev, callback, data) {
+    this.bind(ev, callback);
+    this.trigger(ev, data);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_asap">
+    asap
+  </h3>
+  
+
+  <p><code>immediate</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeasap</td> 
+      <td></td>
+      <td>asap</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.asap = EventProxy.prototype.immediate;
+
+  var _assign = function (eventname1, eventname2, cb, once) {
+    var proxy = this, length, index = 0, argsLength = arguments.length,
+      bind, _all,
+      callback, events, isOnce, times = 0, flag = {};
+
+    // Check the arguments length.
+    if (argsLength &lt; 3) {
+      return this;
+    }
+
+    events = Array.prototype.slice.apply(arguments, [0, argsLength - 2]);
+    callback = arguments[argsLength - 2];
+    isOnce = arguments[argsLength - 1];
+
+    // Check the callback type.
+    if (typeof callback !== &quot;function&quot;) {
+      return this;
+    }
+
+    length = events.length;
+    bind = function (key) {
+      var method = isOnce ? &quot;once&quot; : &quot;bind&quot;;
+      proxy[method](key, function (data) {
+        proxy._fired[key] = proxy._fired[key] || {};
+        proxy._fired[key].data = data;
+        if (!flag[key]) {
+          flag[key] = true;
+          times++;
+        }
+      });
+    };
+
+    for (index = 0; index &lt; length; index++) {
+      bind(events[index]);
+    }
+
+    _all = function (event) {
+      if (times &lt; length) {
+        return;
+      }
+      if (!flag[event]) {
+        return;
+      }
+      var data = [];
+      for (index = 0; index &lt; length; index++) {
+        data.push(proxy._fired[events[index]].data);
+      }
+      if (isOnce) {
+        proxy.unbind(&quot;all&quot;, _all);
+      }
+      callback.apply(null, data);
+    };
+    proxy.bind(&quot;all&quot;, _all);
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_all">
+    all
+  </h3>
+  
+
+  <p>Assign some events, after all events were fired, the callback will be executed once.</p>
+
+<h2>Examples</h2>
+
+<div class="highlight"><pre lang="">proxy.all(ev1, ev2, callback);
+proxy.all([ev1, ev2], callback);
+proxy.all(ev1, [ev2, ev3], callback);
+</pre></div>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.all()</td> 
+      <td></td>
+      <td>all</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName1(String)</td>
+      <td colspan="2">First event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName2(String)</td>
+      <td colspan="2">Second event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback, that will be called after predefined events were fired.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.all = function (eventname1, eventname2, callback) {
+    var args = Array.prototype.concat.apply([], arguments);
+    args.push(true);
+    _assign.apply(this, args);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_assign">
+    assign
+  </h3>
+  
+
+  <p><code>all</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeassign</td> 
+      <td></td>
+      <td>assign</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assign = EventProxy.prototype.all;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_fail">
+    fail
+  </h3>
+  
+
+  <p>Assign the only one 'error' event handler.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.fail()</td> 
+      <td></td>
+      <td>fail</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function(err))</td>
+      <td colspan="2"></td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.fail = function (callback) {
+    var that = this;
+    that.once('error', function (err) {
+      that.unbind();
+      callback(err);
+    });
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_tail">
+    tail
+  </h3>
+  
+
+  <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.</p>
+
+<h2>Examples</h2>
+
+<div class="highlight"><pre lang="">proxy.tail(ev1, ev2, callback);
+proxy.tail([ev1, ev2], callback);
+proxy.tail(ev1, [ev2, ev3], callback);
+</pre></div>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.tail()</td> 
+      <td></td>
+      <td>tail</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName1(String)</td>
+      <td colspan="2">First event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName2(String)</td>
+      <td colspan="2">Second event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback, that will be called after predefined events were fired.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.tail = function () {
+    var args = Array.prototype.concat.apply([], arguments);
+    args.push(false);
+    _assign.apply(this, args);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_assignAll">
+    assignAll
+  </h3>
+  
+
+  <p><code>tail</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeassignAll</td> 
+      <td></td>
+      <td>assignAll</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assignAll = EventProxy.prototype.tail;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_assignAlways">
+    assignAlways
+  </h3>
+  
+
+  <p><code>tail</code> alias</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>属性</td>
+      <td>EventProxy.prototypeassignAlways</td> 
+      <td></td>
+      <td>assignAlways</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assignAlways = EventProxy.prototype.tail;</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_after">
+    after
+  </h3>
+  
+
+  <p>The callback will be executed after the event be fired N times.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.after()</td> 
+      <td></td>
+      <td>after</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>times(Mumber)</td>
+      <td colspan="2">N times.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback, that will be called after event was fired N times.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.after = function (eventName, times, callback) {
+    if (times === 0) {
+      callback.call(null, []);
+      return this;
+    }
+    var proxy = this,
+      firedData = [],
+      all;
+    all = function (name, data) {
+      if (name === eventName) {
+        times--;
+        firedData.push(data);
+        if (times &lt; 1) {
+          proxy.unbind(&quot;all&quot;, all);
+          callback.apply(null, [firedData]);
+        }
+      }
+    };
+    proxy.bind(&quot;all&quot;, all);
+    return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_any">
+    any
+  </h3>
+  
+
+  <p>The callback will be executed after any registered event was fired. It only executed once.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.any()</td> 
+      <td></td>
+      <td>any</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName1(string)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName2(string)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(function)</td>
+      <td colspan="2">The callback will get a map that has data and eventName attributes.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.any = function () {
+    var proxy = this,
+      index,
+      _bind,
+      len = arguments.length,
+      callback = arguments[len - 1],
+      events = Array.prototype.slice.apply(arguments, [0, len - 1]),
+      count = events.length,
+      _eventName = events.join(&quot;_&quot;);
+
+    proxy.once(_eventName, callback);
+
+    _bind = function (key) {
+      proxy.bind(key, function (data) {
+        proxy.trigger(_eventName, {&quot;data&quot;: data, eventName: key});
+      });
+    };
+
+    for (index = 0; index &lt; count; index++) {
+      _bind(events[index]);
+    }
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_not">
+    not
+  </h3>
+  
+
+  <p>The callback will be executed when the evnet name not equals with assigned evnet.</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.not()</td> 
+      <td></td>
+      <td>not</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(string)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(function)</td>
+      <td colspan="2">Callback.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.not = function (eventName, callback) {
+    var proxy = this;
+    proxy.bind(&quot;all&quot;, function (name, data) {
+      if (name !== eventName) {
+        callback(data);
+      }
+    });
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_done">
+    done
+  </h3>
+  
+
+  <p>Success callback wraper, will handler err for you.</p>
+
+<div class="highlight"><pre lang="js">fs.readFile('foo.txt', ep.done('content'));
+
+// equal to =>
+
+fs.readFile('foo.txt', function (err, content) {
+  if (err) {
+    return ep.emit('error', err);
+  }
+  ep.emit('content', content);
+});
+</pre></div>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.done()</td> 
+      <td></td>
+      <td>done</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>handler,(Function,String)</td>
+      <td colspan="2">success callback or event name will be emit after callback.</td>
+    </tr>
+  
+
+    <tr>
+      <td>返回</td>
+      <td>Function</td>
+      <td colspan="2"></td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.done = function (handler) {
+    var that = this;
+    return function (err, data) {
+      if (err) {
+        return that.emit('error', err);
+      }
+
+      // getAsync(query, ep.done('query'));
+      if (typeof handler === 'string') {
+        return that.emit(handler, data);
+      }
+
+      // speed improve for mostly case: `callback(err, data)`
+      if (arguments.length &lt;= 2) {
+        return handler(data);
+      }
+
+      // callback(err, args1, args2, ...)
+      var args = Array.prototype.slice.call(arguments, 1);
+      handler.apply(null, args);
+    };
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="EventProxy_create">
+    create
+  </h3>
+  
+
+  <p>Create a new EventProxy</p>
+
+<h2>Examples</h2>
+
+<p>```<br />var ep = EventProxy.create();<br />ep.assign('user', 'articles', function(user, articles) {<br />  // do something...<br />});<br />// or one line ways: Create EventProxy and Assign<br />var ep = EventProxy.create('user', 'articles', function(user, articles) {<br />  // do something...<br />});</p>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.create()</td> 
+      <td>EventProxy</td>
+      <td>create</td>
+    </tr>
+  
+
+    <tr>
+      <td>undefined</td>
+      <td>undefined</td>
+      <td>undefined</td>
+      <td>undefined</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.create = function () {
+    var ep = new EventProxy();
+    var args = Array.prototype.concat.apply([], arguments);
+    if (args.length) {
+      var errorHandler = args[args.length - 1];
+      var callback = args[args.length - 2];
+      if (typeof errorHandler === 'function' &amp;&amp; typeof callback === 'function') {
+        args.pop();
+        ep.fail(errorHandler);
+      }
+      ep.assign.apply(ep, Array.prototype.slice.call(args));
+    }
+    return ep;
+  };
+
+  // Backwards compatibility
+  EventProxy.EventProxy = EventProxy;
+
+  return EventProxy;
+});</code></pre></td>
+    </tr>
+  
+  </table>
+  
+</section>
+      
+    </div>
+  </div>
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="pull-right">
+            <a href="#">Back to top</a>
+          </p>
+          <p>此文档通过doxmate生成。主题借鉴Bootstrap API文档风格，注解基于<a href="https://github.com/visionmedia/dox">Dox</a>。欢迎关注doxmate作者<a href="http://weibo.com/shyvo" target="_blank">@朴灵</a></p>
+          <ul class="footer-links">
+            <li><a href="https://github.com/visionmedia/dox">Dox主页</a></li>
+            <li><a href="http://html5ify.com/doxmate">Doxmate主页</a></li>
+            <li><a href="https://github.com/JacksonTian/doxmate/issues?state=open">提交bug</a></li>
+          </ul>
+      </div>
+    </footer>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        var $window = $(window);
+        $('.bs-docs-sidenav').affix({
+          offset: {
+            top: function () {
+              return $window.width() <= 980 ? 290 : 210
+            },
+            bottom: 270
+          }
+        });
+        $(".content").find('h1, h2, h3, h4, h5, h6').each(function () {
+          var node = $(this);
+          if (!node.attr("id")) {
+            node.attr("id", "index_" + node.text());
+          }
+          node.css("paddingTop", 40);
+        });
+      });
+    </script>
+  
+  </body>
+</html>

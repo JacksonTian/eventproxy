@@ -1,84 +1,460 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8'>
+  <head>
+    <meta charset="utf-8" />
+    <title>eventproxy Documentation</title>
+    <meta name="keywords" content="event,task-base,event machine,nested callback terminator" />
+    <meta name="description" content="An implementation of task/event based asynchronous pattern." />
+    <script src="assets/prettify.js"></script>
+    <script src="assets/jquery-1.8.2.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/base.css" />
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="./index.html">eventproxy</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+            
+              <li>
+                <a href="./api.html">API Docs</a>
+              </li>
+            
+            
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header class="jumbotron subhead">
+      <div class="container">
+        <h1>eventproxy <small>Version: 0.2.1 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
+        <p class="lead">
+          An implementation of task/event based asynchronous pattern.
+        </p>
+      </div>
+    </header>
+<div class="container content">
+  <div class="row">
+  	<div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav affix">
 
-  <title>JacksonTian/EventProxy @ GitHub</title>
+  <li class="level_2">
+    <a href="#index_安装" title="安装">
+      <i class="icon-chevron-right"></i>安装
+    </a>
+  </li>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #a0b9fa;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
+  <li class="level_2">
+    <a href="#index_异步协作" title="异步协作">
+      <i class="icon-chevron-right"></i>异步协作
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_基本事件" title="基本事件">
+      <i class="icon-chevron-right"></i>基本事件
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_异常处理" title="异常处理">
+      <i class="icon-chevron-right"></i>异常处理
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_注意事项" title="注意事项">
+      <i class="icon-chevron-right"></i>注意事项
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_贡献者们" title="贡献者们">
+      <i class="icon-chevron-right"></i>贡献者们
+    </a>
+  </li>
+
+  <li class="level_2">
+    <a href="#index_License " title="License ">
+      <i class="icon-chevron-right"></i>License 
+    </a>
+  </li>
+
+</ul>
+
+    </div>
+    <div class="span9">
+      <section>
+        <h1>EventProxy <a href="http://travis-ci.org/JacksonTian/eventproxy"><img src="https://secure.travis-ci.org/JacksonTian/eventproxy.png" alt="Build Status"></a></h1>
+<blockquote>
+<p>这个世界上不存在所谓回调函数深度嵌套的问题。 —— <a href="http://weibo.com/shyvo">Jackson Tian</a>
+
+</p>
+<p>世界上本没有嵌套回调，写得人多了，也便有了<code>}}}}}}}}}}}}</code>。 —— <a href="http://fengmk2.github.com">fengmk2</a>
+
+</p>
+</blockquote>
+<ul>
+<li>API文档: <a href="http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html">EventProxy API Documentation</a></li>
+<li>jscoverage: <a href="http://fengmk2.github.com/coverage/eventproxy.html">95%</a></li>
+</ul>
+<p>EventProxy 仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
+
+</p>
+<ol>
+<li>利用事件机制解耦复杂业务逻辑</li>
+<li>移除被广为诟病的深度callback嵌套问题</li>
+<li>将串行等待变成并行等待，提升多异步协作场景下的执行效率</li>
+<li>友好的Error handling</li>
+<li>无平台依赖，适合前后端，能用于浏览器和Node.js</li>
+<li>兼容CMD，AMD以及CommonJS模块环境</li>
+</ol>
+<p>现在的，无深度嵌套的，并行的
+
+</p>
+<pre><code>var ep = EventProxy.create(&quot;template&quot;, &quot;data&quot;, &quot;l10n&quot;, function (template, data, l10n) {
+  _.template(template, data, l10n);
+});
+
+$.get(&quot;template&quot;, function (template) {
+  // something
+  ep.emit(&quot;template&quot;, template);
+});
+$.get(&quot;data&quot;, function (data) {
+  // something
+  ep.emit(&quot;data&quot;, data);
+});
+$.get(&quot;l10n&quot;, function (l10n) {
+  // something
+  ep.emit(&quot;l10n&quot;, l10n);
+});</code></pre>
+<p>过去的，深度嵌套的，串行的。
+
+</p>
+<pre><code>var render = function (template, data) {
+  _.template(template, data);
+};
+$.get(&quot;template&quot;, function (template) {
+  // something
+  $.get(&quot;data&quot;, function (data) {
+    // something
+    $.get(&quot;l10n&quot;, function (l10n) {
+      // something
+      render(template, data, l10n);
+    });
+  });
+});</code></pre>
+<h2>安装</h2>
+<h3>Node用户</h3>
+<p>通过NPM安装即可使用：
+
+</p>
+<pre><code class="lang-bash">$ npm install eventproxy</code></pre>
+<p>调用:
+
+</p>
+<pre><code>var EventProxy = require(&#39;eventproxy&#39;);</code></pre>
+<h3>前端用户</h3>
+<p>以下示例均指向Github的源文件地址，您也可以<a href="https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js">下载源文件</a>到你自己的项目中。整个文件注释全面，带注释和空行，一共400多行。为保证EventProxy的易嵌入，项目暂不提供压缩版。用户可以自行采用Uglify、YUI Compressor或Google Closure Complier进行压缩。
+
+</p>
+<h4>普通环境</h4>
+<p>在页面中嵌入脚本即可使用：
+
+</p>
+<pre><code>&lt;script src=&quot;https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>使用：
+
+</p>
+<pre><code>// EventProxy此时是一个全局变量
+var ep = new EventProxy();</code></pre>
+<h4>SeaJS用户</h4>
+<p>SeaJS下只需配置别名，然后<code>require</code>引用即可使用。
+
+</p>
+<pre><code>// 配置
+seajs.config({
+  alias : {
+    &#39;eventproxy&#39; : &#39;https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js&#39;
+  }
+});
+// 使用
+seajs.use([&#39;eventproxy&#39;], function (EventProxy) {
+  // TODO
+});
+// 或者
+define(&#39;test&#39;, function(require, exports, modules) {
+  var EventProxy = require(&#39;eventproxy&#39;);
+});</code></pre>
+<h4>RequireJS用户</h4>
+<p>RequireJS实现的是AMD规范。
+
+</p>
+<pre><code>// 配置路径
+require.config({
+  paths: {
+    &quot;eventproxy&quot;: &quot;https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js&quot;
+  }
+});
+// 使用
+require([&quot;eventproxy&quot;], function(EventProxy) {
+  // TODO
+});</code></pre>
+<h2>异步协作</h2>
+<h3>多类型异步协作</h3>
+<p>此处以页面渲染为场景，渲染页面需要模板、数据。假设都需要异步读取。
+
+</p>
+<pre><code>var ep = new EventProxy();
+ep.all(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+  // 在所有指定的事件触发后，将会被调用执行
+  // 参数对应各自的事件名
+});
+fs.readFile(&#39;template.tpl&#39;, &#39;utf-8&#39;, function (err, content) {
+  ep.emit(&#39;tpl&#39;, content);
+});
+db.get(&#39;some sql&#39;, function (err, result) {
+  ep.emit(&#39;data&#39;, result);
+});</code></pre>
+<p><code>all</code>方法将handler注册到事件组合上。当注册的多个事件都触发后，将会调用handler执行，每个事件传递的数据，将会依照事件名顺序，传如handler作为参数。
+</p>
+<h4>快速创建</h4>
+<p>EventProxy提供了<code>create</code>静态方法，可以快速完成注册<code>all</code>事件。
+
+</p>
+<pre><code>var ep = EventProxy.create(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+  // TODO
+});</code></pre>
+<p>以上方法等效于
+
+</p>
+<pre><code>var ep = new EventProxy();
+ep.all(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+  // TODO
+});</code></pre>
+<h3>重复异步协作</h3>
+<p>此处以读取目录下的所有文件为例，在异步操作中，我们需要在所有异步调用结束后，执行某些操作。
+
+</p>
+<pre><code>var ep = new EventProxy();
+ep.after(&#39;got_file&#39;, files.length, function (list) {
+  // 在所有文件的异步执行结束后将被执行
+  // 所有文件的内容都存在list数组中
+});
+for (var i = 0; i &lt; files.length; i++) {
+  fs.readFile(files[i], &#39;utf-8&#39;, function (err, content) {
+    // 触发结果事件
+    ep.emit(&#39;got_file&#39;, content);
+  });
+}</code></pre>
+<p><code>after</code>方法适合重复的操作，比如读取10个文件，调用5次数据库等。将handler注册到N次相同事件的触发上。达到指定的触发数，handler将会被调用执行，每次触发的数据，将会按触发顺序，存为数组作为参数传入。
+
+</p>
+<h3>持续型异步协作</h3>
+<p>此处以股票为例，数据和模板都是异步获取，但是数据会是刷新，视图会重新刷新。
+
+</p>
+<pre><code>var ep = new EventProxy();
+ep.tail(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+  // 在所有指定的事件触发后，将会被调用执行
+  // 参数对应各自的事件名的最新数据
+});
+fs.readFile(&#39;template.tpl&#39;, &#39;utf-8&#39;, function (err, content) {
+  ep.emit(&#39;tpl&#39;, content);
+});
+setInterval(function () {
+  db.get(&#39;some sql&#39;, function (err, result) {
+    ep.emit(&#39;data&#39;, result);
+  });
+}, 2000);</code></pre>
+<p><code>tail</code>与<code>all</code>方法比较类似，都是注册到事件组合上。不同在于，指定事件都触发之后，如果事件依旧持续触发，将会在每次触发时调用handler，极像一条尾巴。
+
+
+</p>
+<h2>基本事件</h2>
+<p>通过事件实现异步协作是EventProxy的主要亮点。除此之外，它还是一个基本的事件库。携带如下基本API
+
+</p>
+<ul>
+<li><code>on</code>/<code>addListener</code>，绑定事件监听器</li>
+<li><code>emit</code>，触发事件</li>
+<li><code>once</code>，绑定只执行一次的事件监听器</li>
+<li><code>removeListener</code>，移除事件的监听器</li>
+<li><code>removeAllListeners</code>，移除单个事件或者所有事件的监听器</li>
+</ul>
+<p>为了照顾各个环境的开发者，上面的方法多具有别名。
+
+</p>
+<ul>
+<li>YUI3使用者，<code>subscribe</code>和<code>fire</code>你应该知道分别对应的是<code>on</code>/<code>addlistener</code>和<code>emit</code>。</li>
+<li>jQuery使用者，<code>trigger</code>对应的方法是<code>emit</code>，<code>bind</code>对应的就是<code>on</code>/<code>addlistener</code>。</li>
+<li><code>removeListener</code>和<code>removeAllListeners</code>其实都可以通过别名<code>unbind</code>完成。</li>
+</ul>
+<p>所以在你的环境下，选用你喜欢的API即可。
+
+</p>
+<p>更多API的描述请访问<a href="http://html5ify.com/eventproxy/api.html">API Docs</a>。
+</p>
+<h2>异常处理</h2>
+<p>在异步方法中，实际上，异常处理需要占用一定比例的精力。在过去一段时间内，我们都是通过额外添加<code>error</code>事件来进行处理的，代码大致如下：
+
+</p>
+<pre><code>exports.getContent = function (callback) {
+ var ep = new EventProxy();
+  ep.all(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+    // 成功回调
+    callback(null, {
+      template: tpl,
+      data: data
+    });
+  });
+  // 侦听error事件
+  ep.bind(&#39;error&#39;, function (err) {
+    // 卸载掉所有handler
+    ep.unbind();
+    // 异常回调
+    callback(err);
+  });
+  fs.readFile(&#39;template.tpl&#39;, &#39;utf-8&#39;, function (err, content) {
+    if (err) {
+      // 一旦发生异常，一律交给error事件的handler处理
+      return ep.emit(&#39;error&#39;, err);
     }
-    #container {
-      margin: 0 auto;
-      width: 700px;
+    ep.emit(&#39;tpl&#39;, content);
+  });
+  db.get(&#39;some sql&#39;, function (err, result) {
+    if (err) {
+      // 一旦发生异常，一律交给error事件的handler处理
+      return ep.emit(&#39;error&#39;, err);
     }
-    h1 { font-size: 3.8em; color: #5f4605; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #5f4605; }
-    h3 { text-align: center; color: #5f4605; }
-    a { color: #5f4605; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+    ep.emit(&#39;data&#39;, result);
+  });
+};</code></pre>
+<p>代码量因为异常的处理，一下子上去了很多。在这里EventProxy经过很多实践后，我们根据我们的最佳实践提供了优化的错误处理方案。
 
-<body>
-  <a href="https://github.com/JacksonTian/eventproxy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+</p>
+<pre><code>exports.getContent = function (callback) {
+ var ep = new EventProxy();
+  ep.all(&#39;tpl&#39;, &#39;data&#39;, function (tpl, data) {
+    // 成功回调
+    callback(null, {
+      template: tpl,
+      data: data
+    });
+  });
+  // 添加error handler
+  ep.fail(callback);
 
-  <div id="container">
+  fs.readFile(&#39;template.tpl&#39;, &#39;utf-8&#39;, ep.done(&#39;tpl&#39;));
+  db.get(&#39;some sql&#39;, ep.done(&#39;data&#39;));
+};</code></pre>
+<p>上述代码优化之后，业务开发者几乎不用关心异常处理了。代码量降低效果明显。<br>这里代码的转换，也许有开发者并不放心。其实秘诀在<code>fail</code>方法和<code>done</code>方法中。
 
-    <div class="download">
-      <a href="http://github.com/JacksonTian/eventproxy/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/JacksonTian/eventproxy/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+</p>
+<h3>神奇的fail</h3>
+<pre><code>ep.fail(callback);
+// 由于参数位相同，它实际是
+ep.fail(function (err) {
+  callback(err);
+});
+// 等价于
+ep.bind(&#39;error&#39;, function (err) {
+  // 卸载掉所有handler
+  ep.unbind();
+  // 异常回调
+  callback(err);
+});</code></pre>
+<p><code>fail</code>方法侦听了<code>error</code>事件，默认处理卸载掉所有handler，并调用回调函数。
+
+</p>
+<h3>神奇的done</h3>
+<pre><code>ep.done(&#39;tpl&#39;);
+// 等价于
+function (err, content) {
+  if (err) {
+    // 一旦发生异常，一律交给error事件的handler处理
+    return ep.emit(&#39;error&#39;, err);
+  }
+  ep.emit(&#39;tpl&#39;, content);
+}</code></pre>
+<p>在Node的最佳实践中，回调函数第一个参数一定会是一个<code>error</code>对象。检测到异常后，将会触发<code>error</code>事件。剩下的参数，将触发事件，传递给对应handler处理。
+
+</p>
+<h4>done也接受回调函数</h4>
+<p>done方法除了接受事件名外，还接受回调函数。如果是函数时，它将剔除第一个<code>error</code>对象(此时为<code>null</code>)后剩余的参数，传递给该回调函数作为参数。该回调函数无需考虑异常处理。
+
+</p>
+<pre><code>ep.done(function (content) {
+  // 这里无需考虑异常
+});</code></pre>
+<h2>注意事项</h2>
+<ul>
+<li>请勿使用<code>all</code>作为业务中的事件名。该事件名为保留事件。</li>
+<li>异常处理部分，请遵循Node的最佳实践。</li>
+</ul>
+<h2>贡献者们</h2>
+<p>谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
+
+</p>
+<pre><code> project  : eventproxy
+ repo age : 1 year, 6 months
+ active   : 50 days
+ commits  : 123
+ files    : 24
+ authors  : 
+   113    Jackson Tian            91.9%
+     5    fengmk2                 4.1%
+     4    dead-horse              3.3%
+     1    yaoazhen                0.8%</code></pre>
+<h2>License</h2>
+<p><a href="https://github.com/JacksonTian/eventproxy/blob/master/MIT-License">The MIT License</a>。请自由享受开源。
+</p>
+
+      </section>
     </div>
-
-    <h1><a href="http://github.com/JacksonTian/eventproxy">EventProxy</a>
-      <span class="small">by <a href="http://github.com/JacksonTian">JacksonTian</a></span></h1>
-
-    <div class="description">
-      Bussiness event proxy. Far away deep callback, and streamline.js.
-    </div>
-
-    <h2>License</h2>
-<p>MIT</p>
-<h2>Authors</h2>
-<p>Jackson Tian (shyvo1987@gmail.com)
-<br/>
-<br/>      </p>
-<h2>Contact</h2>
-<p>Jackson Tian (shyvo1987@gmail.com)
-<br/>      </p>
-<h2>Useful links</h2>
-<p><a href="http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html">API Documentation</a> <a href="http://eventproxy.html5ify.com/test/test.html">Unit Test</a>
-<br/>      </p>
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/JacksonTian/eventproxy/zipball/master">zip</a> or
-      <a href="http://github.com/JacksonTian/eventproxy/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/JacksonTian/eventproxy</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/JacksonTian/eventproxy">JacksonTian/eventproxy</a>
-    </div>
-
   </div>
-
+</div>
+      <footer class="footer">
+        <div class="container">
+          <p class="pull-right">
+            <a href="#">Back to top</a>
+          </p>
+          <p>此文档通过doxmate生成。主题借鉴Bootstrap API文档风格，注解基于<a href="https://github.com/visionmedia/dox">Dox</a>。欢迎关注doxmate作者<a href="http://weibo.com/shyvo" target="_blank">@朴灵</a></p>
+          <ul class="footer-links">
+            <li><a href="https://github.com/visionmedia/dox">Dox主页</a></li>
+            <li><a href="http://html5ify.com/doxmate">Doxmate主页</a></li>
+            <li><a href="https://github.com/JacksonTian/doxmate/issues?state=open">提交bug</a></li>
+          </ul>
+      </div>
+    </footer>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        var $window = $(window);
+        $('.bs-docs-sidenav').affix({
+          offset: {
+            top: function () {
+              return $window.width() <= 980 ? 290 : 210
+            },
+            bottom: 270
+          }
+        });
+        $(".content").find('h1, h2, h3, h4, h5, h6').each(function () {
+          var node = $(this);
+          if (!node.attr("id")) {
+            node.attr("id", "index_" + node.text());
+          }
+          node.css("paddingTop", 40);
+        });
+      });
+    </script>
   
-</body>
+  </body>
 </html>
