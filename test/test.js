@@ -5,6 +5,18 @@ var pedding = require('pedding');
 var fs = require('fs');
 
 describe("EventProxy", function () {
+  describe('constructor', function () {
+    it('should get an instanceOf EventProxy with new', function () {
+      var ep = new EventProxy();
+      ep.should.be.an.instanceOf(EventProxy);
+    });
+
+    it('should get an instanceOf EventProxy without new', function () {
+      var ep = EventProxy();
+      ep.should.be.an.instanceOf(EventProxy);
+    });
+  });
+
   it('create on line ways', function () {
     var counter = 0;
     var ep = EventProxy.create('event', function (data) {
@@ -40,6 +52,19 @@ describe("EventProxy", function () {
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should be incremented.');
     ep.unbind('event');
+    ep.trigger('event');
+    assert.equal(counter, 1, 'counter should have only been incremented once.');
+  });
+
+  it('bind, then remove all functions', function () {
+    var ep = EventProxy.create();
+    var counter = 0;
+    ep.bind('event', function () {
+        counter += 1;
+    });
+    ep.trigger('event');
+    assert.equal(counter, 1, 'counter should be incremented.');
+    ep.removeAllListeners('event');
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should have only been incremented once.');
   });
