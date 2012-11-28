@@ -5,7 +5,7 @@ EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.
 
 > 世界上本没有嵌套回调，写得人多了，也便有了`}}}}}}}}}}}}`。 —— [fengmk2](http://fengmk2.github.com)
 
-* API文档: [EventProxy API Documentation](http://eventproxy.html5ify.com/jsdoc/symbols/EventProxy.html)
+* API文档: [API Documentation](http://html5ify.com/eventproxy/api.html)
 * jscoverage: [95%](http://fengmk2.github.com/coverage/eventproxy.html)
 
 EventProxy 仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
