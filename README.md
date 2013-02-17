@@ -135,7 +135,7 @@ db.get('some sql', function (err, result) {
   ep.emit('data', result);
 });
 ```
-`all`方法将handler注册到事件组合上。当注册的多个事件都触发后，将会调用handler执行，每个事件传递的数据，将会依照事件名顺序，传如handler作为参数。
+`all`方法将handler注册到事件组合上。当注册的多个事件都触发后，将会调用handler执行，每个事件传递的数据，将会依照事件名顺序，传入handler作为参数。
 #### 快速创建
 EventProxy提供了`create`静态方法，可以快速完成注册`all`事件。
 
