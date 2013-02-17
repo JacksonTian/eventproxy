@@ -319,16 +319,20 @@ ep.done(function (content) {
 谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
 
 ```
+
  project  : eventproxy
- repo age : 1 year, 6 months
- active   : 50 days
- commits  : 123
- files    : 24
+ repo age : 1 year, 9 months
+ active   : 55 days
+ commits  : 132
+ files    : 18
  authors  : 
-   113	Jackson Tian            91.9%
-     5	fengmk2                 4.1%
-     4	dead-horse              3.3%
-     1	yaoazhen                0.8%
+   120  Jackson Tian            90.9%
+     5  fengmk2                 3.8%
+     4  dead-horse              3.0%
+     1  haoxin                  0.8%
+     1  redky                   0.8%
+     1  yaoazhen                0.8%
+
 ```
 
 ## License 
