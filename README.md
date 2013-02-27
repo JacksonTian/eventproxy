@@ -19,7 +19,7 @@ EventProxy 仅仅是一个很轻量的工具，但是能够带来一种事件式
 
 现在的，无深度嵌套的，并行的
 
-```
+```js
 var ep = EventProxy.create("template", "data", "l10n", function (template, data, l10n) {
   _.template(template, data, l10n);
 });
@@ -40,7 +40,7 @@ $.get("l10n", function (l10n) {
 
 过去的，深度嵌套的，串行的。
 
-```
+```js
 var render = function (template, data) {
   _.template(template, data);
 };
@@ -65,7 +65,7 @@ $ npm install eventproxy
 
 调用:
 
-```
+```js
 var EventProxy = require('eventproxy');
 ```
 ### 前端用户
@@ -74,12 +74,12 @@ var EventProxy = require('eventproxy');
 #### 普通环境
 在页面中嵌入脚本即可使用：
 
-```
+```html
 <script src="https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"></script>
 ```
 使用：
 
-```
+```js
 // EventProxy此时是一个全局变量
 var ep = new EventProxy();
 ```
@@ -87,11 +87,11 @@ var ep = new EventProxy();
 #### SeaJS用户
 SeaJS下只需配置别名，然后`require`引用即可使用。
 
-```
+```js
 // 配置
 seajs.config({
-  alias : {
-    'eventproxy' : 'https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js'
+  alias: {
+    eventproxy: 'https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js'
   }
 });
 // 使用
@@ -99,22 +99,23 @@ seajs.use(['eventproxy'], function (EventProxy) {
   // TODO
 });
 // 或者
-define('test', function(require, exports, modules) {
+define('test', function (require, exports, modules) {
   var EventProxy = require('eventproxy');
 });
 ```
+
 #### RequireJS用户
 RequireJS实现的是AMD规范。
 
-```
+```js
 // 配置路径
 require.config({
   paths: {
-    "eventproxy": "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"
+    eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"
   }
 });
 // 使用
-require(["eventproxy"], function(EventProxy) {
+require(["eventproxy"], function (EventProxy) {
   // TODO
 });
 ```
@@ -122,7 +123,7 @@ require(["eventproxy"], function(EventProxy) {
 ### 多类型异步协作
 此处以页面渲染为场景，渲染页面需要模板、数据。假设都需要异步读取。
 
-```
+```js
 var ep = new EventProxy();
 ep.all('tpl', 'data', function (tpl, data) {
   // 在所有指定的事件触发后，将会被调用执行
@@ -135,27 +136,30 @@ db.get('some sql', function (err, result) {
   ep.emit('data', result);
 });
 ```
+
 `all`方法将handler注册到事件组合上。当注册的多个事件都触发后，将会调用handler执行，每个事件传递的数据，将会依照事件名顺序，传入handler作为参数。
 #### 快速创建
 EventProxy提供了`create`静态方法，可以快速完成注册`all`事件。
 
-```
+```js
 var ep = EventProxy.create('tpl', 'data', function (tpl, data) {
   // TODO
 });
 ```
+
 以上方法等效于
 
-```
+```js
 var ep = new EventProxy();
 ep.all('tpl', 'data', function (tpl, data) {
   // TODO
 });
 ```
+
 ### 重复异步协作
 此处以读取目录下的所有文件为例，在异步操作中，我们需要在所有异步调用结束后，执行某些操作。
 
-```
+```js
 var ep = new EventProxy();
 ep.after('got_file', files.length, function (list) {
   // 在所有文件的异步执行结束后将被执行
@@ -168,12 +172,13 @@ for (var i = 0; i < files.length; i++) {
   });
 }
 ```
+
 `after`方法适合重复的操作，比如读取10个文件，调用5次数据库等。将handler注册到N次相同事件的触发上。达到指定的触发数，handler将会被调用执行，每次触发的数据，将会按触发顺序，存为数组作为参数传入。
 
 ### 持续型异步协作
 此处以股票为例，数据和模板都是异步获取，但是数据会是刷新，视图会重新刷新。
 
-```
+```js
 var ep = new EventProxy();
 ep.tail('tpl', 'data', function (tpl, data) {
   // 在所有指定的事件触发后，将会被调用执行
@@ -210,10 +215,11 @@ setInterval(function () {
 所以在你的环境下，选用你喜欢的API即可。
 
 更多API的描述请访问[API Docs](http://html5ify.com/eventproxy/api.html)。
+
 ## 异常处理
 在异步方法中，实际上，异常处理需要占用一定比例的精力。在过去一段时间内，我们都是通过额外添加`error`事件来进行处理的，代码大致如下：
 
-```
+```js
 exports.getContent = function (callback) {
  var ep = new EventProxy();
   ep.all('tpl', 'data', function (tpl, data) {
@@ -246,9 +252,10 @@ exports.getContent = function (callback) {
   });
 };
 ```
+
 代码量因为异常的处理，一下子上去了很多。在这里EventProxy经过很多实践后，我们根据我们的最佳实践提供了优化的错误处理方案。
 
-```
+```js
 exports.getContent = function (callback) {
  var ep = new EventProxy();
   ep.all('tpl', 'data', function (tpl, data) {
@@ -271,12 +278,13 @@ exports.getContent = function (callback) {
 
 ### 神奇的fail
 
-```
+```js
 ep.fail(callback);
 // 由于参数位相同，它实际是
 ep.fail(function (err) {
   callback(err);
 });
+
 // 等价于
 ep.bind('error', function (err) {
   // 卸载掉所有handler
@@ -289,7 +297,8 @@ ep.bind('error', function (err) {
 `fail`方法侦听了`error`事件，默认处理卸载掉所有handler，并调用回调函数。
 
 ### 神奇的done
-```
+
+```js
 ep.done('tpl');
 // 等价于
 function (err, content) {
@@ -300,26 +309,27 @@ function (err, content) {
   ep.emit('tpl', content);
 }
 ```
+
 在Node的最佳实践中，回调函数第一个参数一定会是一个`error`对象。检测到异常后，将会触发`error`事件。剩下的参数，将触发事件，传递给对应handler处理。
 
 #### done也接受回调函数
 done方法除了接受事件名外，还接受回调函数。如果是函数时，它将剔除第一个`error`对象(此时为`null`)后剩余的参数，传递给该回调函数作为参数。该回调函数无需考虑异常处理。
 
-```
+```js
 ep.done(function (content) {
   // 这里无需考虑异常
 });
 ```
+
 ## 注意事项
 
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
 - 异常处理部分，请遵循Node的最佳实践。
 
-## 贡献者们
+## [贡献者们](https://github.com/JacksonTian/eventproxy/graphs/contributors)
 谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
 
-```
-
+```bash
  project  : eventproxy
  repo age : 1 year, 9 months
  active   : 55 days
