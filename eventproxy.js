@@ -23,6 +23,8 @@
         if (!(this instanceof EventProxy)) {
             return new EventProxy();
         }
+        //to save the "all-event" list;
+		this._allList = {};
         this._callbacks = {};
         this._fired = {};
     };
@@ -197,12 +199,38 @@
             if (isOnce) {
                 proxy.unbind("all", _all);
             }
-
             callback.apply(null, data);
         };
+        proxy._allList[events]=proxy._allList[events]||[];
+        proxy._allList[events].push({all:_all,cb:callback});
         proxy.bind("all", _all);
     };
 
+	/**
+	 * @description 
+	 * @example
+	 * proxy.unassign(ev1, ev2, callback);
+	 * proxy.unassign(ev1, ev2, callback1);
+	 * proxy.unassign(ev1, ev2, callback);
+	 * @param {string} eventname1 First event name.
+	 * @param {string} eventname2 Second event name.
+     * @param {function} cb callback, anonymous function don't work
+	 */
+	EventProxy.prototype.unassign = function(eventname1, eventname2, cb){
+		var proxy = this,callback, events , argsLength = arguments.length;
+        events = Array.prototype.slice.apply(arguments, [0, argsLength - 1]);
+        callback = arguments[argsLength - 1];
+        if(proxy._allList[events]){
+        	var _list = proxy._allList[events];
+        	for(var i=_list.length-1;i>-1;i--){
+        		if(_list[i].cb==callback){
+        			proxy.unbind("all", _list[i].all);
+        			delete proxy._allList[events][i];
+        			return proxy;
+        		}
+        	}
+        }
+	};
     /**
      * @description Assign some events, after all events were fired, the callback will be executed once.
      * @example
