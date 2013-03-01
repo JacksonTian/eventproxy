@@ -1,24 +1,37 @@
 {
-  "name"          : "eventproxy",
-  "description"   : "An implementation of task/event based asynchronous pattern.",
-  "homepage"      : "https://github.com/JacksonTian/eventproxy",
-  "keywords"      : ["event", "task-base", "event machine", "nested callback terminator"],
-  "author"        : "Jackson Tian <shyvo1987@gmail.com>",
-  "contributors"  : [
-    { "name": "Jackson Tian", "email": "shyvo1987@gmail.com" },
-    { "name": "fengmk2", "email": "fengmk2@gmail.com" }
+  "name": "eventproxy",
+  "description": "An implementation of task/event based asynchronous pattern.",
+  "homepage": "https://github.com/JacksonTian/eventproxy",
+  "keywords": [
+    "event",
+    "task-base",
+    "event machine",
+    "nested callback terminator"
   ],
-  "dependencies"  : {},
+  "author": "Jackson Tian <shyvo1987@gmail.com>",
+  "contributors": [
+    "Jackson Tian <shyvo1987@gmail.com>",
+    "fengmk2 <fengmk2@gmail.com>"
+  ],
+  "dependencies": {},
   "devDependencies": {
-    "expresso": ">= 0.9.2"
+    "mocha": "*",
+    "jscover": "*",
+    "pedding": "*",
+    "chai": "*"
   },
   "scripts": {
-    "test": "expresso test/eventproxy.test.js"
+    "test": "make test"
   },
-  "repository"    : {
-    "type": "git", 
+  "repository": {
+    "type": "git",
     "url": "git://github.com/JacksonTian/eventproxy.git"
   },
-  "main"          : "eventproxy.js",
-  "version"       : "0.1.2"
+  "version": "0.2.1",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "license": "MIT"
 }

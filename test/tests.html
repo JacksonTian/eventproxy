@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>EventProxy Test Suite</title>
+  <link rel="stylesheet" href="mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+  <script src="chai.js"></script>
+  <script src="mocha.js"></script>
+  <script src="../lib/eventproxy.js"></script>
+  <script>
+    mocha.setup({ui: 'bdd',ignoreLeaks: true});
+    var assert = chai.assert;
+    describe('EventProxy', function () {
+      it('EventProxy should have create', function () {
+        assert.isFunction(EventProxy, "EventProxy is a function");
+        assert.isFunction(EventProxy.EventProxy, "EventProxy.EventProxy is a function");
+      });
+    });
+    mocha.run();
+  </script>
+</body>
+</html>
