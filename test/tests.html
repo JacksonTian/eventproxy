@@ -18,7 +18,41 @@
         assert.isFunction(EventProxy, "EventProxy is a function");
         assert.isFunction(EventProxy.EventProxy, "EventProxy.EventProxy is a function");
       });
+      
+      it('assign, then unassign some functions', function () {
+	    var ep = new EventProxy();
+	    var counter = 0;
+	    var fun2times = 0;
+	    var fun1 = function(){
+	    	counter += 1;
+	    }
+	    var fun2 = function(){
+	    	counter += 1;
+	    	fun2times +=1;
+	    }
+	    ep.assign('event1','event2', fun1);
+	    ep.assign('event1','event2', fun2);
+	    ep.assign('event1','event2','event3', fun2);
+	    ep.trigger('event1');
+	    ep.trigger('event2');
+	    ep.trigger('event3');
+	    assert.equal(counter, 3, 'counter should be incremented.');
+	    assert.equal(fun2times, 2, 'fun2 should have been executed twice.');
+	    counter = 0;
+	    fun2times = 0;
+	    ep.assign('event1','event2', fun1);
+	    ep.assign('event1','event2', fun2);
+	    ep.assign('event1','event2','event3', fun2);
+	    ep.unassign('event1','event2', fun2);
+	    ep.trigger('event1');
+	    ep.trigger('event2');
+	    ep.trigger('event3');
+	    assert.equal(counter, 2, 'counter should have been incremented twice.');
+	    assert.equal(fun2times, 1, 'fun2 should only been executed once.');
+	  });
     });
+    
+    
     mocha.run();
   </script>
 </body>
