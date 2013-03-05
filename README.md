@@ -366,17 +366,17 @@ ep.group('got_file', function (data) {
 
 ```bash
  project  : eventproxy
- repo age : 1 year, 9 months
- active   : 55 days
- commits  : 132
+ repo age : 1 year, 10 months
+ active   : 58 days
+ commits  : 136
  files    : 18
  authors  : 
-   120  Jackson Tian            90.9%
-     5  fengmk2                 3.8%
-     4  dead-horse              3.0%
-     1  haoxin                  0.8%
-     1  redky                   0.8%
-     1  yaoazhen                0.8%
+   123  Jackson Tian            90.4%
+     6  fengmk2                 4.4%
+     4  dead-horse              2.9%
+     1  haoxin                  0.7%
+     1  redky                   0.7%
+     1  yaoazhen                0.7%
 
 ```
 
