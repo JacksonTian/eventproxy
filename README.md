@@ -216,6 +216,8 @@ setInterval(function () {
 
 更多API的描述请访问[API Docs](http://html5ify.com/eventproxy/api.html)。
 
+如果对源码感兴趣请看[注解文档](http://html5ify.com/eventproxy/eventproxy.html)
+
 ## 异常处理
 在异步方法中，实际上，异常处理需要占用一定比例的精力。在过去一段时间内，我们都是通过额外添加`error`事件来进行处理的，代码大致如下：
 
