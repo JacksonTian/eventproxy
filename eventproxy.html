@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>eventproxy.js</title>
+  <meta charset="utf-8" />
+  <script src="assets/prettify.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/doxco.css" />
+  <style>
+  </style>
+</head>
+<body>
+<div id="container">
+  <div id="background"></div>
+  <table>
+    <tr>
+      <th class="docs"><h1>eventproxy.js</h1></th><th class="code"></th>
+    </tr>
+  
+    <tr id="section-1">
+      <td class="docs">
+        <p>This file is used for define the EventProxy library.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">;(function (name, definition) {</pre></td>
+    </tr>
+  
+    <tr id="section-2">
+      <td class="docs">
+        <p>this is considered &quot;safe&quot;:</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">  var hasDefine = typeof define === 'function',</pre></td>
+    </tr>
+  
+    <tr id="section-3">
+      <td class="docs">
+        <p>hasDefine = typeof define === &#39;function&#39;,</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    hasExports = typeof module !== 'undefined' && module.exports;
+
+  if (hasDefine) {</pre></td>
+    </tr>
+  
+    <tr id="section-4">
+      <td class="docs">
+        <p>AMD Module or CMD Module</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    define(definition);
+  } else if (hasExports) {</pre></td>
+    </tr>
+  
+    <tr id="section-5">
+      <td class="docs">
+        <p>Node.js Module</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    module.exports = definition();
+  } else {</pre></td>
+    </tr>
+  
+    <tr id="section-6">
+      <td class="docs">
+        <p>Assign to common namespaces or simply the global object (window)</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    this[name] = definition();
+  }
+})('EventProxy', function () {</pre></td>
+    </tr>
+  
+    <tr id="section-7">
+      <td class="docs">
+        <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">var render = function (template, resources) {};
+var proxy = new EventProxy();
+proxy.assign("template", "l10n", render);
+proxy.trigger("template", template);
+proxy.trigger("l10n", resources);
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">var EventProxy = function () {
+    if (!(this instanceof EventProxy)) {
+      return new EventProxy();
+    }
+    this._callbacks = {};
+    this._fired = {};
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-8">
+      <td class="docs">
+        <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <code>all</code> will bind the callback to all events fired.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.addListener = function (ev, callback) {
+    this._callbacks = this._callbacks || {};
+    this._callbacks[ev] = this._callbacks[ev] || [];
+    this._callbacks[ev].push(callback);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-9">
+      <td class="docs">
+        <p><code>addListener</code> alias, bind</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.bind = EventProxy.prototype.addListener;</pre></td>
+    </tr>
+  
+    <tr id="section-10">
+      <td class="docs">
+        <p><code>addListener</code> alias, on</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.on = EventProxy.prototype.addListener;</pre></td>
+    </tr>
+  
+    <tr id="section-11">
+      <td class="docs">
+        <p><code>addListener</code> alias, subscribe</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.subscribe = EventProxy.prototype.addListener;</pre></td>
+    </tr>
+  
+    <tr id="section-12">
+      <td class="docs">
+        <p>Remove one or many callbacks. If <code>callback</code> is null, removes all callbacks for the event.<br />If <code>ev</code> is null, removes all bound callbacks<br />for all events.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.removeListener = function (ev, callback) {
+    var calls = this._callbacks, i, l;
+    if (!ev) {
+      this._callbacks = {};
+    } else if (calls) {
+      if (!callback) {
+        calls[ev] = [];
+      } else {
+        var list = calls[ev];
+        if (!list) {
+          return this;
+        }
+        l = list.length;
+        for (i = 0; i < l; i++) {
+          if (callback === list[i]) {
+            list[i] = null;
+            break;
+          }
+        }
+      }
+    }
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-13">
+      <td class="docs">
+        <p><code>removeListener</code> alias, unbind</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.unbind = EventProxy.prototype.removeListener;</pre></td>
+    </tr>
+  
+    <tr id="section-14">
+      <td class="docs">
+        <p>Remove all listeners. It equals unbind()<br />Just add this API for as same as Event.Emitter.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.removeAllListeners = function (event) {
+    return this.unbind(event);
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-15">
+      <td class="docs">
+        <p>Trigger an event, firing all bound callbacks. Callbacks are passed the<br />same arguments as <code>trigger</code> is, apart from the event name.<br />Listening for <code>"all"</code> passes the true event name as the first argument.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.trigger = function (eventName, data) {
+    var list, ev, callback, args, i, l;
+    var both = 2;
+    var calls = this._callbacks;
+    while (both--) {
+      ev = both ? eventName : 'all';
+      list = calls[ev];
+      if (list) {
+        for (i = 0, l = list.length; i < l; i++) {
+          if (!(callback = list[i])) {
+            list.splice(i, 1); i--; l--;
+          } else {
+            args = both ? Array.prototype.slice.call(arguments, 1) : arguments;
+            callback.apply(this, args);
+          }
+        }
+      }
+    }
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-16">
+      <td class="docs">
+        <p><code>trigger</code> alias</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.emit = EventProxy.prototype.trigger;</pre></td>
+    </tr>
+  
+    <tr id="section-17">
+      <td class="docs">
+        <p><code>trigger</code> alias</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.fire = EventProxy.prototype.trigger;</pre></td>
+    </tr>
+  
+    <tr id="section-18">
+      <td class="docs">
+        <p>Bind an event like the bind method, but will remove the listener after it was fired.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.once = function (ev, callback) {
+    var self = this;
+    var wrapper = function () {
+      callback.apply(self, arguments);
+      self.unbind(ev, wrapper);
+    };
+    this.bind(ev, wrapper);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-19">
+      <td class="docs">
+        <p>Bind an event, and trigger it immediately.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.immediate = function (ev, callback, data) {
+    this.bind(ev, callback);
+    this.trigger(ev, data);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-20">
+      <td class="docs">
+        <p><code>immediate</code> alias</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.asap = EventProxy.prototype.immediate;
+
+  var _assign = function (eventname1, eventname2, cb, once) {
+    var proxy = this, length, index = 0, argsLength = arguments.length,
+      bind, _all,
+      callback, events, isOnce, times = 0, flag = {};
+</pre></td>
+    </tr>
+  
+    <tr id="section-21">
+      <td class="docs">
+        <p>Check the arguments length.</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    if (argsLength < 3) {
+      return this;
+    }
+
+    events = Array.prototype.slice.apply(arguments, [0, argsLength - 2]);
+    callback = arguments[argsLength - 2];
+    isOnce = arguments[argsLength - 1];
+</pre></td>
+    </tr>
+  
+    <tr id="section-22">
+      <td class="docs">
+        <p>Check the callback type.</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">    if (typeof callback !== "function") {
+      return this;
+    }
+
+    length = events.length;
+    bind = function (key) {
+      var method = isOnce ? "once" : "bind";
+      proxy[method](key, function (data) {
+        proxy._fired[key] = proxy._fired[key] || {};
+        proxy._fired[key].data = data;
+        if (!flag[key]) {
+          flag[key] = true;
+          times++;
+        }
+      });
+    };
+
+    for (index = 0; index < length; index++) {
+      bind(events[index]);
+    }
+
+    _all = function (event) {
+      if (times < length) {
+        return;
+      }
+      if (!flag[event]) {
+        return;
+      }
+      var data = [];
+      for (index = 0; index < length; index++) {
+        data.push(proxy._fired[events[index]].data);
+      }
+      if (isOnce) {
+        proxy.unbind("all", _all);
+      }
+      callback.apply(null, data);
+    };
+    proxy.bind("all", _all);
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-23">
+      <td class="docs">
+        <p>Assign some events, after all events were fired, the callback will be executed once.<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">proxy.all(ev1, ev2, callback);
+proxy.all([ev1, ev2], callback);
+proxy.all(ev1, [ev2, ev3], callback);
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.all = function (eventname1, eventname2, callback) {
+    var args = Array.prototype.concat.apply([], arguments);
+    args.push(true);
+    _assign.apply(this, args);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-24">
+      <td class="docs">
+        <p><code>all</code> alias</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.assign = EventProxy.prototype.all;</pre></td>
+    </tr>
+  
+    <tr id="section-25">
+      <td class="docs">
+        <p>Assign the only one 'error' event handler.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.fail = function (callback) {
+    var that = this;
+    that.once('error', function (err) {
+      that.unbind();
+      callback(err);
+    });
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-26">
+      <td class="docs">
+        <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">proxy.tail(ev1, ev2, callback);
+proxy.tail([ev1, ev2], callback);
+proxy.tail(ev1, [ev2, ev3], callback);
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.tail = function () {
+    var args = Array.prototype.concat.apply([], arguments);
+    args.push(false);
+    _assign.apply(this, args);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-27">
+      <td class="docs">
+        <p><code>tail</code> alias, assignAll</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.assignAll = EventProxy.prototype.tail;</pre></td>
+    </tr>
+  
+    <tr id="section-28">
+      <td class="docs">
+        <p><code>tail</code> alias, assignAlways</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.assignAlways = EventProxy.prototype.tail;</pre></td>
+    </tr>
+  
+    <tr id="section-29">
+      <td class="docs">
+        <p>The callback will be executed after the event be fired N times.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.after = function (eventName, times, callback) {
+    if (times === 0) {
+      callback.call(null, []);
+      return this;
+    }
+    var proxy = this,
+      firedData = [],
+      all;
+    this._after = this._after || {};
+    var group = eventName + '_group';
+    this._after[group] = {
+      index: 0,
+      results: []
+    };
+    all = function (name, data) {
+      if (name === eventName) {
+        times--;
+        firedData.push(data);
+        if (times < 1) {
+          proxy.unbind("all", all);
+          callback.apply(null, [firedData]);
+        }
+      }
+      if (name === group) {
+        times--;
+        proxy._after[group].results[data.index] = data.result;
+        if (times < 1) {
+          proxy.unbind("all", all);
+          callback.call(null, proxy._after[group].results);
+        }
+      }
+    };
+    proxy.bind("all", all);
+    return this;
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-30">
+      <td class="docs">
+        <p>The <code>after</code> method's helper. Use it will return ordered results.<br />If you need manipulate result, you need callback<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">var ep = new EventProxy();
+ep.after('file', files.length, function (list) {
+  // Ordered results
+});
+for (var i = 0; i < files.length; i++) {
+  fs.readFile(files[i], 'utf-8', ep.group('file'));
+}
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.group = function (eventName, callback) {
+    var that = this;
+    var group = eventName + '_group';
+    var index = that._after[group].index;
+    that._after[group].index++;
+    return function (err, data) {
+      if (err) {
+        return that.emit('error', err);
+      }
+      that.emit(group, {
+        index: index,
+        result: callback ? callback(data) : data
+      });
+    };
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-31">
+      <td class="docs">
+        <p>The callback will be executed after any registered event was fired. It only executed once.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.any = function () {
+    var proxy = this,
+      index,
+      _bind,
+      len = arguments.length,
+      callback = arguments[len - 1],
+      events = Array.prototype.slice.apply(arguments, [0, len - 1]),
+      count = events.length,
+      _eventName = events.join("_");
+
+    proxy.once(_eventName, callback);
+
+    _bind = function (key) {
+      proxy.bind(key, function (data) {
+        proxy.trigger(_eventName, {"data": data, eventName: key});
+      });
+    };
+
+    for (index = 0; index < count; index++) {
+      _bind(events[index]);
+    }
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-32">
+      <td class="docs">
+        <p>The callback will be executed when the event name not equals with assigned event.</p>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.not = function (eventName, callback) {
+    var proxy = this;
+    proxy.bind("all", function (name, data) {
+      if (name !== eventName) {
+        callback(data);
+      }
+    });
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-33">
+      <td class="docs">
+        <p>Success callback wraper, will handler err for you.</p>
+
+<div class="highlight"><pre lang="js">fs.readFile('foo.txt', ep.done('content'));
+
+// equal to =>
+
+fs.readFile('foo.txt', function (err, content) {
+  if (err) {
+    return ep.emit('error', err);
+  }
+  ep.emit('content', content);
+});
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.prototype.done = function (handler) {
+    var that = this;
+    return function (err, data) {
+      if (err) {
+        return that.emit('error', err);
+      }
+</pre></td>
+    </tr>
+  
+    <tr id="section-34">
+      <td class="docs">
+        <p>getAsync(query, ep.done(&#39;query&#39;));</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">      if (typeof handler === 'string') {
+        return that.emit(handler, data);
+      }
+</pre></td>
+    </tr>
+  
+    <tr id="section-35">
+      <td class="docs">
+        <p>speed improve for mostly case: <code>callback(err, data)</code></p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">      if (arguments.length <= 2) {
+        return handler(data);
+      }
+</pre></td>
+    </tr>
+  
+    <tr id="section-36">
+      <td class="docs">
+        <p>callback(err, args1, args2, ...)</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">      var args = Array.prototype.slice.call(arguments, 1);
+      handler.apply(null, args);
+    };
+  };</pre></td>
+    </tr>
+  
+    <tr id="section-37">
+      <td class="docs">
+        <p>Create a new EventProxy<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">var ep = EventProxy.create();
+ep.assign('user', 'articles', function(user, articles) {
+  // do something...
+});
+// or one line ways: Create EventProxy and Assign
+var ep = EventProxy.create('user', 'articles', function(user, articles) {
+  // do something...
+});
+</pre></div>
+      </td>
+      <td class="code"><pre class="prettyprint">EventProxy.create = function () {
+    var ep = new EventProxy();
+    var args = Array.prototype.concat.apply([], arguments);
+    if (args.length) {
+      var errorHandler = args[args.length - 1];
+      var callback = args[args.length - 2];
+      if (typeof errorHandler === 'function' && typeof callback === 'function') {
+        args.pop();
+        ep.fail(errorHandler);
+      }
+      ep.assign.apply(ep, Array.prototype.slice.call(args));
+    }
+    return ep;
+  };
+</pre></td>
+    </tr>
+  
+    <tr id="section-38">
+      <td class="docs">
+        <p>Backwards compatibility</p>
+
+      </td>
+      <td class="code"><pre class="prettyprint">  EventProxy.EventProxy = EventProxy;
+
+  return EventProxy;
+});</pre></td>
+    </tr>
+  
+  </table>
+</div>
+<script>
+  var codes = document.querySelectorAll('pre');
+  for (var i = 0; i < codes.length; i++) {
+    codes[i].className = 'prettyprint';
+  }
+  prettyPrint();
+</script>
+</body>
+</html>

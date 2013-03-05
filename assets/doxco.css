@@ -1,0 +1,77 @@
+body {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, tahoma, arial, "宋体", sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  color: #252519;
+  padding: 0;
+  margin: 0;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+td.docs, th.docs {
+  max-width: 450px;
+  min-width: 450px;
+  min-height: 5px;
+  padding: 14px 25px 1px 50px;
+  overflow-x: hidden;
+  vertical-align: top;
+  text-align: left;
+}
+td.code, th.code {
+  padding: 14px 15px 1px 25px;
+  width: 100%;
+  vertical-align: top;
+  background: #F5F5FF;
+  border-left: 1px solid #E5E5EE;
+}
+td.docs p {
+  margin: 0 0;
+}
+td.docs pre {
+  margin: 0 15px;
+}
+pre, tt, code {
+  font-size: 12px;
+  line-height: 18px;
+  font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+  margin: 0;
+  padding: 0;
+}
+#background {
+  position: fixed;
+  top: 0;
+  left: 525px;
+  right: 0;
+  bottom: 0;
+  background: #F5F5FF;
+  border-left: 1px solid #E5E5EE;
+  z-index: -1;
+}
+/* Google prettify style */
+.com { color: #93a1a1; }
+.lit { color: #195f91; }
+.pun, .opn, .clo { color: #93a1a1; }
+.fun { color: #dc322f; }
+.str, .atv { color: #D14; }
+.kwd, .prettyprint .tag { color: #1e347b; }
+.typ, .atn, .dec, .var { color: teal; }
+.pln { color: #48484c; }
+
+.prettyprint.linenums {
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+     -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+          box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin: 0 0 0 33px; /* IE indents via margin-left */
+}
+ol.linenums li {
+  padding-left: 12px;
+  color: #bebec5;
+  line-height: 20px;
+  text-shadow: 0 1px 0 #fff;
+}

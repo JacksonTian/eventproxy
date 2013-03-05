@@ -102,9 +102,6 @@ hr.soften {
   letter-spacing: -1px;
   line-height: 1;
 }
-.jumbotron h1:first-letter {
-  text-transform: uppercase;
-}
 .jumbotron p {
   font-size: 24px;
   font-weight: 300;

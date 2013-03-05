@@ -32,7 +32,7 @@
     </div>
     <header class="jumbotron subhead">
       <div class="container">
-        <h1>eventproxy <small>Version: 0.2.1 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
+        <h1>eventproxy <small>Version: 0.2.2 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
         <p class="lead">
           An implementation of task/event based asynchronous pattern.
         </p>
@@ -141,6 +141,10 @@
     </li>
 
     <li>
+      <a href="#_group">group</a>
+    </li>
+
+    <li>
       <a href="#_any">any</a>
     </li>
 
@@ -173,11 +177,9 @@
   </h3>
   
 
-  <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.</p>
+  <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.<br />Examples:</p>
 
-<h2>Examples</h2>
-
-<div class="highlight"><pre lang="">var render = function (template, resources) {};
+<div class="highlight"><pre lang="js">var render = function (template, resources) {};
 var proxy = new EventProxy();
 proxy.assign("template", "l10n", render);
 proxy.trigger("template", template);
@@ -257,7 +259,7 @@ proxy.trigger("l10n", resources);
   </h3>
   
 
-  <p><code>addListener</code> alias</p>
+  <p><code>addListener</code> alias, bind</p>
 
   <table class="table">
   
@@ -282,7 +284,7 @@ proxy.trigger("l10n", resources);
   </h3>
   
 
-  <p><code>addListener</code> alias</p>
+  <p><code>addListener</code> alias, on</p>
 
   <table class="table">
   
@@ -307,7 +309,7 @@ proxy.trigger("l10n", resources);
   </h3>
   
 
-  <p><code>addListener</code> alias</p>
+  <p><code>addListener</code> alias, subscribe</p>
 
   <table class="table">
   
@@ -393,7 +395,7 @@ proxy.trigger("l10n", resources);
   </h3>
   
 
-  <p><code>removeListener</code> alias</p>
+  <p><code>removeListener</code> alias, unbind</p>
 
   <table class="table">
   
@@ -737,11 +739,9 @@ proxy.trigger("l10n", resources);
   </h3>
   
 
-  <p>Assign some events, after all events were fired, the callback will be executed once.</p>
+  <p>Assign some events, after all events were fired, the callback will be executed once.<br />Examples:</p>
 
-<h2>Examples</h2>
-
-<div class="highlight"><pre lang="">proxy.all(ev1, ev2, callback);
+<div class="highlight"><pre lang="js">proxy.all(ev1, ev2, callback);
 proxy.all([ev1, ev2], callback);
 proxy.all(ev1, [ev2, ev3], callback);
 </pre></div>
@@ -859,11 +859,9 @@ proxy.all(ev1, [ev2, ev3], callback);
   </h3>
   
 
-  <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.</p>
+  <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.<br />Examples:</p>
 
-<h2>Examples</h2>
-
-<div class="highlight"><pre lang="">proxy.tail(ev1, ev2, callback);
+<div class="highlight"><pre lang="js">proxy.tail(ev1, ev2, callback);
 proxy.tail([ev1, ev2], callback);
 proxy.tail(ev1, [ev2, ev3], callback);
 </pre></div>
@@ -917,7 +915,7 @@ proxy.tail(ev1, [ev2, ev3], callback);
   </h3>
   
 
-  <p><code>tail</code> alias</p>
+  <p><code>tail</code> alias, assignAll</p>
 
   <table class="table">
   
@@ -942,7 +940,7 @@ proxy.tail(ev1, [ev2, ev3], callback);
   </h3>
   
 
-  <p><code>tail</code> alias</p>
+  <p><code>tail</code> alias, assignAlways</p>
 
   <table class="table">
   
@@ -988,7 +986,7 @@ proxy.tail(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>times(Mumber)</td>
+      <td>times(Number)</td>
       <td colspan="2">N times.</td>
     </tr>
   
@@ -1010,6 +1008,12 @@ proxy.tail(ev1, [ev2, ev3], callback);
     var proxy = this,
       firedData = [],
       all;
+    this._after = this._after || {};
+    var group = eventName + '_group';
+    this._after[group] = {
+      index: 0,
+      results: []
+    };
     all = function (name, data) {
       if (name === eventName) {
         times--;
@@ -1019,9 +1023,79 @@ proxy.tail(ev1, [ev2, ev3], callback);
           callback.apply(null, [firedData]);
         }
       }
+      if (name === group) {
+        times--;
+        proxy._after[group].results[data.index] = data.result;
+        if (times &lt; 1) {
+          proxy.unbind(&quot;all&quot;, all);
+          callback.call(null, proxy._after[group].results);
+        }
+      }
     };
     proxy.bind(&quot;all&quot;, all);
     return this;
+  };</code></pre></td>
+    </tr>
+  
+  </table>
+  
+  
+  <h3 id="_group">
+    group
+  </h3>
+  
+
+  <p>The <code>after</code> method's helper. Use it will return ordered results.<br />If you need manipulate result, you need callback<br />Examples:</p>
+
+<div class="highlight"><pre lang="js">var ep = new EventProxy();
+ep.after('file', files.length, function (list) {
+  // Ordered results
+});
+for (var i = 0; i < files.length; i++) {
+  fs.readFile(files[i], 'utf-8', ep.group('file'));
+}
+</pre></div>
+
+  <table class="table">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.group()</td> 
+      <td></td>
+      <td>group</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name, shoule keep consistent with `after`.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback function, should return the final result.</td>
+    </tr>
+  
+
+  
+    <tr>
+      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.group = function (eventName, callback) {
+    var that = this;
+    var group = eventName + '_group';
+    var index = that._after[group].index;
+    that._after[group].index++;
+    return function (err, data) {
+      if (err) {
+        return that.emit('error', err);
+      }
+      that.emit(group, {
+        index: index,
+        result: callback ? callback(data) : data
+      });
+    };
   };</code></pre></td>
     </tr>
   
@@ -1047,21 +1121,21 @@ proxy.tail(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>eventName1(string)</td>
+      <td>eventName1(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>eventName2(string)</td>
+      <td>eventName2(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>callback(function)</td>
+      <td>callback(Function)</td>
       <td colspan="2">The callback will get a map that has data and eventName attributes.</td>
     </tr>
   
@@ -1100,7 +1174,7 @@ proxy.tail(ev1, [ev2, ev3], callback);
   </h3>
   
 
-  <p>The callback will be executed when the evnet name not equals with assigned evnet.</p>
+  <p>The callback will be executed when the event name not equals with assigned event.</p>
 
   <table class="table">
   
@@ -1114,14 +1188,14 @@ proxy.tail(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>eventName(string)</td>
+      <td>eventName(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>callback(function)</td>
+      <td>callback(Function)</td>
       <td colspan="2">Callback.</td>
     </tr>
   
@@ -1218,11 +1292,9 @@ fs.readFile('foo.txt', function (err, content) {
   </h3>
   
 
-  <p>Create a new EventProxy</p>
+  <p>Create a new EventProxy<br />Examples:</p>
 
-<h2>Examples</h2>
-
-<div class="highlight"><pre lang="">var ep = EventProxy.create();
+<div class="highlight"><pre lang="js">var ep = EventProxy.create();
 ep.assign('user', 'articles', function(user, articles) {
   // do something...
 });
