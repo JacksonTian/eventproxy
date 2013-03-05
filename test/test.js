@@ -170,51 +170,95 @@ describe("EventProxy", function () {
     assert.equal(counter, 2, 'counter should not be incremented.');
   });
 
-  it('after, n times', function () {
-    var ep = EventProxy.create();
-    var n = Math.round(Math.random() * 100) + 1;
-    var counter = 0;
-    ep.after('event', n, function (data) {
-        assert.deepEqual(data.length, n);
-        for(var i = 0, l = data.length; i < l; i++) {
-          assert.deepEqual(data[i], i);
+  describe('after', function () {
+    it('after, n times', function () {
+      var ep = EventProxy.create();
+      var n = Math.round(Math.random() * 100) + 1;
+      var counter = 0;
+      ep.after('event', n, function (data) {
+          assert.deepEqual(data.length, n);
+          for(var i = 0, l = data.length; i < l; i++) {
+            assert.deepEqual(data[i], i);
+          }
+          counter += 1;
+      });
+      for(var i = 0, last = n - 1; i < n; i++) {
+        ep.trigger('event', i);
+        if (i !== last) {
+          assert.deepEqual(counter, 0, 'counter should not be incremented.');
+        } else {
+          assert.deepEqual(counter, 1, 'counter should be incremented.');
         }
-        counter += 1;
-    });
-    for(var i = 0, last = n - 1; i < n; i++) {
-      ep.trigger('event', i);
-      if (i !== last) {
-        assert.deepEqual(counter, 0, 'counter should not be incremented.');
-      } else {
-        assert.deepEqual(counter, 1, 'counter should be incremented.');
       }
-    }
-    ep.trigger('event', n);
-    assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
-  });
-
-  it('after, 1 time', function () {
-    var ep = EventProxy.create();
-
-    var counter = 0;
-    ep.after('event', 1, function (data) {
-        assert.deepEqual(data.length, 1);
-        assert.deepEqual(data[0], "1 time");
-        counter += 1;
+      ep.trigger('event', n);
+      assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
     });
 
-    ep.trigger('event', "1 time");
-    assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
-  });
+    it('after, 1 time', function () {
+      var ep = EventProxy.create();
 
-  it('after, 0 time', function () {
-    var obj = new EventProxy();
-    var counter = 0;
-    obj.after('event', 0, function (data) {
+      var counter = 0;
+      ep.after('event', 1, function (data) {
+          assert.deepEqual(data.length, 1);
+          assert.deepEqual(data[0], "1 time");
+          counter += 1;
+      });
+
+      ep.trigger('event', "1 time");
+      assert.deepEqual(counter, 1, 'counter should have only been incremented once.');
+    });
+
+    it('after, 0 time', function () {
+      var obj = new EventProxy();
+      var counter = 0;
+      obj.after('event', 0, function (data) {
         assert.deepEqual(data.join(","), "", 'Return array should be []');
         counter += 1;
+      });
+      assert.deepEqual(counter, 1, 'counter should be incremented.');
     });
-    assert.deepEqual(counter, 1, 'counter should be incremented.');
+
+    it('after/group', function (done) {
+      var obj = new EventProxy();
+      var input = [1, 2, 3, 4, 5];
+
+      obj.after('event', input.length, function (output) {
+        assert.deepEqual(output.join(','), input.join(','), "output should be keep sequence");
+        done();
+      });
+
+      var async = function (input, callback) {
+        setTimeout(function (input) {
+          callback(null, input);
+        }, Math.random() * 100, input);
+      };
+
+      input.forEach(function (val) {
+        async(val, obj.group('event'));
+      });
+    });
+
+    it('after/group with err', function (done) {
+      var obj = new EventProxy();
+      var input = [1, 2, 3, 4, 5];
+
+      obj.after('event', input.length, function (output) {
+        // never be excuted
+      }).fail(function (err) {
+        assert.equal(err.message, 'Unexpected Exception', 'message should be equal');
+        done();
+      });
+
+      var async = function (input, callback) {
+        setTimeout(function (input) {
+          callback(new Error('Unexpected Exception'), input);
+        }, Math.random() * 100, input);
+      };
+
+      input.forEach(function (val) {
+        async(val, obj.group('event'));
+      });
+    });
   });
 
   it('any', function () {
