@@ -6,7 +6,9 @@ EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.
 > 世界上本没有嵌套回调，写得人多了，也便有了`}}}}}}}}}}}}`。 —— [fengmk2](http://fengmk2.github.com)
 
 * API文档: [API Documentation](http://html5ify.com/eventproxy/api.html)
-* jscoverage: [95%](http://fengmk2.github.com/coverage/eventproxy.html)
+* jscoverage: [97%](http://html5ify.com/eventproxy/coverage.html)
+* 源码注解：[注解文档](http://html5ify.com/eventproxy/eventproxy.html)
+
 
 EventProxy 仅仅是一个很轻量的工具，但是能够带来一种事件式编程的思维变化。有几个特点：
 
@@ -69,7 +71,7 @@ $ npm install eventproxy
 var EventProxy = require('eventproxy');
 ```
 ### 前端用户
-以下示例均指向Github的源文件地址，您也可以[下载源文件](https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js)到你自己的项目中。整个文件注释全面，带注释和空行，一共400多行。为保证EventProxy的易嵌入，项目暂不提供压缩版。用户可以自行采用Uglify、YUI Compressor或Google Closure Complier进行压缩。
+以下示例均指向Github的源文件地址，您也可以[下载源文件](https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js)到你自己的项目中。整个文件注释全面，带注释和空行，一共约500行。为保证EventProxy的易嵌入，项目暂不提供压缩版。用户可以自行采用Uglify、YUI Compressor或Google Closure Complier进行压缩。
 
 #### 普通环境
 在页面中嵌入脚本即可使用：
@@ -176,7 +178,7 @@ for (var i = 0; i < files.length; i++) {
 `after`方法适合重复的操作，比如读取10个文件，调用5次数据库等。将handler注册到N次相同事件的触发上。达到指定的触发数，handler将会被调用执行，每次触发的数据，将会按触发顺序，存为数组作为参数传入。
 
 ### 持续型异步协作
-此处以股票为例，数据和模板都是异步获取，但是数据会是刷新，视图会重新刷新。
+此处以股票为例，数据和模板都是异步获取，但是数据会持续刷新，视图会需要重新刷新。
 
 ```js
 var ep = new EventProxy();
@@ -215,8 +217,6 @@ setInterval(function () {
 所以在你的环境下，选用你喜欢的API即可。
 
 更多API的描述请访问[API Docs](http://html5ify.com/eventproxy/api.html)。
-
-如果对源码感兴趣请看[注解文档](http://html5ify.com/eventproxy/eventproxy.html)
 
 ## 异常处理
 在异步方法中，实际上，异常处理需要占用一定比例的精力。在过去一段时间内，我们都是通过额外添加`error`事件来进行处理的，代码大致如下：
@@ -324,7 +324,7 @@ ep.done(function (content) {
 ```
 
 ### 神奇的group
-在`after`的回调函数中，结果顺序是与用户`emit`的顺序有关。为了满足返回数据按发起异步调用的顺序排列，`EventProxy`提供了`group`方法。
+`fail`除了用于协助`all`方法完成外，也能协助`after`中的异常处理。另外，在`after`的回调函数中，结果顺序是与用户`emit`的顺序有关。为了满足返回数据按发起异步调用的顺序排列，`EventProxy`提供了`group`方法。
 
 ```js
 var ep = new EventProxy();
@@ -359,9 +359,8 @@ ep.group('got_file', function (data) {
 ```
 
 ## 注意事项
-
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
-- 异常处理部分，请遵循Node的最佳实践。
+- 异常处理部分，请遵循Node的最佳实践(回调函数首个参数为异常传递位)。
 
 ## [贡献者们](https://github.com/JacksonTian/eventproxy/graphs/contributors)
 谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
