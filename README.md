@@ -216,8 +216,6 @@ setInterval(function () {
 
 更多API的描述请访问[API Docs](http://html5ify.com/eventproxy/api.html)。
 
-如果对源码感兴趣请看[注解文档](http://html5ify.com/eventproxy/eventproxy.html)
-
 ## 异常处理
 在异步方法中，实际上，异常处理需要占用一定比例的精力。在过去一段时间内，我们都是通过额外添加`error`事件来进行处理的，代码大致如下：
 
@@ -323,41 +321,6 @@ ep.done(function (content) {
 });
 ```
 
-### 神奇的group
-在`after`的回调函数中，结果顺序是与用户`emit`的顺序有关。为了满足返回数据按发起异步调用的顺序排列，`EventProxy`提供了`group`方法。
-
-```js
-var ep = new EventProxy();
-ep.after('got_file', files.length, function (list) {
-  // 在所有文件的异步执行结束后将被执行
-  // 所有文件的内容都存在list数组中，按顺序排列
-});
-for (var i = 0; i < files.length; i++) {
-  fs.readFile(files[i], 'utf-8', ep.group('got_file'));
-}
-```
-`group`秉承`done`函数的设计，它包含异常的传递。同时它还隐含了对返回数据进行编号，在结束时，按顺序返回。
-
-```js
-ep.group('got_file');
-// 约等价于
-function (err, data) {
-  if (err) {
-    return ep.emit('error', err);
-  }
-  ep.emit('got_file', data);
-};
-```
-
-当回调函数的数据还需要进行加工时，可以给`group`带上回调函数，只要在操作后将数据返回即可：
-
-```js
-ep.group('got_file', function (data) {
-  // some code
-  return data;
-});
-```
-
 ## 注意事项
 
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
@@ -368,17 +331,17 @@ ep.group('got_file', function (data) {
 
 ```bash
  project  : eventproxy
- repo age : 1 year, 10 months
- active   : 58 days
- commits  : 136
+ repo age : 1 year, 9 months
+ active   : 55 days
+ commits  : 132
  files    : 18
  authors  : 
-   123  Jackson Tian            90.4%
-     6  fengmk2                 4.4%
-     4  dead-horse              2.9%
-     1  haoxin                  0.7%
-     1  redky                   0.7%
-     1  yaoazhen                0.7%
+   120  Jackson Tian            90.9%
+     5  fengmk2                 3.8%
+     4  dead-horse              3.0%
+     1  haoxin                  0.8%
+     1  redky                   0.8%
+     1  yaoazhen                0.8%
 
 ```
 
