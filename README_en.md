@@ -61,13 +61,13 @@ $.get("template", function (template) {
 ### For Node
 Install with NPM:
 
-```
+```bash
 $ npm install eventproxy
 ```
 
 Invoke:
 
-```
+```js
 var EventProxy = require('eventproxy');
 ```
 
@@ -183,7 +183,7 @@ for (var i = 0; i < files.length; i++) {
 ### Continuous asynchronous collaboration
 Taking stocks for example, data and templates are got asynchronously, while data will continuously be refreshed, view will need to be refreshed over again.
 
-```
+```js
 var ep = new EventProxy();
 ep.tail('tpl', 'data', function (tpl, data) {
   // Executed when all specified events are fired.
@@ -223,7 +223,7 @@ More API descriptions please access [API Docs](http://html5ify.com/eventproxy/ap
 ## Exception Handling
 In asynchronous method, actually, exception handling needs rather certain energy. During past times, we’ve dealt through adding error event, code as follows:
 
-```
+```js
 exports.getContent = function (callback) {
  var ep = new EventProxy();
   ep.all('tpl', 'data', function (tpl, data) {
@@ -323,7 +323,7 @@ ep.done(function (content) {
 ### Amazing `group`
 `fail` can help to handle exception in `after` except the `all` method. Besides, in the callback of after, the order of result is related to the order of emit used by user. In order to get return results in the order of calling asynchronous invoke, EventProxy provides the group method.
 
-```
+```js
 var ep = new EventProxy();
 ep.after('got_file', files.length, function (list) {
   // Executes after all file asynchronous executions
@@ -349,7 +349,7 @@ function (err, data) {
 
 When callback data needs to process, adding callback function on the `group` method, only return result data after processing.
 
-```
+```js
 ep.group('got_file', function (data) {
   // some code
   return data;
