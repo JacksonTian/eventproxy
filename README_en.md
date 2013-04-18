@@ -1,7 +1,8 @@
 EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy)
 ======
 
-> There is no so-called problem of callback function deep nesting. —— [Jackson Tian](http://weibo.com/shyvo)
+> There is no deep nested callback issue in this world. —— [Jackson Tian](http://weibo.com/shyvo)
+
 > There is no nesting callback originally, more people have written, resulting in appearance `}}}}}}}}}}}}`. —— [fengmk2](http://fengmk2.github.com)
 
 * [API Documentation](http://html5ify.com/eventproxy/api.html)
@@ -11,11 +12,10 @@ EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.
 EventProxy is only a lightweight tool, which brings about a thinking change on event programming. There are some features:
 
 1. Decouples complicated business nesting problems with event mechanism.
-2. Removes widely criticized problem of deep callback nesting.
+2. Resolve the deep callback nesting issue.
 3. Changes serial waiting to parallel waiting, promoting executing efficiency under asynchronous collaboration sceneries.
 4. Exception handling friendly.
-5. No platform dependency, suitable for front as well as back, can be used by browser and Node.js
-Compatible with CMD, AMD and CommonJS module environment.
+5. Can be used in browser and Node.js both. Compatible with CMD, AMD and CommonJS module.
 
 Nowadays, no deep nesting, parallel:
 
@@ -65,17 +65,17 @@ Install with NPM:
 $ npm install eventproxy
 ```
 
-Invoke:
+Usage:
 
 ```js
 var EventProxy = require('eventproxy');
 ```
 
 ### For browser
-Following examples direct resource address of Github, and you can also download resource files to your own projects. Comments in all files are completely, 500 lines in total including comments and blank line. To ensure the easy nesting of EventProxy, the project proves no compressed version. Users can use Uglify, YUI Compressor or Google Closure Complier to compress.
+Following examples direct resource address of Github, and you can also download [resource file](https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js) to your own project. 500 lines in total including comments and blank lines. To ensure the easy integrate with your project, EventProxy doesn't provide the minified version. You can use Uglify, YUI Compressor or Google Closure Complier to compress it.
 
 #### Common Environment
-Available after nesting script:
+Just insert the script tag into HTML page:
 
 ```html
 <script src="https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"></script>
@@ -84,12 +84,12 @@ Available after nesting script:
 Usage:
 
 ```js
-// EventProxy is a global variables now
+// EventProxy is a global variable now
 var ep = new EventProxy();
 ```
 
 #### For SeaJS
-Only need to configure alias, and then requires citation.
+Only need to configure alias, and then requires it.
 
 ```js
 // Configuration
@@ -109,7 +109,7 @@ define('test', function (require, exports, modules) {
 ```
 
 #### For RequireJS
-RequireJs implemented AMD specifications
+The RequireJS implemented AMD specifications
 
 ```js
 // Configure path
@@ -118,15 +118,15 @@ require.config({
     eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"
   }
 });
-// Use
+// Usage
 require(["eventproxy"], function (EventProxy) {
   // TODO
 });
 ```
 
-## Asynchronous collaboration
-#### Multiple type asynchronous collaboration
-Taking page rendering for example, template and data are needed when rendering pages. Suppose both need to read asynchronously.
+## Asynchronous call
+#### Multiple type asynchronous call
+For example, render a page, template and data are needed. Suppose must get them asynchronously.
 
 ```js
 var ep = new EventProxy();
@@ -142,7 +142,7 @@ db.get('some sql', function (err, result) {
 });
 ```
 
-`all` methods will register handler to events combination. When more than one registered events are fired, handler will be invoked, transferred data of each event will be transferred to handler as parameters in the order of event names.
+`all` method will register handler to events combination. When more than one registered events are fired, handler will be invoked, transferred data of each event will be transferred to handler as parameters in the order of event names.
 
 #### Shortcut
 EventProxy has provided static method, fast finishing registering all event.
@@ -300,6 +300,8 @@ ep.bind('error', function (err) {
 `fail` method listens to `error` event, removes all handlers by default, then invoke callback method.
 
 ### Amazing `done`
+
+```js
 ep.done('tpl');
 // Equals to
 function (err, content) {
@@ -309,7 +311,9 @@ function (err, content) {
   }
   ep.emit('tpl', content);
 }
-In node best practice, the first parameter of callback function must be an error object. Error event will be fired after detecting exception. The remaining parameters will fire events and be transferred to correspond handler to deal.
+```
+
+In Node best practice, the first parameter of callback should be an error object(or null). `error` event will be fired after detecting exception. The remaining parameters will fire events and be transferred to correspond handler to deal.
 
 #### `done` accept callback also
 The method of `done` accepts callback function excepts event names. If it is function, it will remove the remaining parameters after the first `error` object(it is `null`), transfers to the callback function as parameters. The callback function will not need to consider exception handling.
