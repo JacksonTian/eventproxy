@@ -16,12 +16,22 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "*",
-    "jscover": "*",
+    "blanket": "*",
     "pedding": "*",
-    "chai": "*"
+    "chai": "*",
+    "travis-cov": "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test-all",
+    "blanket": {
+      "pattern": "eventproxy/lib",
+      "data-cover-flags": {
+        "debug": false
+      }
+    },
+    "travis-cov": {
+      "threshold": 70
+    }
   },
   "repository": {
     "type": "git",
