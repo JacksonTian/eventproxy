@@ -293,7 +293,7 @@ describe("EventProxy", function () {
     assert.deepEqual(counter, 2, 'counter should be incremented.');
   });
 
-  it('done', function () {
+  it('done(fn)', function () {
     var ep = EventProxy.create();
     var counter = 0;
     var done = function (num) {
@@ -305,6 +305,30 @@ describe("EventProxy", function () {
     assert.deepEqual(counter, 1, 'counter should be incremented.');
     ep.trigger('event1', null, 2);
     assert.deepEqual(counter, 3, 'counter should be incremented.');
+  });
+
+  it('done(event)', function (done) {
+    var ep = EventProxy.create();
+    var counter = 0;
+    ep.bind('event1', function (data) {
+      should.exist(data);
+      done();
+    });
+    ep.bind('error', done);
+    fs.readFile(__filename, ep.done('event1'));
+  });
+
+  it('done(event, fn)', function (done) {
+    var ep = EventProxy.create();
+    ep.bind('event1', function (data) {
+      should.exist(data);
+      assert.deepEqual(data, 'hehe', 'data should be modified');
+      done();
+    });
+    ep.bind('error', done);
+    fs.readFile(__filename, ep.done('event1', function (data) {
+      return 'hehe';
+    }));
   });
 
   describe('errorHandler mode', function () {
@@ -390,6 +414,5 @@ describe("EventProxy", function () {
         done();
       });
     });
-
   });
 });
