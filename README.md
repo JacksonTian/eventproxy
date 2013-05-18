@@ -315,13 +315,27 @@ function (err, content) {
 在Node的最佳实践中，回调函数第一个参数一定会是一个`error`对象。检测到异常后，将会触发`error`事件。剩下的参数，将触发事件，传递给对应handler处理。
 
 #### done也接受回调函数
-done方法除了接受事件名外，还接受回调函数。如果是函数时，它将剔除第一个`error`对象(此时为`null`)后剩余的参数，传递给该回调函数作为参数。该回调函数无需考虑异常处理。
+`done`方法除了接受事件名外，还接受回调函数。如果是函数时，它将剔除第一个`error`对象(此时为`null`)后剩余的参数，传递给该回调函数作为参数。该回调函数无需考虑异常处理。
 
 ```js
 ep.done(function (content) {
   // 这里无需考虑异常
+  // 手工emit
+  ep.emit('someevent', newcontent);
 });
 ```
+
+当然手工emit的方式并不太好，我们更进一步的版本：
+
+```js
+ep.done('tpl', function (tpl) {
+  // 将内容更改后，返回即可
+  return tpl.trim();
+});
+```
+
+#### 注意事项
+如果`emit`需要传递多个参数时，`ep.done(event, fn)`的方式不能满足需求，还是需要`ep.done(fn)`，进行手工`emit`多个参数。
 
 ### 神奇的group
 `fail`除了用于协助`all`方法完成外，也能协助`after`中的异常处理。另外，在`after`的回调函数中，结果顺序是与用户`emit`的顺序有关。为了满足返回数据按发起异步调用的顺序排列，`EventProxy`提供了`group`方法。
