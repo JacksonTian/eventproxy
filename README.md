@@ -1,4 +1,4 @@
-EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy)
+EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy) [English Doc](https://github.com/JacksonTian/eventproxy/blob/master/README_en.md)
 ======
 
 > 这个世界上不存在所谓回调函数深度嵌套的问题。 —— [Jackson Tian](http://weibo.com/shyvo)
