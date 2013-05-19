@@ -210,8 +210,8 @@ setInterval(function () {
 
 为了照顾各个环境的开发者，上面的方法多具有别名。
 
-- YUI3使用者，`subscribe`和`fire`你应该知道分别对应的是`on`/`addlistener`和`emit`。
-- jQuery使用者，`trigger`对应的方法是`emit`，`bind`对应的就是`on`/`addlistener`。
+- YUI3使用者，`subscribe`和`fire`你应该知道分别对应的是`on`/`addListener`和`emit`。
+- jQuery使用者，`trigger`对应的方法是`emit`，`bind`对应的就是`on`/`addListener`。
 - `removeListener`和`removeAllListeners`其实都可以通过别名`unbind`完成。
 
 所以在你的环境下，选用你喜欢的API即可。
