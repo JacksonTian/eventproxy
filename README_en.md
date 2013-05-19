@@ -212,8 +212,8 @@ The realization of asynchronous collaboration through event is the main highligh
 
 To consider developers of each environment, most of the methods above have alias names.
 
-- YUI3 users, you should know `subscribe` and `fire` correspond with `on`/`addlistener` and `emit`.
-- jQuery users, trigger corresponds with `emit`, `bind` corresponds with `on`/`addlistener`.
+- YUI3 users, you should know `subscribe` and `fire` correspond with `on`/`addListener` and `emit`.
+- jQuery users, trigger corresponds with `emit`, `bind` corresponds with `on`/`addListener`.
 - `removeListener` and `removeAllListeners` are aliased by `unbind`.
 
 So choose your favorite API under your environment.
