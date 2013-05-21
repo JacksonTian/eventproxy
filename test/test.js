@@ -415,4 +415,119 @@ describe("EventProxy", function () {
       });
     });
   });
+
+  describe('emit later', function () {
+    function check(query, callback) {
+      if (query === 'laterQuery') {
+        return callback(null, true);
+      }
+      if (query === 'errorQuery') {
+        return callback(new Error('sync error'));
+      }      
+      process.nextTick(callback.bind(null, null, true));
+    }
+
+    function mcheck(query, callback) {
+      if (query === 'laterQuery') {
+        return callback(null, true, true);
+      }
+      process.nextTick(callback.bind(null, null, true, false));
+    }
+    function mockGet(query, callback) {
+      process.nextTick(callback.bind(null, null, query + 'args1'));
+    }    
+
+    function mockGetSync(query, callback) {
+      callback(null, query + 'args1');
+    }
+
+    it('should doneLater work fine', function (done) {
+      var query = 'laterQuery';
+      var ep = EventProxy.create();
+      
+      check(query, ep.doneLater('check'));
+
+      ep.once('check', function (permission) {
+        permission && mockGet(query, ep.done('mockGet'));
+      });
+
+      ep.once('mockGet', function (a1) {
+        a1.should.equal('laterQueryargs1');
+        done();
+      });
+    });
+
+    it('should doneLater work fine when both sync', function (done) {
+      var query = 'laterQuery';
+      var ep = EventProxy.create();
+      
+      check(query, ep.doneLater('check'));
+
+      ep.once('check', function (permission) {
+        permission && mockGetSync(query, ep.done('mockGetSync'));
+      });
+
+      ep.once('mockGetSync', function (a1) {
+        a1.should.equal('laterQueryargs1');
+        done();
+      });
+    });
+
+    it('should doneLater work fine when is handler', function (done) {
+      var query = 'laterQuery';
+      var ep = EventProxy.create();
+
+      check(query, ep.doneLater(function (permission) {
+        permission && mockGetSync(query, ep.done('mockGetSync'));
+      }));
+
+      ep.once('mockGetSync', function (a1) {
+        a1.should.equal('laterQueryargs1');
+        done();
+      });
+    });
+
+    it('should doneLater work fine when callback(args1, args2)', function (done) {
+      var query = 'laterQuery';
+      var ep = EventProxy.create();
+
+      mcheck(query, ep.doneLater(function (permission1, permission2) {
+        permission1 && permission2 && mockGet(query, ep.done('mockGet'))
+      }));
+
+      ep.once('mockGet', function (a1) {
+        a1.should.equal('laterQueryargs1');
+        done();
+      });
+    });
+
+    it('should doneLater error ok', function (done) {
+      var query = 'errorQuery';
+      var ep = EventProxy.create();
+
+      check(query, ep.doneLater('check'));
+
+      ep.fail(function (err) {
+        err.message.should.equal('sync error');
+        done();
+      });
+    });
+
+    it('should emitLater ok', function (done) {
+      var query = 'laterQuery';
+      var ep = EventProxy.create();
+
+      check(query, function (err, data) {
+        if (err) {
+          return ep.emitLater('error', err);
+        }
+        ep.emitLater('check', data);
+      });
+
+      ep.once('check', function (data) {
+        data.should.be.ok;
+        done();
+      });
+    });
+  });
 });

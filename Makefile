@@ -3,7 +3,10 @@ REPORTER = spec
 TIMEOUT = 10000
 MOCHA_OPTS =
 
-test:
+install-test:
+	@NODE_ENV=test npm install 
+
+test: install-test
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) \
 		--timeout $(TIMEOUT) \
@@ -11,9 +14,10 @@ test:
 		$(TESTS)
 
 test-cov:
+	@$(MAKE) test REPORTER=dot
 	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
 	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
 
 test-all: test test-cov
 
-.PHONY: test test-cov test-all
+.PHONY: install-test test test-cov test-all
