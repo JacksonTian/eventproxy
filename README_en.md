@@ -360,6 +360,121 @@ ep.group('got_file', function (data) {
 });
 ```
 
+### Asynchronous event emit: emitLater && doneLater  
+In node, `emit` is a synchronous method, `emit`and `trigger` in EventProxy also are synchronous method like node. Look at code below, maybe you can find out what's wrong with it.   
+
+```js
+var ep = EventProxy.create();
+
+db.check('key', function (err, permission) {
+  if (err) {
+    return ep.emit('error', err);
+  }
+  ep.emit('check', permission);
+});
+
+ep.once('check', function (permission) {
+  permission && db.get('key', function (err, data) {
+    if (err) {
+      return ep.emit('error');
+    }
+    ep.emit('get', data);
+  });
+});
+
+ep.once('get', function (err, data) {
+  if (err) {
+    retern ep.emit('error', err);
+  }
+  render(data);
+});
+
+ep.on('error', errorHandler);
+```
+Just in case `callback` in `db.check` was synchronous execution, the `check` event will emit before `ep` listen `check`. Then the code won't work as we expect. Even though in node, we should keep all callback asynchronous execution, but we can't ensure everyone can accomplish. So we must write code like this:   
+
+```js
+var ep = EventProxy.create();
+
+ep.once('check', function (permission) {
+  permission && db.get('key', function (err, data) {
+    if (err) {
+      return ep.emit('error');
+    }
+    ep.emit('get', data);
+  });
+});
+
+ep.once('get', function (err, data) {
+  if (err) {
+    retern ep.emit('error', err);
+  }
+  render(data);
+});
+
+ep.on('error', errorHandler);
+
+db.check('key', function (err, permission) {
+  if (err) {
+    return ep.emit('error', err);
+  }
+  ep.emit('check', permission);
+});
+```
+
+We have to move `db.check` to the end of the code, to make sure `ep` listen all the events first. Then the code look like `get`->`render`->`check`, but the execution order is `check`->`get`->`render`, this kind of code is hard to understand.   
+
+So we need __Asynchronous event emit__:   
+
+```js
+var ep = EventProxy.create();
+
+db.check('key', function (err, permission) {
+  if (err) {
+    return ep.emitLater('error', err);
+  }
+  ep.emitLater('check', permission);
+});
+
+ep.once('check', function (permission) {
+  permission && db.get('key', function (err, data) {
+    if (err) {
+      return ep.emit('error');
+    }
+    ep.emit('get', data);
+  });
+});
+
+ep.once('get', function (err, data) {
+  if (err) {
+    retern ep.emit('error', err);
+  }
+  render(data);
+});
+
+ep.on('error', errorHandler);
+```
+
+We use `emitLater` in `db.check` to emit an event. Then whatever `db.check` do, we make sure events emit by `db.check` will catch by `ep`. And our code is easy to understand.   
+Also, we can use `doneLater` to simplify it just like what `ep.done()` do:    
+
+```js
+var ep = EventProxy.create();
+
+db.check('key', ep.doneLater('check'));
+
+ep.once('check', function (permission) {
+  permission && db.get('key', ep.done('get'));
+});
+
+ep.once('get', function (data) {
+  render(data);
+});
+
+ep.fail(errorHandler);
+```
+This is a kind of really simple and understandability code style.   
+
 ## Attentions
 - Do not using `all` as event name in business. The event stays as reserved event.
 - In exception handling part, please follow the best practice of Node(The first parameter of callback is exception).
