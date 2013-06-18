@@ -31,7 +31,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.bind("event", function (data) {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger("event");
     assert.equal(counter, 1, 'Counter should be incremented.');
@@ -47,7 +47,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.bind('event', function () {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should be incremented.');
@@ -60,7 +60,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.bind('event', function () {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should be incremented.');
@@ -73,7 +73,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.once('event', function () {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should be incremented.');
@@ -84,8 +84,8 @@ describe("EventProxy", function () {
   it('immediate', function () {
     var ep = EventProxy.create();
     var counter = 0;
-    ep.immediate('event', function (){
-        counter +=1;
+    ep.immediate('event', function () {
+      counter += 1;
     });
     assert.equal(counter, 1, "counter should be incremented.");
     ep.trigger('event');
@@ -96,8 +96,8 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var param = new Date(), counter = 0;
     ep.immediate('event', function (data) {
-        assert.equal(data, param, "data should same as param.");
-        counter += 1;
+      assert.equal(data, param, "data should same as param.");
+      counter += 1;
     }, param);
     assert.equal(counter, 1, "counter should be incremented.");
     ep.trigger('event', param);
@@ -108,7 +108,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.assign('event', function () {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger('event');
     assert.equal(counter, 1, 'counter should be incremented.');
@@ -120,9 +120,9 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.assign('event1', 'event2', function (event1, event2) {
-        assert.equal(event1, 'event1', 'counter should not be incremented.');
-        assert.equal(event2, 'event2', 'counter should not be incremented.');
-        counter += 1;
+      assert.equal(event1, 'event1', 'counter should not be incremented.');
+      assert.equal(event2, 'event2', 'counter should not be incremented.');
+      counter += 1;
     });
     ep.trigger('event1', 'event1');
     assert.equal(counter, 0, 'counter should not be incremented.');
@@ -137,9 +137,9 @@ describe("EventProxy", function () {
     var counter = 0;
     var events = ['event1', 'event2'];
     ep.assign(events, function (event1, event2) {
-        assert.equal(event1, 'event1', 'counter should not be incremented.');
-        assert.equal(event2, 'event2', 'counter should not be incremented.');
-        counter += 1;
+      assert.equal(event1, 'event1', 'counter should not be incremented.');
+      assert.equal(event2, 'event2', 'counter should not be incremented.');
+      counter += 1;
     });
     ep.trigger('event1', 'event1');
     assert.equal(counter, 0, 'counter should not be incremented.');
@@ -154,9 +154,9 @@ describe("EventProxy", function () {
     var counter = 0;
     var event2 = null;
     ep.assignAlways('event1', 'event2', function (data1, data2) {
-        counter += 1;
-        assert.equal(data1, 'event1');
-        assert.equal(data2, event2, 'Second data should same as event2.');
+      counter += 1;
+      assert.equal(data1, 'event1');
+      assert.equal(data2, event2, 'Second data should same as event2.');
     });
     ep.trigger('event1', 'event1');
     assert.equal(counter, 0, 'counter should not be incremented.');
@@ -176,13 +176,13 @@ describe("EventProxy", function () {
       var n = Math.round(Math.random() * 100) + 1;
       var counter = 0;
       ep.after('event', n, function (data) {
-          assert.deepEqual(data.length, n);
-          for(var i = 0, l = data.length; i < l; i++) {
-            assert.deepEqual(data[i], i);
-          }
-          counter += 1;
+        assert.deepEqual(data.length, n);
+        for (var i = 0, l = data.length; i < l; i++) {
+          assert.deepEqual(data[i], i);
+        }
+        counter += 1;
       });
-      for(var i = 0, last = n - 1; i < n; i++) {
+      for (var i = 0, last = n - 1; i < n; i++) {
         ep.trigger('event', i);
         if (i !== last) {
           assert.deepEqual(counter, 0, 'counter should not be incremented.');
@@ -199,9 +199,9 @@ describe("EventProxy", function () {
 
       var counter = 0;
       ep.after('event', 1, function (data) {
-          assert.deepEqual(data.length, 1);
-          assert.deepEqual(data[0], "1 time");
-          counter += 1;
+        assert.deepEqual(data.length, 1);
+        assert.deepEqual(data[0], "1 time");
+        counter += 1;
       });
 
       ep.trigger('event', "1 time");
@@ -283,7 +283,7 @@ describe("EventProxy", function () {
     var ep = EventProxy.create();
     var counter = 0;
     ep.not('event1', function (data) {
-        counter += 1;
+      counter += 1;
     });
     ep.trigger('event1', 1);
     assert.deepEqual(counter, 0, 'counter should not be incremented.');
@@ -309,7 +309,6 @@ describe("EventProxy", function () {
 
   it('done(event)', function (done) {
     var ep = EventProxy.create();
-    var counter = 0;
     ep.bind('event1', function (data) {
       should.exist(data);
       done();
@@ -329,6 +328,57 @@ describe("EventProxy", function () {
     fs.readFile(__filename, ep.done('event1', function (data) {
       return 'hehe';
     }));
+  });
+
+  it('done(event, fn) multi data', function (done) {
+    var async = function (callback) {
+      process.nextTick(function () {
+        callback(null, 'data1', 'data2');
+      });
+    };
+    var ep = EventProxy.create();
+    ep.on("file", function (data) {
+      should.exist(data);
+      assert.deepEqual(data, 'data1data2', 'data should be modified');
+      done();
+    });
+    ep.bind('error', done);
+    async(ep.done('file', function (data1, data2) {
+      return data1 + data2;
+    }));
+  });
+
+  it('doneLater(event, fn)', function (done) {
+    var ep = EventProxy.create();
+    fs.readFile(__filename, "utf-8", ep.doneLater("file", function (str) {
+      return 'hehe';
+    }));
+
+    ep.on("file", function (data) {
+      should.exist(data);
+      assert.deepEqual(data, 'hehe', 'data should be modified');
+      done();
+    });
+    ep.bind('error', done);
+  });
+
+  it('doneLater(event, fn) multi data', function (done) {
+    var async = function (callback) {
+      process.nextTick(function () {
+        callback(null, 'data1', 'data2');
+      });
+    };
+    var ep = EventProxy.create();
+    async(ep.doneLater('file', function (data1, data2) {
+      return data1 + data2;
+    }));
+
+    ep.on("file", function (data) {
+      should.exist(data);
+      assert.deepEqual(data, 'data1data2', 'data should be modified');
+      done();
+    });
+    ep.bind('error', done);
   });
 
   describe('errorHandler mode', function () {
@@ -435,7 +485,7 @@ describe("EventProxy", function () {
     }
     function mockGet(query, callback) {
       process.nextTick(callback.bind(null, null, query + 'args1'));
-    }    
+    }
 
     function mockGetSync(query, callback) {
       callback(null, query + 'args1');
@@ -444,7 +494,6 @@ describe("EventProxy", function () {
     it('should doneLater work fine', function (done) {
       var query = 'laterQuery';
       var ep = EventProxy.create();
-      
       check(query, ep.doneLater('check'));
 
       ep.once('check', function (permission) {
@@ -460,7 +509,7 @@ describe("EventProxy", function () {
     it('should doneLater work fine when both sync', function (done) {
       var query = 'laterQuery';
       var ep = EventProxy.create();
-      
+
       check(query, ep.doneLater('check'));
 
       ep.once('check', function (permission) {
@@ -492,7 +541,7 @@ describe("EventProxy", function () {
       var ep = EventProxy.create();
 
       mcheck(query, ep.doneLater(function (permission1, permission2) {
-        permission1 && permission2 && mockGet(query, ep.done('mockGet'))
+        permission1 && permission2 && mockGet(query, ep.done('mockGet'));
       }));
 
       ep.once('mockGet', function (a1) {
