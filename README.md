@@ -513,3 +513,8 @@ ep.fail(errorHandler);
 ## License 
 
 [The MIT License](https://github.com/JacksonTian/eventproxy/blob/master/MIT-License)。请自由享受开源。
+
+## 捐赠
+如果您觉得本模块对您有帮助，欢迎请作者一杯咖啡
+
+[![捐赠EventProxy](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/jacksontian)
