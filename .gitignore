@@ -1,4 +1,6 @@
 lib-cov
+build
+components
 coverage.html
 *.seed
 *.log

@@ -5,3 +5,5 @@ Makefile
 logo.png
 jsdoc/
 .jshintrc
+build/
+components/
