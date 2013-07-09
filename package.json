@@ -30,7 +30,7 @@
       }
     },
     "travis-cov": {
-      "threshold": 70
+      "threshold": 97
     }
   },
   "repository": {

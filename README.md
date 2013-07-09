@@ -70,6 +70,13 @@ $ npm install eventproxy
 ```js
 var EventProxy = require('eventproxy');
 ```
+
+### Component
+
+```bash
+$ component install JacksonTian/eventproxy
+```
+
 ### 前端用户
 以下示例均指向Github的源文件地址，您也可以[下载源文件](https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js)到你自己的项目中。整个文件注释全面，带注释和空行，一共约500行。为保证EventProxy的易嵌入，项目暂不提供压缩版。用户可以自行采用Uglify、YUI Compressor或Google Closure Complier进行压缩。
 

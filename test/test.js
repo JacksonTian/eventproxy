@@ -1,8 +1,38 @@
 var assert = require('chai').assert;
 var should = require('chai').should();
-var EventProxy = require('../');
 var pedding = require('pedding');
-var fs = require('fs');
+
+try {
+  var EventProxy = require('../');
+  var http = require('http');
+  var fs = require('fs');
+} catch (e) {
+  var EventProxy = require('eventproxy');
+  var http = {
+    get: function (options, callback) {
+      setTimeout(function () {
+        callback({
+          statusCode: 200
+        });
+      }, 0);
+    }
+  };
+  var __filename = 'mock_file.txt'; 
+  var fs = {
+    readFile: function (filename, encode, callback) {
+      if (typeof encode === 'function') {
+        callback = encode;
+        encode = null;
+      }
+      setTimeout(function () {
+        if (filename === 'not exist file') {
+          return callback(new Error('ENOENT, open \'not exist file\''));
+        }
+        callback(null, 'Foo bar baz');
+      }, 10);
+    }
+  };
+}
 
 describe("EventProxy", function () {
   describe('constructor', function () {
@@ -391,7 +421,7 @@ describe("EventProxy", function () {
         done();
       });
       fs.readFile(__filename, ep.done('data'));
-      require('http').get({ host: 'cnodejs.org' }, function (res) {
+      http.get({ host: 'cnodejs.org' }, function (res) {
         should.exist(res);
         res.statusCode.should.equal(200);
         ep.emit('cnodejs', res);
@@ -404,22 +434,22 @@ describe("EventProxy", function () {
 
     it('should success callback after all event emit', function (done) {
       done = pedding(3, done);
-      var ep = EventProxy.create('data', 'dirs', 'cnodejs', function (data, dirs, cnodejs) {
+      var ep = EventProxy.create('data', 'data2', 'cnodejs', function (data, data2, cnodejs) {
         should.exist(data);
-        should.exist(dirs);
+        should.exist(data2);
         should.exist(cnodejs);
         done();
       }, function (err) {
         throw new Error('should not call this');
       });
       fs.readFile(__filename, ep.done('data'));
-      require('http').get({ host: 'cnodejs.org' }, function (res) {
+      http.get({ host: 'cnodejs.org' }, function (res) {
         assert.deepEqual(res.statusCode, 200);
         ep.emit('cnodejs', res);
         done();
       });
       process.nextTick(function () {
-        fs.readdir(__dirname, ep.done('dirs'));
+        fs.readFile(__filename, ep.done('data2'));
         done();
       });
     });
@@ -442,7 +472,7 @@ describe("EventProxy", function () {
       });
 
       fs.readFile(__filename, ep.done('data'));
-      require('http').get({ host: 'nodejs.org' }, function (res) {
+      http.get({ host: 'nodejs.org' }, function (res) {
         assert.deepEqual(res.statusCode, 200);
         ep.emit('cnodejs', res);
         done();
@@ -460,7 +490,7 @@ describe("EventProxy", function () {
       mockGet('fooquery2', ep.done('mockGet2'));
 
       process.nextTick(function () {
-        fs.readdir(__dirname, ep.done('dirs'));
+        fs.readFile(__filename, ep.done('dirs'));
         done();
       });
     });
