@@ -15,7 +15,7 @@
     "chaijs/chai": "*",
     "fengmk2/pedding": "*"
   },
-  "main": "lib/eventproxy.js",
-  "scripts": ["lib/eventproxy.js"],
+  "main": "index.js",
+  "scripts": ["index.js", "lib/eventproxy.js"],
   "license": "MIT"
 }

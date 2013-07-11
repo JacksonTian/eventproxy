@@ -16,6 +16,8 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "*",
+    "mocha-phantomjs": "*",
+    "component": "*",
     "blanket": "*",
     "pedding": "*",
     "chai": "*",
