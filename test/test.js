@@ -32,6 +32,12 @@ try {
       }, 10);
     }
   };
+  if (typeof process === 'undefined') {
+    process = Mocha.process;
+    process.nextTick = function (cb) {
+      setTimeout(cb, 0);
+    };
+  }
 }
 
 describe("EventProxy", function () {
