@@ -13,7 +13,9 @@
     "Jackson Tian <shyvo1987@gmail.com>",
     "fengmk2 <fengmk2@gmail.com>"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "debug": "0.7.2"
+  },
   "devDependencies": {
     "mocha": "*",
     "mocha-phantomjs": "*",
