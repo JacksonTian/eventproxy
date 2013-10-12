@@ -10,6 +10,7 @@
     "nested callback terminator"
   ],
   "dependencies": {
+    "visionmedia/debug": "*"
   },
   "development": {
     "chaijs/chai": "*",
