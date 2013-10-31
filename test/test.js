@@ -266,11 +266,34 @@ describe("EventProxy", function () {
       var async = function (input, callback) {
         setTimeout(function (input) {
           callback(null, input);
-        }, Math.random() * 100, input);
+        }, Math.random() * 10, input);
       };
 
       input.forEach(function (val) {
         async(val, obj.group('event'));
+      });
+    });
+
+    it('after/group with multi parameters', function (done) {
+      var obj = new EventProxy();
+      var input = [1, 2, 3, 4, 5];
+
+      obj.after('event', input.length, function (output) {
+        assert.deepEqual(output.join(','), input.join(','), "output should be keep sequence");
+        done();
+      });
+
+      var async = function (input, callback) {
+        setTimeout(function (data1, data2) {
+          callback(null, data1, data2);
+        }, Math.random() * 10, input, input * 2);
+      };
+
+      input.forEach(function (val) {
+        async(val, obj.group('event', function (data1, data2) {
+          assert.deepEqual(data1 * 2, data2, "should have multi parameters");
+          return data1;
+        }));
       });
     });
 
@@ -288,7 +311,7 @@ describe("EventProxy", function () {
       var async = function (input, callback) {
         setTimeout(function (input) {
           callback(new Error('Unexpected Exception'), input);
-        }, Math.random() * 100, input);
+        }, Math.random() * 10, input);
       };
 
       input.forEach(function (val) {
