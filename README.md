@@ -525,3 +525,7 @@ ep.fail(errorHandler);
 如果您觉得本模块对您有帮助，欢迎请作者一杯咖啡
 
 [![捐赠EventProxy](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/jacksontian)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/JacksonTian/eventproxy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
