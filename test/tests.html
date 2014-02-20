@@ -11,15 +11,51 @@
   <script src="mocha.js"></script>
   <script src="../lib/eventproxy.js"></script>
   <script>
-    mocha.setup({ui: 'bdd',ignoreLeaks: true});
-    var assert = chai.assert;
-    describe('EventProxy', function () {
-      it('EventProxy should have create', function () {
-        assert.isFunction(EventProxy, "EventProxy is a function");
-        assert.isFunction(EventProxy.EventProxy, "EventProxy.EventProxy is a function");
+  mocha.setup({ui: 'bdd',ignoreLeaks: true});
+  var assert = chai.assert;
+  var http = {
+    get: function (options, callback) {
+      setTimeout(function () {
+        callback(null, 200, 'responseText', options.context || window);
+      }, 20);
+    }
+  };
+  describe('EventProxy', function () {
+    it('EventProxy should have create', function () {
+      assert.isFunction(EventProxy, "EventProxy is a function");
+      assert.isFunction(EventProxy.EventProxy, "EventProxy.EventProxy is a function");
+    });
+    it('should get two args in fail handler', function () {
+      var ep = new EventProxy();
+      ep.fail(function(err, arg){
+        assert.equal(arguments.length, 2, 'fail handler should get two args');
+        assert.equal(err, 'custom_error');
+        assert.equal(arg, 200);
+      });
+
+      ep.emit('error', 'custom_error', 200);
+    });
+    it('should get three args in done event handler', function (done){
+      var ep = new EventProxy();
+      ep.on('doneAjax', function (status, responseText, context) {
+        assert.equal(arguments.length, 3, 'doneAjax should get three args');
+        assert.equal(status, 200);
+        assert.equal(responseText, 'responseText');
+        done();
+      });
+      http.get({ }, ep.done('doneAjax'));
+    });
+
+    it('doneLater should done well as same as done', function (done){
+      var ep = new EventProxy();
+      http.get({ }, ep.doneLater('doneAjax'));
+      ep.on('doneAjax', function(status, responseText, context){
+        assert.equal(arguments.length, 3, 'doneAjax should get three args');                
+        done();
       });
     });
-    mocha.run();
+  });
+  mocha.run();
   </script>
 </body>
 </html>

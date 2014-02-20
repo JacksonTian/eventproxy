@@ -407,6 +407,22 @@ describe("EventProxy", function () {
     }));
   });
 
+  it('done(event) should emit multi args', function (done) {
+    var async = function (callback) {
+      process.nextTick(function () {
+        callback(null, 'data1', 'data2');
+      });
+    };
+    var ep = EventProxy.create();
+    ep.on("file", function (data1, data2) {
+      assert.deepEqual(data1, 'data1', 'data1 shoule be "data1"');
+      assert.deepEqual(data2, 'data2', 'data1 shoule be "data2"');
+      done();
+    });
+    ep.bind('error', done);
+    async(ep.done('file'));
+  });
+
   it('doneLater(event, fn)', function (done) {
     var ep = EventProxy.create();
     fs.readFile(__filename, "utf-8", ep.doneLater("file", function (str) {
@@ -438,6 +454,34 @@ describe("EventProxy", function () {
       done();
     });
     ep.bind('error', done);
+  });
+
+  it('doneLater(event) should emit multi args', function (done) {
+    var async = function (callback) {
+      process.nextTick(function () {
+        callback(null, 'data1', 'data2');
+      });
+    };
+    var ep = EventProxy.create();
+    async(ep.doneLater('file'));
+
+    ep.on("file", function (data1, data2) {
+      assert.deepEqual(data1, 'data1', 'data1 should be "data1"');
+      assert.deepEqual(data2, 'data2', 'data2 should be "data2"');
+      done();
+    });
+    ep.bind('error', done);
+  });
+
+  it('fail should pass multi args', function () {
+    var ep = new EventProxy();
+    ep.fail(function (err, arg) {
+      assert.equal(arguments.length, 2, 'fail handler should get two args');
+      assert.equal(err, 'custom_error');
+      assert.equal(arg, 200);
+    });
+
+    ep.emit('error', 'custom_error', 200);
   });
 
   describe('errorHandler mode', function () {
