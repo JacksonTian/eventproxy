@@ -115,7 +115,7 @@ The RequireJS implemented AMD specifications
 // Configure path
 require.config({
   paths: {
-    eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"
+    eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy"
   }
 });
 // Usage

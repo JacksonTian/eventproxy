@@ -120,7 +120,7 @@ RequireJS实现的是AMD规范。
 // 配置路径
 require.config({
   paths: {
-    eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js"
+    eventproxy: "https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy"
   }
 });
 // 使用
