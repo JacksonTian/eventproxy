@@ -17,7 +17,7 @@ try {
       }, 0);
     }
   };
-  var __filename = 'mock_file.txt'; 
+  var __filename = 'mock_file.txt';
   var fs = {
     readFile: function (filename, encode, callback) {
       if (typeof encode === 'function') {
