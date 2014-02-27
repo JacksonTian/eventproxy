@@ -105,6 +105,19 @@ describe("EventProxy", function () {
     assert.equal(counter, 1, 'counter should have only been incremented once.');
   });
 
+  it('headbind/trigger', function () {
+    var ep = EventProxy.create();
+    var str = '';
+    ep.bind("event", function (data) {
+      str += 'bind';
+    });
+    ep.headbind("event", function (data) {
+      str += 'headbind';
+    });
+    ep.trigger("event");
+    assert.equal(str, 'headbindbind', 'the callback that headbinded should execute first.');
+  });
+
   it('once/trigger', function () {
     var ep = EventProxy.create();
     var counter = 0;
