@@ -505,18 +505,21 @@ ep.fail(errorHandler);
 
 ```bash
  project  : eventproxy
- repo age : 1 year, 10 months
- active   : 58 days
- commits  : 136
- files    : 18
- authors  :
-   123  Jackson Tian            90.4%
-     6  fengmk2                 4.4%
-     4  dead-horse              2.9%
-     1  haoxin                  0.7%
-     1  redky                   0.7%
-     1  yaoazhen                0.7%
-
+ repo age : 2 years, 10 months
+ active   : 93 days
+ commits  : 191
+ files    : 23
+ authors  : 
+   167  Jackson Tian            87.4%
+     9  fengmk2                 4.7%
+     7  dead-horse              3.7%
+     2  azrael                  1.0%
+     1  redky                   0.5%
+     1  Bitdeli Chef            0.5%
+     1  yaoazhen                0.5%
+     1  Ivan Yan                0.5%
+     1  cssmagic                0.5%
+     1  haoxin                  0.5%
 ```
 
 ## License
