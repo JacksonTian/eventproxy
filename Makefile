@@ -14,7 +14,7 @@ clean:
 	@rm -rf components build
 
 install-test:
-	@NODE_ENV=test npm install 
+	@NODE_ENV=test npm install --registry=http://r.cnpmjs.org
 
 test: install-test
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -23,11 +23,10 @@ test: install-test
 		$(MOCHA_OPTS) \
 		$(TESTS)
 
-test-cov:
-	@rm -rf coverage.html
-	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
-	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
-	@ls -lh coverage.html
+test-cov: install-test
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov | ./node_modules/.bin/cov
+
+cov: test-cov
 
 test-all: test test-component test-cov
 
@@ -36,5 +35,15 @@ test-component: build
 
 test-component-browser:
 	@open test/test_component.html
+
+totoro: install-test build
+	@./node_modules/.bin/totoro --runner=test/test_component.html
+
+autod: install-test
+	@./node_modules/.bin/autod -w -e components,build
+	@$(MAKE) install-test
+
+contributors: install-test
+	@./node_modules/.bin/contributors -f plain -o AUTHORS
 
 .PHONY: clean test

@@ -1,6 +1,8 @@
 EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy)
 ======
 
+[![NPM](https://nodei.co/npm/eventproxy.png?downloads=true&stars=true)](https://nodei.co/npm/eventproxy)
+
 > There is no deep nested callback issue in this world. —— [Jackson Tian](http://weibo.com/shyvo)
 
 > There is no nesting callback originally, more people have written, resulting in appearance `}}}}}}}}}}}}`. —— [fengmk2](http://fengmk2.github.com)
@@ -132,7 +134,7 @@ For example, render a page, template and data are needed. Suppose must get them 
 var ep = new EventProxy();
 ep.all('tpl', 'data', function (tpl, data) {
   // Executed when all specified events are fired.
-  // Parameters corresponds with each event name  
+  // Parameters corresponds with each event name
 });
 fs.readFile('template.tpl', 'utf-8', function (err, content) {
   ep.emit('tpl', content);
@@ -360,8 +362,8 @@ ep.group('got_file', function (data) {
 });
 ```
 
-### Asynchronous event emit: emitLater && doneLater  
-In node, `emit` is a synchronous method, `emit`and `trigger` in EventProxy also are synchronous method like node. Look at code below, maybe you can find out what's wrong with it.   
+### Asynchronous event emit: emitLater && doneLater
+In node, `emit` is a synchronous method, `emit`and `trigger` in EventProxy also are synchronous method like node. Look at code below, maybe you can find out what's wrong with it.
 
 ```js
 var ep = EventProxy.create();
@@ -391,7 +393,7 @@ ep.once('get', function (err, data) {
 
 ep.on('error', errorHandler);
 ```
-Just in case `callback` in `db.check` was synchronous execution, the `check` event will emit before `ep` listen `check`. Then the code won't work as we expect. Even though in node, we should keep all callback asynchronous execution, but we can't ensure everyone can accomplish. So we must write code like this:   
+Just in case `callback` in `db.check` was synchronous execution, the `check` event will emit before `ep` listen `check`. Then the code won't work as we expect. Even though in node, we should keep all callback asynchronous execution, but we can't ensure everyone can accomplish. So we must write code like this:
 
 ```js
 var ep = EventProxy.create();
@@ -422,9 +424,9 @@ db.check('key', function (err, permission) {
 });
 ```
 
-We have to move `db.check` to the end of the code, to make sure `ep` listen all the events first. Then the code look like `get`->`render`->`check`, but the execution order is `check`->`get`->`render`, this kind of code is hard to understand.   
+We have to move `db.check` to the end of the code, to make sure `ep` listen all the events first. Then the code look like `get`->`render`->`check`, but the execution order is `check`->`get`->`render`, this kind of code is hard to understand.
 
-So we need __Asynchronous event emit__:   
+So we need __Asynchronous event emit__:
 
 ```js
 var ep = EventProxy.create();
@@ -455,8 +457,8 @@ ep.once('get', function (err, data) {
 ep.on('error', errorHandler);
 ```
 
-We use `emitLater` in `db.check` to emit an event. Then whatever `db.check` do, we make sure events emit by `db.check` will catch by `ep`. And our code is easy to understand.   
-Also, we can use `doneLater` to simplify it just like what `ep.done()` do:    
+We use `emitLater` in `db.check` to emit an event. Then whatever `db.check` do, we make sure events emit by `db.check` will catch by `ep`. And our code is easy to understand.
+Also, we can use `doneLater` to simplify it just like what `ep.done()` do:
 
 ```js
 var ep = EventProxy.create();
@@ -473,7 +475,7 @@ ep.once('get', function (data) {
 
 ep.fail(errorHandler);
 ```
-This is a kind of really simple and understandability code style.   
+This is a kind of really simple and understandability code style.
 
 ## Attentions
 - Do not using `all` as event name in business. The event stays as reserved event.
@@ -488,7 +490,7 @@ project  : eventproxy
  active   : 58 days
  commits  : 136
  files    : 18
- authors  : 
+ authors  :
    123  Jackson Tian            90.4%
      6  fengmk2                 4.4%
      4  dead-horse              2.9%
@@ -498,6 +500,6 @@ project  : eventproxy
 
 ```
 
-## License 
+## License
 
 [The MIT License](https://github.com/JacksonTian/eventproxy/blob/master/MIT-License). Please enjoy open source.
