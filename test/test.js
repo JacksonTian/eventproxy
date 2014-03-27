@@ -105,6 +105,23 @@ describe("EventProxy", function () {
     assert.equal(counter, 1, 'counter should have only been incremented once.');
   });
 
+  it('bind function muti-times, then remove it', function () {
+    var ep = EventProxy.create();
+    var counter = 0;
+    var handler = function () {
+      counter += 1;
+    };
+    ep.bind('event', handler);
+    ep.trigger('event');
+    assert.equal(counter, 1, 'counter should be incremented.');
+    ep.bind('event', handler);
+    ep.trigger('event');
+    assert.equal(counter, 3, 'counter should be incremented.');
+    ep.unbind('event', handler);
+    ep.trigger('event');
+    assert.equal(counter, 3, 'counter should not incremented again.');
+  });
+
   it('headbind/trigger', function () {
     var ep = EventProxy.create();
     var str = '';
