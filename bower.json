@@ -10,11 +10,8 @@
   "keywords": [
     "event",
     "task-base",
-    "event",
-    "machine",
-    "nested",
-    "callback",
-    "terminator"
+    "event machine",
+    "nested callback terminator"
   ],
   "license": "MIT",
   "ignore": [
