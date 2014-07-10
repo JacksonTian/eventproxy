@@ -3,6 +3,8 @@ REPORTER = spec
 TIMEOUT = 10000
 MOCHA_OPTS =
 COMPONENT = ./node_modules/.bin/component
+ISTANBUL = ./node_modules/.bin/istanbul
+MOCHA = ./node_modules/.bin/_mocha
 
 build: index.js components
 	@$(COMPONENT) build --dev
@@ -17,16 +19,14 @@ install-test:
 	@NODE_ENV=test npm install --registry=http://r.cnpmjs.org
 
 test: install-test
-	@NODE_ENV=test ./node_modules/.bin/mocha \
+	@NODE_ENV=test $(MOCHA) \
 		--reporter $(REPORTER) \
 		--timeout $(TIMEOUT) \
 		$(MOCHA_OPTS) \
 		$(TESTS)
 
 test-cov: install-test
-	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov | ./node_modules/.bin/cov
-
-cov: test-cov
+	@$(ISTANBUL) cover --report html $(MOCHA) -- -R $(REPORTER) $(TESTS)
 
 test-all: test test-component test-cov
 

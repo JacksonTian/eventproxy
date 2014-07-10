@@ -34,17 +34,6 @@
   "scripts": {
     "test": "make test-all"
   },
-  "config": {
-    "blanket": {
-      "pattern": "eventproxy/lib",
-      "data-cover-flags": {
-        "debug": false
-      }
-    },
-    "travis-cov": {
-      "threshold": 97
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/JacksonTian/eventproxy.git"
