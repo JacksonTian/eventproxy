@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "autod": "*",
-    "blanket": "*",
     "chai": "1.9.0",
     "component": "*",
     "contributors": "*",
@@ -29,7 +28,7 @@
     "mocha-phantomjs": "*",
     "pedding": "0.0.3",
     "totoro": "*",
-    "cov": "*"
+    "istanbul": "*"
   },
   "scripts": {
     "test": "make test-all"
