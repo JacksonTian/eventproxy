@@ -38,6 +38,5 @@
   "expr": true,
   "multistr": true,
   "onevar": false,
-  "unused": "vars",
-  "swindent": false
+  "unused": "vars"
 }

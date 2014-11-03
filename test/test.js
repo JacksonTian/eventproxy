@@ -4,7 +4,7 @@ var pedding = require('pedding');
 
 try {
   var EventProxy = require('../');
-  var http = require('http');
+  var http = require('https');
   var fs = require('fs');
 } catch (e) {
   var EventProxy = require('eventproxy');
@@ -606,7 +606,7 @@ describe("EventProxy", function () {
       }
       if (query === 'errorQuery') {
         return callback(new Error('sync error'));
-      }      
+      }
       process.nextTick(callback.bind(null, null, true));
     }
 
