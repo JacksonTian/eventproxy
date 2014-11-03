@@ -500,27 +500,30 @@ ep.fail(errorHandler);
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
 - 异常处理部分，请遵循Node的最佳实践(回调函数首个参数为异常传递位)。
 
-## [贡献者们](https://github.com/JacksonTian/eventproxy/graphs/contributors)
+## 贡献者们
 谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
 
 ```bash
  project  : eventproxy
- repo age : 2 years, 10 months
- active   : 93 days
- commits  : 191
- files    : 23
- authors  : 
-   167  Jackson Tian            87.4%
-     9  fengmk2                 4.7%
-     7  dead-horse              3.7%
+ repo age : 3 years, 6 months
+ active   : 97 days
+ commits  : 203
+ files    : 24
+ authors  :
+   177  Jackson Tian            87.2%
+     9  fengmk2                 4.4%
+     7  dead-horse              3.4%
      2  azrael                  1.0%
-     1  redky                   0.5%
+     2  rogerz                  1.0%
      1  Bitdeli Chef            0.5%
      1  yaoazhen                0.5%
      1  Ivan Yan                0.5%
      1  cssmagic                0.5%
      1  haoxin                  0.5%
+     1  redky                   0.5%
 ```
+
+详情请参见<https://github.com/JacksonTian/eventproxy/graphs/contributors>
 
 ## License
 
@@ -529,4 +532,6 @@ ep.fail(errorHandler);
 ## 捐赠
 如果您觉得本模块对您有帮助，欢迎请作者一杯咖啡
 
-[![捐赠EventProxy](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/jacksontian)
+![捐赠EventProxy](https://cloud.githubusercontent.com/assets/327019/2941591/2b9e5e58-d9a7-11e3-9e80-c25aba0a48a1.png)
+
+或者[![](http://img.shields.io/gratipay/JacksonTian.svg)](https://www.gittip.com/JacksonTian/)
