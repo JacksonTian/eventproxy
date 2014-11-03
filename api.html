@@ -64,10 +64,6 @@
   <ul class="indexs">
   
     <li>
-      <a href="#eventproxy__SLICE">SLICE</a>
-    </li>
-
-    <li>
       <a href="#eventproxy__EventProxy">EventProxy</a>
     </li>
 
@@ -203,27 +199,6 @@
   </table>
   
   
-  <h3 data-id="eventproxy__SLICE">
-    SLICE
-  </h3>
-  
-
-  <p>refs</p>
-
-  <table class="table table-striped table-bordered table-hover table-condensed">
-  
-    <tr>
-      <td>声明</td>
-      <td>SLICE</td> 
-      <td></td>
-      <td>SLICE</td>
-    </tr>
-  
-
-  
-  </table>
-  
-  
   <h3 data-id="eventproxy__EventProxy">
     EventProxy
   </h3>
@@ -256,7 +231,12 @@ proxy.trigger(&quot;l10n&quot;, resources);
   </h3>
   
 
-  <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <strong>ALL_EVENT</strong> will bind the callback to all events fired.</p>
+  <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <strong>ALL_EVENT</strong> will bind the callback to all events fired.<br />Examples:</p><pre><code class="lang-js">var proxy = new EventProxy();
+proxy.addListener(&quot;template&quot;, function (event) {
+  // TODO
+});
+</code></pre>
+
 
   <table class="table table-striped table-bordered table-hover table-condensed">
   
@@ -270,7 +250,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -368,7 +348,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -391,7 +371,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
 
   <p>Remove one or many callbacks.</p><ul>
 <li>If <code>callback</code> is null, removes all callbacks for the event.</li>
-<li>If <code>eventName</code> is null, removes all bound callbacks for all events.</li>
+<li>If <code>eventname</code> is null, removes all bound callbacks for all events.</li>
 </ul>
 
 
@@ -407,7 +387,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -533,7 +513,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name</td>
     </tr>
   
@@ -715,7 +695,7 @@ proxy.trigger(&quot;l10n&quot;, resources);
   </h3>
   
 
-  <p>Assign some events, after all events were fired, the callback will be executed once.<br />Examples:</p><pre><code class="lang-js">proxy.all(ev1, ev2, callback);
+  <p>Assign some events, after all events were fired, the callback will be executed once.</p><p>Examples:</p><pre><code class="lang-js">proxy.all(ev1, ev2, callback);
 proxy.all([ev1, ev2], callback);
 proxy.all(ev1, [ev2, ev3], callback);
 </code></pre>
@@ -733,14 +713,14 @@ proxy.all(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>eventName1(String)</td>
+      <td>eventname1(String)</td>
       <td colspan="2">First event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>eventName2(String)</td>
+      <td>eventname2(String)</td>
       <td colspan="2">Second event name.</td>
     </tr>
   
@@ -828,14 +808,14 @@ proxy.tail(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>eventName1(String)</td>
+      <td>eventname1(String)</td>
       <td colspan="2">First event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>eventName2(String)</td>
+      <td>eventname2(String)</td>
       <td colspan="2">Second event name.</td>
     </tr>
   
@@ -912,7 +892,7 @@ proxy.tail(ev1, [ev2, ev3], callback);
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -962,7 +942,7 @@ for (var i = 0; i &lt; files.length; i++) {
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name, shoule keep consistent with `after`.</td>
     </tr>
   
@@ -997,14 +977,14 @@ for (var i = 0; i &lt; files.length; i++) {
 
     <tr>
       <td>参数</td>
-      <td>eventName1(String)</td>
+      <td>eventname1(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
 
     <tr>
       <td>参数</td>
-      <td>eventName2(String)</td>
+      <td>eventname2(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -1012,7 +992,7 @@ for (var i = 0; i &lt; files.length; i++) {
     <tr>
       <td>参数</td>
       <td>callback(Function)</td>
-      <td colspan="2">The callback will get a map that has data and eventName attributes.</td>
+      <td colspan="2">The callback will get a map that has data and eventname attributes.</td>
     </tr>
   
 
@@ -1039,7 +1019,7 @@ for (var i = 0; i &lt; files.length; i++) {
 
     <tr>
       <td>参数</td>
-      <td>eventName(String)</td>
+      <td>eventname(String)</td>
       <td colspan="2">Event name.</td>
     </tr>
   
@@ -1131,6 +1111,13 @@ fs.readFile(&#39;foo.txt&#39;, function (err, content) {
     </tr>
   
 
+    <tr>
+      <td>返回</td>
+      <td>Function</td>
+      <td colspan="2">delay done</td>
+    </tr>
+  
+
   
   </table>
   
@@ -1162,10 +1149,9 @@ var ep = EventProxy.create(&#39;user&#39;, &#39;articles&#39;, function(user, ar
   
 
     <tr>
-      <td>undefined</td>
-      <td>undefined</td>
-      <td>undefined</td>
-      <td>undefined</td>
+      <td>返回</td>
+      <td>EventProxy</td>
+      <td colspan="2">EventProxy instance</td>
     </tr>
   
 
