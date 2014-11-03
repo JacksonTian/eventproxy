@@ -7,40 +7,47 @@
     <meta name="description" content="An implementation of task/event based asynchronous pattern." />
     <script src="assets/prettify.js"></script>
     <script src="assets/jquery-1.8.2.min.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css" />
+    <script src="assets/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/base.css" />
   </head>
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="./index.html">eventproxy</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-            
-              <li>
-                <a href="./api.html">API Docs</a>
-              </li>
-            
-            
-            </ul>
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./index.html">eventproxy</a>
         </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+          
+            <li>
+              <a href="./api.html">API Docs</a>
+            </li>
+          
+          
+          </ul>
+        </div><!-- /.navbar-collapse -->
       </div>
-    </div>
+    </nav>
     <header class="jumbotron subhead">
       <div class="container">
-        <h1>eventproxy <small>Version: 0.2.2 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
+        <h1>eventproxy <small>Version: 0.3.1 By @Jackson Tian &lt;shyvo1987@gmail.com&gt;</small></h1>
         <p class="lead">
           An implementation of task/event based asynchronous pattern.
         </p>
       </div>
     </header>
+
 <div class="container content">
   <div class="row">
-    <div class="span3 bs-docs-sidebar">
+    <div class="col-md-3 bs-docs-sidebar">
       <ul class="nav nav-list bs-docs-sidenav affix">
 
   <li>
@@ -50,114 +57,138 @@
 </ul>
 
     </div>
-    <div class="span9">
+    <div class="col-md-9">
       
         <section id="api_eventproxy" class="api">
   <h2>eventproxy: API索引</h2>
   <ul class="indexs">
   
     <li>
-      <a href="#_EventProxy">EventProxy</a>
+      <a href="#eventproxy__SLICE">SLICE</a>
     </li>
 
     <li>
-      <a href="#_addListener">addListener</a>
+      <a href="#eventproxy__EventProxy">EventProxy</a>
     </li>
 
     <li>
-      <a href="#_bind">bind</a>
+      <a href="#eventproxy__addListener">addListener</a>
     </li>
 
     <li>
-      <a href="#_on">on</a>
+      <a href="#eventproxy__bind">bind</a>
     </li>
 
     <li>
-      <a href="#_subscribe">subscribe</a>
+      <a href="#eventproxy__on">on</a>
     </li>
 
     <li>
-      <a href="#_removeListener">removeListener</a>
+      <a href="#eventproxy__subscribe">subscribe</a>
     </li>
 
     <li>
-      <a href="#_unbind">unbind</a>
+      <a href="#eventproxy__headbind">headbind</a>
     </li>
 
     <li>
-      <a href="#_removeAllListeners">removeAllListeners</a>
+      <a href="#eventproxy__removeListener">removeListener</a>
     </li>
 
     <li>
-      <a href="#_trigger">trigger</a>
+      <a href="#eventproxy__unbind">unbind</a>
     </li>
 
     <li>
-      <a href="#_emit">emit</a>
+      <a href="#eventproxy__removeAllListeners">removeAllListeners</a>
     </li>
 
     <li>
-      <a href="#_fire">fire</a>
+      <a href="#eventproxy__bindForAll">bindForAll</a>
     </li>
 
     <li>
-      <a href="#_once">once</a>
+      <a href="#eventproxy__unbindForAll">unbindForAll</a>
     </li>
 
     <li>
-      <a href="#_immediate">immediate</a>
+      <a href="#eventproxy__trigger">trigger</a>
     </li>
 
     <li>
-      <a href="#_asap">asap</a>
+      <a href="#eventproxy__emit">emit</a>
     </li>
 
     <li>
-      <a href="#_all">all</a>
+      <a href="#eventproxy__fire">fire</a>
     </li>
 
     <li>
-      <a href="#_assign">assign</a>
+      <a href="#eventproxy__once">once</a>
     </li>
 
     <li>
-      <a href="#_fail">fail</a>
+      <a href="#eventproxy__emitLater">emitLater</a>
     </li>
 
     <li>
-      <a href="#_tail">tail</a>
+      <a href="#eventproxy__immediate">immediate</a>
     </li>
 
     <li>
-      <a href="#_assignAll">assignAll</a>
+      <a href="#eventproxy__asap">asap</a>
     </li>
 
     <li>
-      <a href="#_assignAlways">assignAlways</a>
+      <a href="#eventproxy__all">all</a>
     </li>
 
     <li>
-      <a href="#_after">after</a>
+      <a href="#eventproxy__assign">assign</a>
     </li>
 
     <li>
-      <a href="#_group">group</a>
+      <a href="#eventproxy__fail">fail</a>
     </li>
 
     <li>
-      <a href="#_any">any</a>
+      <a href="#eventproxy__tail">tail</a>
     </li>
 
     <li>
-      <a href="#_not">not</a>
+      <a href="#eventproxy__assignAll">assignAll</a>
     </li>
 
     <li>
-      <a href="#_done">done</a>
+      <a href="#eventproxy__assignAlways">assignAlways</a>
     </li>
 
     <li>
-      <a href="#EventProxy_create">create</a>
+      <a href="#eventproxy__after">after</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy__group">group</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy__any">any</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy__not">not</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy__done">done</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy__doneLater">doneLater</a>
+    </li>
+
+    <li>
+      <a href="#eventproxy_EventProxy_create">create</a>
     </li>
 
   </ul>
@@ -165,28 +196,48 @@
 
   
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
 
   
   </table>
   
   
-  <h3 id="_EventProxy">
+  <h3 data-id="eventproxy__SLICE">
+    SLICE
+  </h3>
+  
+
+  <p>refs</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
+    <tr>
+      <td>声明</td>
+      <td>SLICE</td> 
+      <td></td>
+      <td>SLICE</td>
+    </tr>
+  
+
+  
+  </table>
+  
+  
+  <h3 data-id="eventproxy__EventProxy">
     EventProxy
   </h3>
   
 
-  <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.<br />Examples:</p>
-
-<div class="highlight"><pre lang="js">var render = function (template, resources) {};
+  <p>EventProxy. An implementation of task/event based asynchronous pattern.<br />A module that can be mixed in to <em>any object</em> in order to provide it with custom events.<br />You may <code>bind</code> or <code>unbind</code> a callback function to an event;<br /><code>trigger</code>-ing an event fires all callbacks in succession.<br />Examples:</p><pre><code class="lang-js">var render = function (template, resources) {};
 var proxy = new EventProxy();
-proxy.assign("template", "l10n", render);
-proxy.trigger("template", template);
-proxy.trigger("l10n", resources);
-</pre></div>
+proxy.assign(&quot;template&quot;, &quot;l10n&quot;, render);
+proxy.trigger(&quot;template&quot;, template);
+proxy.trigger(&quot;l10n&quot;, resources);
+</code></pre>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>函数</td>
@@ -197,27 +248,17 @@ proxy.trigger("l10n", resources);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>var EventProxy = function () {
-    if (!(this instanceof EventProxy)) {
-      return new EventProxy();
-    }
-    this._callbacks = {};
-    this._fired = {};
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_addListener">
+  <h3 data-id="eventproxy__addListener">
     addListener
   </h3>
   
 
-  <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <code>all</code> will bind the callback to all events fired.</p>
+  <p>Bind an event, specified by a string name, <code>ev</code>, to a <code>callback</code> function.<br />Passing <strong>ALL_EVENT</strong> will bind the callback to all events fired.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -242,101 +283,119 @@ proxy.trigger("l10n", resources);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.addListener = function (ev, callback) {
-    this._callbacks = this._callbacks || {};
-    this._callbacks[ev] = this._callbacks[ev] || [];
-    this._callbacks[ev].push(callback);
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_bind">
+  <h3 data-id="eventproxy__bind">
     bind
   </h3>
   
 
-  <p><code>addListener</code> alias, bind</p>
+  <p><code>addListener</code> alias, <code>bind</code></p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypebind</td> 
+      <td>EventProxy.prototype.bind</td> 
       <td></td>
       <td>bind</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.bind = EventProxy.prototype.addListener;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_on">
+  <h3 data-id="eventproxy__on">
     on
   </h3>
   
 
-  <p><code>addListener</code> alias, on</p>
+  <p><code>addListener</code> alias, <code>on</code></p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeon</td> 
+      <td>EventProxy.prototype.on</td> 
       <td></td>
       <td>on</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.on = EventProxy.prototype.addListener;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_subscribe">
+  <h3 data-id="eventproxy__subscribe">
     subscribe
   </h3>
   
 
-  <p><code>addListener</code> alias, subscribe</p>
+  <p><code>addListener</code> alias, <code>subscribe</code></p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypesubscribe</td> 
+      <td>EventProxy.prototype.subscribe</td> 
       <td></td>
       <td>subscribe</td>
     </tr>
   
 
   
+  </table>
+  
+  
+  <h3 data-id="eventproxy__headbind">
+    headbind
+  </h3>
+  
+
+  <p>Bind an event, but put the callback into head of all callbacks.</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
     <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.subscribe = EventProxy.prototype.addListener;</code></pre></td>
+      <td>方法</td>
+      <td>EventProxy.prototype.headbind()</td> 
+      <td></td>
+      <td>headbind</td>
     </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>eventName(String)</td>
+      <td colspan="2">Event name.</td>
+    </tr>
+  
+
+    <tr>
+      <td>参数</td>
+      <td>callback(Function)</td>
+      <td colspan="2">Callback.</td>
+    </tr>
+  
+
   
   </table>
   
   
-  <h3 id="_removeListener">
+  <h3 data-id="eventproxy__removeListener">
     removeListener
   </h3>
   
 
-  <p>Remove one or many callbacks. If <code>callback</code> is null, removes all callbacks for the event.<br />If <code>ev</code> is null, removes all bound callbacks<br />for all events.</p>
+  <p>Remove one or many callbacks.</p><ul>
+<li>If <code>callback</code> is null, removes all callbacks for the event.</li>
+<li>If <code>eventName</code> is null, removes all bound callbacks for all events.</li>
+</ul>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -361,68 +420,38 @@ proxy.trigger("l10n", resources);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.removeListener = function (ev, callback) {
-    var calls = this._callbacks, i, l;
-    if (!ev) {
-      this._callbacks = {};
-    } else if (calls) {
-      if (!callback) {
-        calls[ev] = [];
-      } else {
-        var list = calls[ev];
-        if (!list) {
-          return this;
-        }
-        l = list.length;
-        for (i = 0; i &lt; l; i++) {
-          if (callback === list[i]) {
-            list[i] = null;
-            break;
-          }
-        }
-      }
-    }
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_unbind">
+  <h3 data-id="eventproxy__unbind">
     unbind
   </h3>
   
 
   <p><code>removeListener</code> alias, unbind</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeunbind</td> 
+      <td>EventProxy.prototype.unbind</td> 
       <td></td>
       <td>unbind</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.unbind = EventProxy.prototype.removeListener;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_removeAllListeners">
+  <h3 data-id="eventproxy__removeAllListeners">
     removeAllListeners
   </h3>
   
 
   <p>Remove all listeners. It equals unbind()<br />Just add this API for as same as Event.Emitter.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -440,23 +469,59 @@ proxy.trigger("l10n", resources);
   
 
   
+  </table>
+  
+  
+  <h3 data-id="eventproxy__bindForAll">
+    bindForAll
+  </h3>
+  
+
+  <p>Bind the ALL_EVENT event</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
     <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.removeAllListeners = function (event) {
-    return this.unbind(event);
-  };</code></pre></td>
+      <td>方法</td>
+      <td>EventProxy.prototype.bindForAll()</td> 
+      <td></td>
+      <td>bindForAll</td>
     </tr>
+  
+
   
   </table>
   
   
-  <h3 id="_trigger">
+  <h3 data-id="eventproxy__unbindForAll">
+    unbindForAll
+  </h3>
+  
+
+  <p>Unbind the ALL_EVENT event</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
+    <tr>
+      <td>方法</td>
+      <td>EventProxy.prototype.unbindForAll()</td> 
+      <td></td>
+      <td>unbindForAll</td>
+    </tr>
+  
+
+  
+  </table>
+  
+  
+  <h3 data-id="eventproxy__trigger">
     trigger
   </h3>
   
 
-  <p>Trigger an event, firing all bound callbacks. Callbacks are passed the<br />same arguments as <code>trigger</code> is, apart from the event name.<br />Listening for <code>"all"</code> passes the true event name as the first argument.</p>
+  <p>Trigger an event, firing all bound callbacks. Callbacks are passed the<br />same arguments as <code>trigger</code> is, apart from the event name.<br />Listening for <code>&quot;all&quot;</code> passes the true event name as the first argument.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -481,90 +546,59 @@ proxy.trigger("l10n", resources);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.trigger = function (eventName, data) {
-    var list, ev, callback, args, i, l;
-    var both = 2;
-    var calls = this._callbacks;
-    while (both--) {
-      ev = both ? eventName : 'all';
-      list = calls[ev];
-      if (list) {
-        for (i = 0, l = list.length; i &lt; l; i++) {
-          if (!(callback = list[i])) {
-            list.splice(i, 1); i--; l--;
-          } else {
-            args = both ? Array.prototype.slice.call(arguments, 1) : arguments;
-            callback.apply(this, args);
-          }
-        }
-      }
-    }
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_emit">
+  <h3 data-id="eventproxy__emit">
     emit
   </h3>
   
 
   <p><code>trigger</code> alias</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeemit</td> 
+      <td>EventProxy.prototype.emit</td> 
       <td></td>
       <td>emit</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.emit = EventProxy.prototype.trigger;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_fire">
+  <h3 data-id="eventproxy__fire">
     fire
   </h3>
   
 
   <p><code>trigger</code> alias</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypefire</td> 
+      <td>EventProxy.prototype.fire</td> 
       <td></td>
       <td>fire</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.fire = EventProxy.prototype.trigger;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_once">
+  <h3 data-id="eventproxy__once">
     once
   </h3>
   
 
   <p>Bind an event like the bind method, but will remove the listener after it was fired.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -589,29 +623,38 @@ proxy.trigger("l10n", resources);
   
 
   
+  </table>
+  
+  
+  <h3 data-id="eventproxy__emitLater">
+    emitLater
+  </h3>
+  
+
+  <p>emitLater<br />make emit async</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
     <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.once = function (ev, callback) {
-    var self = this;
-    var wrapper = function () {
-      callback.apply(self, arguments);
-      self.unbind(ev, wrapper);
-    };
-    this.bind(ev, wrapper);
-    return this;
-  };</code></pre></td>
+      <td>方法</td>
+      <td>EventProxy.prototype.emitLater()</td> 
+      <td></td>
+      <td>emitLater</td>
     </tr>
+  
+
   
   </table>
   
   
-  <h3 id="_immediate">
+  <h3 data-id="eventproxy__immediate">
     immediate
   </h3>
   
 
   <p>Bind an event, and trigger it immediately.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -643,110 +686,42 @@ proxy.trigger("l10n", resources);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.immediate = function (ev, callback, data) {
-    this.bind(ev, callback);
-    this.trigger(ev, data);
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_asap">
+  <h3 data-id="eventproxy__asap">
     asap
   </h3>
   
 
   <p><code>immediate</code> alias</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeasap</td> 
+      <td>EventProxy.prototype.asap</td> 
       <td></td>
       <td>asap</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.asap = EventProxy.prototype.immediate;
-
-  var _assign = function (eventname1, eventname2, cb, once) {
-    var proxy = this, length, index = 0, argsLength = arguments.length,
-      bind, _all,
-      callback, events, isOnce, times = 0, flag = {};
-
-    // Check the arguments length.
-    if (argsLength &lt; 3) {
-      return this;
-    }
-
-    events = Array.prototype.slice.apply(arguments, [0, argsLength - 2]);
-    callback = arguments[argsLength - 2];
-    isOnce = arguments[argsLength - 1];
-
-    // Check the callback type.
-    if (typeof callback !== &quot;function&quot;) {
-      return this;
-    }
-
-    length = events.length;
-    bind = function (key) {
-      var method = isOnce ? &quot;once&quot; : &quot;bind&quot;;
-      proxy[method](key, function (data) {
-        proxy._fired[key] = proxy._fired[key] || {};
-        proxy._fired[key].data = data;
-        if (!flag[key]) {
-          flag[key] = true;
-          times++;
-        }
-      });
-    };
-
-    for (index = 0; index &lt; length; index++) {
-      bind(events[index]);
-    }
-
-    _all = function (event) {
-      if (times &lt; length) {
-        return;
-      }
-      if (!flag[event]) {
-        return;
-      }
-      var data = [];
-      for (index = 0; index &lt; length; index++) {
-        data.push(proxy._fired[events[index]].data);
-      }
-      if (isOnce) {
-        proxy.unbind(&quot;all&quot;, _all);
-      }
-      callback.apply(null, data);
-    };
-    proxy.bind(&quot;all&quot;, _all);
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_all">
+  <h3 data-id="eventproxy__all">
     all
   </h3>
   
 
-  <p>Assign some events, after all events were fired, the callback will be executed once.<br />Examples:</p>
-
-<div class="highlight"><pre lang="js">proxy.all(ev1, ev2, callback);
+  <p>Assign some events, after all events were fired, the callback will be executed once.<br />Examples:</p><pre><code class="lang-js">proxy.all(ev1, ev2, callback);
 proxy.all([ev1, ev2], callback);
 proxy.all(ev1, [ev2, ev3], callback);
-</pre></div>
+</code></pre>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -778,51 +753,38 @@ proxy.all(ev1, [ev2, ev3], callback);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.all = function (eventname1, eventname2, callback) {
-    var args = Array.prototype.concat.apply([], arguments);
-    args.push(true);
-    _assign.apply(this, args);
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_assign">
+  <h3 data-id="eventproxy__assign">
     assign
   </h3>
   
 
   <p><code>all</code> alias</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeassign</td> 
+      <td>EventProxy.prototype.assign</td> 
       <td></td>
       <td>assign</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assign = EventProxy.prototype.all;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_fail">
+  <h3 data-id="eventproxy__fail">
     fail
   </h3>
   
 
-  <p>Assign the only one 'error' event handler.</p>
+  <p>Assign the only one &#39;error&#39; event handler.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -840,33 +802,21 @@ proxy.all(ev1, [ev2, ev3], callback);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.fail = function (callback) {
-    var that = this;
-    that.once('error', function (err) {
-      that.unbind();
-      callback(err);
-    });
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_tail">
+  <h3 data-id="eventproxy__tail">
     tail
   </h3>
   
 
-  <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.<br />Examples:</p>
-
-<div class="highlight"><pre lang="js">proxy.tail(ev1, ev2, callback);
+  <p>Assign some events, after all events were fired, the callback will be executed first time.<br />Then any event that predefined be fired again, the callback will executed with the newest data.<br />Examples:</p><pre><code class="lang-js">proxy.tail(ev1, ev2, callback);
 proxy.tail([ev1, ev2], callback);
 proxy.tail(ev1, [ev2, ev3], callback);
-</pre></div>
+</code></pre>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -898,76 +848,59 @@ proxy.tail(ev1, [ev2, ev3], callback);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.tail = function () {
-    var args = Array.prototype.concat.apply([], arguments);
-    args.push(false);
-    _assign.apply(this, args);
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_assignAll">
+  <h3 data-id="eventproxy__assignAll">
     assignAll
   </h3>
   
 
   <p><code>tail</code> alias, assignAll</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeassignAll</td> 
+      <td>EventProxy.prototype.assignAll</td> 
       <td></td>
       <td>assignAll</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assignAll = EventProxy.prototype.tail;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_assignAlways">
+  <h3 data-id="eventproxy__assignAlways">
     assignAlways
   </h3>
   
 
   <p><code>tail</code> alias, assignAlways</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>属性</td>
-      <td>EventProxy.prototypeassignAlways</td> 
+      <td>EventProxy.prototype.assignAlways</td> 
       <td></td>
       <td>assignAlways</td>
     </tr>
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.assignAlways = EventProxy.prototype.tail;</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_after">
+  <h3 data-id="eventproxy__after">
     after
   </h3>
   
 
   <p>The callback will be executed after the event be fired N times.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -999,64 +932,25 @@ proxy.tail(ev1, [ev2, ev3], callback);
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.after = function (eventName, times, callback) {
-    if (times === 0) {
-      callback.call(null, []);
-      return this;
-    }
-    var proxy = this,
-      firedData = [],
-      all;
-    this._after = this._after || {};
-    var group = eventName + '_group';
-    this._after[group] = {
-      index: 0,
-      results: []
-    };
-    all = function (name, data) {
-      if (name === eventName) {
-        times--;
-        firedData.push(data);
-        if (times &lt; 1) {
-          proxy.unbind(&quot;all&quot;, all);
-          callback.apply(null, [firedData]);
-        }
-      }
-      if (name === group) {
-        times--;
-        proxy._after[group].results[data.index] = data.result;
-        if (times &lt; 1) {
-          proxy.unbind(&quot;all&quot;, all);
-          callback.call(null, proxy._after[group].results);
-        }
-      }
-    };
-    proxy.bind(&quot;all&quot;, all);
-    return this;
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_group">
+  <h3 data-id="eventproxy__group">
     group
   </h3>
   
 
-  <p>The <code>after</code> method's helper. Use it will return ordered results.<br />If you need manipulate result, you need callback<br />Examples:</p>
-
-<div class="highlight"><pre lang="js">var ep = new EventProxy();
-ep.after('file', files.length, function (list) {
+  <p>The <code>after</code> method&#39;s helper. Use it will return ordered results.<br />If you need manipulate result, you need callback<br />Examples:</p><pre><code class="lang-js">var ep = new EventProxy();
+ep.after(&#39;file&#39;, files.length, function (list) {
   // Ordered results
 });
-for (var i = 0; i < files.length; i++) {
-  fs.readFile(files[i], 'utf-8', ep.group('file'));
+for (var i = 0; i &lt; files.length; i++) {
+  fs.readFile(files[i], &#39;utf-8&#39;, ep.group(&#39;file&#39;));
 }
-</pre></div>
+</code></pre>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -1081,35 +975,17 @@ for (var i = 0; i < files.length; i++) {
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.group = function (eventName, callback) {
-    var that = this;
-    var group = eventName + '_group';
-    var index = that._after[group].index;
-    that._after[group].index++;
-    return function (err, data) {
-      if (err) {
-        return that.emit('error', err);
-      }
-      that.emit(group, {
-        index: index,
-        result: callback ? callback(data) : data
-      });
-    };
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_any">
+  <h3 data-id="eventproxy__any">
     any
   </h3>
   
 
   <p>The callback will be executed after any registered event was fired. It only executed once.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -1141,42 +1017,17 @@ for (var i = 0; i < files.length; i++) {
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.any = function () {
-    var proxy = this,
-      index,
-      _bind,
-      len = arguments.length,
-      callback = arguments[len - 1],
-      events = Array.prototype.slice.apply(arguments, [0, len - 1]),
-      count = events.length,
-      _eventName = events.join(&quot;_&quot;);
-
-    proxy.once(_eventName, callback);
-
-    _bind = function (key) {
-      proxy.bind(key, function (data) {
-        proxy.trigger(_eventName, {&quot;data&quot;: data, eventName: key});
-      });
-    };
-
-    for (index = 0; index &lt; count; index++) {
-      _bind(events[index]);
-    }
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_not">
+  <h3 data-id="eventproxy__not">
     not
   </h3>
   
 
   <p>The callback will be executed when the event name not equals with assigned event.</p>
 
-  <table class="table">
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -1201,40 +1052,41 @@ for (var i = 0; i < files.length; i++) {
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.not = function (eventName, callback) {
-    var proxy = this;
-    proxy.bind(&quot;all&quot;, function (name, data) {
-      if (name !== eventName) {
-        callback(data);
-      }
-    });
-  };</code></pre></td>
-    </tr>
-  
   </table>
   
   
-  <h3 id="_done">
+  <h3 data-id="eventproxy__done">
     done
   </h3>
   
 
-  <p>Success callback wraper, will handler err for you.</p>
+  <p>Success callback wrapper, will handler err for you.</p><pre><code class="lang-js">fs.readFile(&#39;foo.txt&#39;, ep.done(&#39;content&#39;));
 
-<div class="highlight"><pre lang="js">fs.readFile('foo.txt', ep.done('content'));
+// equal to =&gt;
 
-// equal to =>
-
-fs.readFile('foo.txt', function (err, content) {
+fs.readFile(&#39;foo.txt&#39;, function (err, content) {
   if (err) {
-    return ep.emit('error', err);
+    return ep.emit(&#39;error&#39;, err);
   }
-  ep.emit('content', content);
+  ep.emit(&#39;content&#39;, content);
 });
-</pre></div>
+</code></pre>
+<pre><code class="lang-js">fs.readFile(&#39;foo.txt&#39;, ep.done(&#39;content&#39;, function (content) {
+  return content.trim();
+}));
 
-  <table class="table">
+// equal to =&gt;
+
+fs.readFile(&#39;foo.txt&#39;, function (err, content) {
+  if (err) {
+    return ep.emit(&#39;error&#39;, err);
+  }
+  ep.emit(&#39;content&#39;, content.trim());
+});
+</code></pre>
+
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -1259,52 +1111,47 @@ fs.readFile('foo.txt', function (err, content) {
   
 
   
+  </table>
+  
+  
+  <h3 data-id="eventproxy__doneLater">
+    doneLater
+  </h3>
+  
+
+  <p>make done async</p>
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
+  
     <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.prototype.done = function (handler) {
-    var that = this;
-    return function (err, data) {
-      if (err) {
-        return that.emit('error', err);
-      }
-
-      // getAsync(query, ep.done('query'));
-      if (typeof handler === 'string') {
-        return that.emit(handler, data);
-      }
-
-      // speed improve for mostly case: `callback(err, data)`
-      if (arguments.length &lt;= 2) {
-        return handler(data);
-      }
-
-      // callback(err, args1, args2, ...)
-      var args = Array.prototype.slice.call(arguments, 1);
-      handler.apply(null, args);
-    };
-  };</code></pre></td>
+      <td>方法</td>
+      <td>EventProxy.prototype.doneLater()</td> 
+      <td></td>
+      <td>doneLater</td>
     </tr>
+  
+
   
   </table>
   
   
-  <h3 id="EventProxy_create">
+  <h3 data-id="eventproxy_EventProxy_create">
     create
   </h3>
   
 
-  <p>Create a new EventProxy<br />Examples:</p>
-
-<div class="highlight"><pre lang="js">var ep = EventProxy.create();
-ep.assign('user', 'articles', function(user, articles) {
+  <p>Create a new EventProxy<br />Examples:</p><pre><code class="lang-js">var ep = EventProxy.create();
+ep.assign(&#39;user&#39;, &#39;articles&#39;, function(user, articles) {
   // do something...
 });
 // or one line ways: Create EventProxy and Assign
-var ep = EventProxy.create('user', 'articles', function(user, articles) {
+var ep = EventProxy.create(&#39;user&#39;, &#39;articles&#39;, function(user, articles) {
   // do something...
 });
-</pre></div>
+</code></pre>
 
-  <table class="table">
+
+  <table class="table table-striped table-bordered table-hover table-condensed">
   
     <tr>
       <td>方法</td>
@@ -1323,32 +1170,10 @@ var ep = EventProxy.create('user', 'articles', function(user, articles) {
   
 
   
-    <tr>
-      <td>代码</td><td colspan="3"><pre><code>EventProxy.create = function () {
-    var ep = new EventProxy();
-    var args = Array.prototype.concat.apply([], arguments);
-    if (args.length) {
-      var errorHandler = args[args.length - 1];
-      var callback = args[args.length - 2];
-      if (typeof errorHandler === 'function' &amp;&amp; typeof callback === 'function') {
-        args.pop();
-        ep.fail(errorHandler);
-      }
-      ep.assign.apply(ep, Array.prototype.slice.call(args));
-    }
-    return ep;
-  };
-
-  // Backwards compatibility
-  EventProxy.EventProxy = EventProxy;
-
-  return EventProxy;
-});</code></pre></td>
-    </tr>
-  
   </table>
   
 </section>
+
       
     </div>
   </div>
@@ -1362,6 +1187,7 @@ var ep = EventProxy.create('user', 'articles', function(user, articles) {
           <ul class="footer-links">
             <li><a href="https://github.com/visionmedia/dox">Dox主页</a></li>
             <li><a href="http://html5ify.com/doxmate">Doxmate主页</a></li>
+            <li><a href="https://github.com/JacksonTian/doxmate">Doxmate源码</a></li>
             <li><a href="https://github.com/JacksonTian/doxmate/issues?state=open">提交bug</a></li>
           </ul>
       </div>
@@ -1382,13 +1208,13 @@ var ep = EventProxy.create('user', 'articles', function(user, articles) {
         });
         $(".content").find('h1, h2, h3, h4, h5, h6').each(function () {
           var node = $(this);
-          if (!node.attr("id")) {
-            node.attr("id", "index_" + node.text());
-          }
-          node.css("paddingTop", 40);
+          // 总是设置id
+          node.attr("id", node.data('id') || "index_" + node.text());
+          node.css("paddingTop", 50);
         });
       });
     </script>
   
   </body>
 </html>
+
