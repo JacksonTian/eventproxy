@@ -307,6 +307,18 @@ ep.bind('error', function (err) {
 
 `fail` method listens to `error` event, removes all handlers by default, then invoke callback method.
 
+
+### Amazing `throw`
+
+`throw` is a shortcut of `ep.emit('error', err)`.
+
+```js
+var err = new Error();
+ep.throw(err);
+// equals
+ep.emit('error', err);
+```
+
 ### Amazing `done`
 
 ```js
