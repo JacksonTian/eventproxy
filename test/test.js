@@ -597,6 +597,17 @@ describe("EventProxy", function () {
         done();
       });
     });
+
+    it('should work with ep#fail shortcut', function (done) {
+      var ep = new EventProxy();
+      ep.fail(function (err, arg1, arg2) {
+        err.should.be.Error;
+        arg1.should.be.String;
+        arg2.should.be.Number;
+        done();
+      });
+      ep.fail(new Error(), 'hello', 42);
+    });
   });
 
   describe('emit later', function () {
