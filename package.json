@@ -37,7 +37,7 @@
     "type": "git",
     "url": "git://github.com/JacksonTian/eventproxy.git"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "index.js",
   "directories": {
     "doc": "doc",
