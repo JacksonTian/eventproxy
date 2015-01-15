@@ -73,6 +73,12 @@ Usage:
 var EventProxy = require('eventproxy');
 ```
 
+### [spm](http://spmjs.io/package/eventproxy)
+
+```bash
+$ spm install eventproxy
+```
+
 ### For browser
 Following examples direct resource address of Github, and you can also download [resource file](https://raw.github.com/JacksonTian/eventproxy/master/lib/eventproxy.js) to your own project. 500 lines in total including comments and blank lines. To ensure the easy integrate with your project, EventProxy doesn't provide the minified version. You can use Uglify, YUI Compressor or Google Closure Complier to compress it.
 
