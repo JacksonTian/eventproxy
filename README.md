@@ -1,4 +1,4 @@
-EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy) [![NPM version](https://badge.fury.io/js/eventproxy.png)](http://badge.fury.io/js/eventproxy) [English Doc](https://github.com/JacksonTian/eventproxy/blob/master/README_en.md)
+EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy) [![NPM version](https://badge.fury.io/js/eventproxy.png)](http://badge.fury.io/js/eventproxy) [![spm package](http://spmjs.io/badge/eventproxy)](http://spmjs.io/package/eventproxy) [English Doc](https://github.com/JacksonTian/eventproxy/blob/master/README_en.md)
 ======
 
 [![NPM](https://nodei.co/npm/eventproxy.png?downloads=true&stars=true)](https://nodei.co/npm/eventproxy)
@@ -71,6 +71,12 @@ $ npm install eventproxy
 
 ```js
 var EventProxy = require('eventproxy');
+```
+
+### [spm](http://spmjs.io/package/eventproxy)
+
+```bash
+$ spm install eventproxy
 ```
 
 ### Component

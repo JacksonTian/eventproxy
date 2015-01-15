@@ -43,5 +43,9 @@
     "doc": "doc",
     "test": "test"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "spm": {
+    "main": "index.js",
+    "ignore": ["test"]
+  }
 }
