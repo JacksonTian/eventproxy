@@ -24,6 +24,11 @@
         assert.isFunction(EventProxy, "EventProxy is a function");
         assert.isFunction(EventProxy.EventProxy, "EventProxy.EventProxy is a function");
       });
+
+      it('new EventProxy()', function () {
+        var ep = new EventProxy();
+        ep.on('test', function () {});
+      });
     });
     mocha.run();
   });
