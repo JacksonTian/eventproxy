@@ -598,7 +598,7 @@ describe("EventProxy", function () {
       });
     });
 
-    it('should work with ep#fail shortcut', function (done) {
+    it('should work with ep#throw shortcut', function (done) {
       var ep = new EventProxy();
       ep.fail(function (err, arg1, arg2) {
         err.should.be.Error;
@@ -606,7 +606,7 @@ describe("EventProxy", function () {
         arg2.should.be.Number;
         done();
       });
-      ep.fail(new Error(), 'hello', 42);
+      ep.throw(new Error(), 'hello', 42);
     });
   });
 

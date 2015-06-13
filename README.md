@@ -313,11 +313,13 @@ ep.bind('error', function (err) {
 
 `fail`方法侦听了`error`事件，默认处理卸载掉所有handler，并调用回调函数。
 
-`fail` 同时也是 `ep.emit('error', err)` 的简写。
+### 神奇的 throw
+
+`throw` 是 `ep.emit('error', err)` 的简写。
 
 ```js
 var err = new Error();
-ep.fail(err);
+ep.throw(err);
 // 实际是
 ep.emit('error', err);
 ```
