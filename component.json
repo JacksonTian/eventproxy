@@ -2,7 +2,7 @@
   "name": "eventproxy",
   "repo": "JacksonTian/eventproxy",
   "description": "An implementation of task/event based asynchronous pattern.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "keywords": [
     "event",
     "task-base",

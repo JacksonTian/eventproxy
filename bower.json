@@ -1,7 +1,7 @@
 {
   "name": "eventproxy",
   "main": "index.js",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "homepage": "http://html5ify.com/eventproxy",
   "authors": [
     "shyvo1987@gmail.com"
