@@ -2,18 +2,11 @@ TESTS = test/test.js
 REPORTER = spec
 TIMEOUT = 10000
 MOCHA_OPTS =
-COMPONENT = ./node_modules/.bin/component
 ISTANBUL = ./node_modules/.bin/istanbul
 MOCHA = ./node_modules/.bin/_mocha
 
-build: index.js components
-	@$(COMPONENT) build --dev
-
-components: component.json
-	@$(COMPONENT) install --dev
-
 clean:
-	@rm -rf components build
+	@rm -rf build coverage node_modules
 
 install-test:
 	@NODE_ENV=test npm install --registry=http://r.cnpmjs.org
@@ -28,16 +21,7 @@ test: install-test
 test-cov: install-test
 	@$(ISTANBUL) cover --report html $(MOCHA) -- -R $(REPORTER) $(TESTS)
 
-test-all: test test-component test-cov
-
-test-component: build
-	@./node_modules/.bin/mocha-phantomjs test/test_component.html
-
-test-component-browser:
-	@open test/test_component.html
-
-totoro: install-test build
-	@./node_modules/.bin/totoro --runner=test/test_component.html
+test-all: test test-cov
 
 autod: install-test
 	@./node_modules/.bin/autod -w -e components,build
