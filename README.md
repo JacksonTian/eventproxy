@@ -422,7 +422,7 @@ ep.once('check', function (permission) {
 
 ep.once('get', function (err, data) {
   if (err) {
-    retern ep.emit('error', err);
+    return ep.emit('error', err);
   }
   render(data);
 });
@@ -446,7 +446,7 @@ ep.once('check', function (permission) {
 
 ep.once('get', function (err, data) {
   if (err) {
-    retern ep.emit('error', err);
+    return ep.emit('error', err);
   }
   render(data);
 });
@@ -485,7 +485,7 @@ ep.once('check', function (permission) {
 
 ep.once('get', function (err, data) {
   if (err) {
-    retern ep.emit('error', err);
+    return ep.emit('error', err);
   }
   render(data);
 });
