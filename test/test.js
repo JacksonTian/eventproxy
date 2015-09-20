@@ -516,6 +516,7 @@ describe("EventProxy", function () {
 
   describe('errorHandler mode', function () {
     it('should auto handler callback error', function (done) {
+      this.timeout(4000);
       done = pedding(2, done);
       var ep = EventProxy.create('data', 'foo', 'cnodejs', function (data, foo, cnodejs) {
         throw new Error('should not call this');
@@ -536,6 +537,7 @@ describe("EventProxy", function () {
     });
 
     it('should success callback after all event emit', function (done) {
+      this.timeout(4000);
       done = pedding(3, done);
       var ep = EventProxy.create('data', 'data2', 'cnodejs', function (data, data2, cnodejs) {
         should.exist(data);
@@ -558,6 +560,7 @@ describe("EventProxy", function () {
     });
 
     it('should success callback(err, args1, args2) after all event emit', function (done) {
+      this.timeout(4000);
       done = pedding(3, done);
       var ep = EventProxy.create('data', 'dirs', 'cnodejs', 'mockGet', 'mockGet2',
       function (data, dirs, cnodejs, getDatas, getDatas2) {
@@ -576,7 +579,7 @@ describe("EventProxy", function () {
 
       fs.readFile(__filename, ep.done('data'));
       http.get({ host: 'nodejs.org' }, function (res) {
-        assert.deepEqual(res.statusCode, 200);
+        assert.deepEqual(res.statusCode, 302);
         ep.emit('cnodejs', res);
         done();
       });

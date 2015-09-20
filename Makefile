@@ -21,7 +21,7 @@ test: install-test
 test-cov: install-test
 	@$(ISTANBUL) cover --report html $(MOCHA) -- -R $(REPORTER) $(TESTS)
 
-test-all: test test-cov
+test-all: test-cov
 
 autod: install-test
 	@./node_modules/.bin/autod -w -e components,build
