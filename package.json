@@ -42,8 +42,7 @@
     "test": "test"
   },
   "license": "MIT",
-  "spm": {
-    "main": "index.js",
-    "ignore": ["test"]
-  }
+  "files": [
+    "lib"
+  ]
 }
