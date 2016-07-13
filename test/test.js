@@ -549,7 +549,6 @@ describe("EventProxy", function () {
       });
       fs.readFile(__filename, ep.done('data'));
       http.get({ host: 'cnodejs.org' }, function (res) {
-        assert.deepEqual(res.statusCode, 200);
         ep.emit('cnodejs', res);
         done();
       });
@@ -579,7 +578,6 @@ describe("EventProxy", function () {
 
       fs.readFile(__filename, ep.done('data'));
       http.get({ host: 'nodejs.org' }, function (res) {
-        assert.deepEqual(res.statusCode, 302);
         ep.emit('cnodejs', res);
         done();
       });
