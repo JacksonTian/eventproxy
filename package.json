@@ -37,6 +37,7 @@
   },
   "version": "0.3.4",
   "main": "index.js",
+  "types": "index.d.ts",
   "directories": {
     "doc": "doc",
     "test": "test"
