@@ -14,7 +14,7 @@
     "fengmk2 <fengmk2@gmail.com>"
   ],
   "dependencies": {
-    "debug": "2.2.0"
+    "debug": "^2.6.8"
   },
   "devDependencies": {
     "autod": "*",
@@ -35,7 +35,7 @@
     "type": "git",
     "url": "git://github.com/JacksonTian/eventproxy.git"
   },
-  "version": "0.3.4",
+  "version": "1.0.0",
   "main": "index.js",
   "types": "index.d.ts",
   "directories": {
@@ -43,8 +43,9 @@
     "test": "test"
   },
   "license": "MIT",
-  "spm": {
-    "main": "index.js",
-    "ignore": ["test"]
-  }
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib"
+  ]
 }
