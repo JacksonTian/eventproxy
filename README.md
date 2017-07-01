@@ -1,4 +1,4 @@
-EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy) [![NPM version](https://badge.fury.io/js/eventproxy.png)](http://badge.fury.io/js/eventproxy) [![spm package](http://spmjs.io/badge/eventproxy)](http://spmjs.io/package/eventproxy) [English Doc](https://github.com/JacksonTian/eventproxy/blob/master/README_en.md)
+EventProxy [![Build Status](https://secure.travis-ci.org/JacksonTian/eventproxy.png)](http://travis-ci.org/JacksonTian/eventproxy) [![NPM version](https://badge.fury.io/js/eventproxy.png)](http://badge.fury.io/js/eventproxy) [English Doc](https://github.com/JacksonTian/eventproxy/blob/master/README_en.md)
 ======
 
 [![NPM](https://nodei.co/npm/eventproxy.png?downloads=true&stars=true)](https://nodei.co/npm/eventproxy)
@@ -515,10 +515,10 @@ ep.fail(errorHandler);
 
 ## 注意事项
 - 请勿使用`all`作为业务中的事件名。该事件名为保留事件。
-- 异常处理部分，请遵循Node的最佳实践(回调函数首个参数为异常传递位)。
+- 异常处理部分，请遵循 Node 的最佳实践(回调函数首个参数为异常传递位)。
 
 ## 贡献者们
-谢谢EventProxy的使用者们，享受EventProxy的过程，也给EventProxy回馈良多。
+谢谢 EventProxy 的使用者们，享受 EventProxy 的过程，也给 EventProxy 回馈良多。
 
 ```bash
  project  : eventproxy
@@ -550,5 +550,3 @@ ep.fail(errorHandler);
 如果您觉得本模块对您有帮助，欢迎请作者一杯咖啡
 
 ![捐赠EventProxy](https://cloud.githubusercontent.com/assets/327019/2941591/2b9e5e58-d9a7-11e3-9e80-c25aba0a48a1.png)
-
-或者[![](http://img.shields.io/gratipay/JacksonTian.svg)](https://www.gittip.com/JacksonTian/)
